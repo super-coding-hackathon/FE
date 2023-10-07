@@ -1,15 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/main/MainPage";
-import GlobalStyle from "./layout/GlobalStyle";
+import React from "react";
+import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Routeres from "./router/Router";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <Router>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-      </Routes>
-    </Router>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        {/* <ToastProvider /> */}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <Routeres />
+        </React.Suspense>
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 
