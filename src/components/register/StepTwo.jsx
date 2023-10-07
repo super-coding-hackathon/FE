@@ -1,5 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { RiFileImageLine } from "react-icons/ri";
+import { CreateHome } from "../../api/home/post";
 
 const StepTwo = ({
   handle,
@@ -12,7 +14,6 @@ const StepTwo = ({
 }) => {
   const [errors, setErrors] = useState({});
   const [imgList, setImgList] = useState([]);
-  console.log(imgList);
 
   const imageRef = useRef();
 
@@ -79,12 +80,47 @@ const StepTwo = ({
     }
   };
 
+  const { mutate: registerMutate } = useMutation(CreateHome, {
+    onSuccess: (response) => {
+      console.log(response);
+    },
+    onError: (response) => console.log(response),
+  });
+
   const clickButton = (state) => {
     if (state === "next") {
       const errors = validate();
       if (Object.keys(errors).length === 0) {
         // navigate('/')
-        console.log("등록 완료");
+        // console.log("등록 완료");
+        const formDataToSend = new FormData();
+        if (formData.categoryId === "아파트") {
+          formDataToSend.append("categoryId", 1);
+        } else if (formData.categoryId === "빌라") {
+          formDataToSend.append("categoryId", 2);
+        } else {
+          formDataToSend.append("categoryId", 3);
+        }
+        formDataToSend.append("address", formData.address);
+        formDataToSend.append("detailAddress", formData.detailAddress);
+        formDataToSend.append("deposit", formData.deposit);
+        formDataToSend.append("floor", formData.floor);
+        formDataToSend.append("isParking", formData.isParking);
+        formDataToSend.append("latitude", formData.latitude);
+        formDataToSend.append("longitude", formData.longitude);
+        formDataToSend.append("maintenanceFee", formData.maintenanceFee);
+        formDataToSend.append("mapId", formData.mapId);
+        formDataToSend.append("price", formData.price);
+        formDataToSend.append("roadAddress", formData.roadAddress);
+        formDataToSend.append("squareFeet", formData.squareFeet);
+        formDataToSend.append("thumbnailImage", formData.thumbnailImage);
+        formDataToSend.append("transactionType", formData.transactionType);
+
+        formData.imageFiles.forEach((imageFile, index) => {
+          formDataToSend.append(`imageFiles[${index}]`, imageFile);
+        });
+
+        registerMutate(formDataToSend);
         // setStep(1);
       } else {
         setErrors(errors);
@@ -108,6 +144,7 @@ const StepTwo = ({
               min="1"
               max="99999999"
               name="squareFeet"
+              value={formData.squareFeet}
               onChange={handle.onChangeNumber}
             />
             <span>평</span>
@@ -126,6 +163,7 @@ const StepTwo = ({
               min="1"
               max="99999999"
               name="floor"
+              value={formData.floor}
               onChange={handle.onChangeNumber}
             />
             <span>층</span>
@@ -141,6 +179,7 @@ const StepTwo = ({
               type="number"
               min="1"
               max="99999999"
+              value={formData.maintenanceFee}
               name="maintenanceFee"
               onChange={handle.onChangeNumber}
             />
@@ -157,6 +196,7 @@ const StepTwo = ({
         <input
           type="checkbox"
           name="isParking"
+          checked={formData.isParking}
           onChange={handle.onChangeCheck}
         />
       </div>

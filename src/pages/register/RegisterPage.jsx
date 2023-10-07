@@ -7,7 +7,6 @@ import StepOne from "../../components/register/StepOne";
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
-  console.log(step);
   const [openPostCode, setOpenPostCode] = useState(false);
 
   const [formData, setFormData] = useState({
