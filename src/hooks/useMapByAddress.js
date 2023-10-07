@@ -4,7 +4,7 @@ import useMap from './useMap'
 const { kakao } = window
 const geo = new kakao.maps.services.Geocoder()
 
-const useMapByAddress = (element, options?) => {
+const useMapByAddress = (element, options) => {
   const [address, setAddress] = useState('')
   const map = useMap(element)
   const chageAddress = (newAddr) => {
@@ -21,7 +21,7 @@ const useMapByAddress = (element, options?) => {
     if (!address) return
     const debounce = setTimeout(() => {
       geo.addressSearch(address, (result, status) => {
-        console.log(result)
+        console.log(result[0])
         if (status === kakao.maps.services.Status.OK) {
           const { x, y } = result[0]
           const coords = new kakao.maps.LatLng(y, x)
