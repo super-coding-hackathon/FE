@@ -126,8 +126,8 @@ const StepOne = ({
         setErrors(errors);
       }
     } else {
-      // navigate('/')
-      alert("메인으로");
+      navigate("/");
+      // alert("메인으로");
     }
   };
 

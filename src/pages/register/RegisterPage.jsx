@@ -37,6 +37,7 @@ const RegisterPage = () => {
       setOpenPostCode((prev) => !prev);
     },
     selectAddress: (data) => {
+      console.log(data);
       setFormData({
         ...formData,
         address: data.address,
