@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import useMap from './useMap'
 
 const { kakao } = window
-const geo = new kakao.maps.services.Geocoder()
+const ps = new kakao.maps.services.Places()
 
 const useMapByAddress = (element, options?) => {
   const [address, setAddress] = useState('')
@@ -12,21 +12,17 @@ const useMapByAddress = (element, options?) => {
   }
   const prevMarker = useRef(null)
   const prevInfo = useRef(null)
-  const [coords, setCoords] = useState({
-    lat: 0,
-    lng: 0,
-  })
+  const [mapData, setMapData] = useState()
 
   useEffect(() => {
     if (!address) return
     const debounce = setTimeout(() => {
-      geo.addressSearch(address, (result, status) => {
-        console.log(result)
+      ps.addressSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const { x, y } = result[0]
           const coords = new kakao.maps.LatLng(y, x)
 
-          setCoords({ lat: y, lng: x })
+          setMapData(result[0])
 
           const marker = new kakao.maps.Marker({
             map,
@@ -66,7 +62,7 @@ const useMapByAddress = (element, options?) => {
     }
   }, [address, map])
 
-  return { chageAddress, coords }
+  return { chageAddress, mapData }
 }
 
 export default useMapByAddress
