@@ -8,7 +8,8 @@ const Office = () => {
 
     return (
         <Wrap>
-            <div ref={mapRef}>오피스텔</div>;
+            <div ref={mapRef}></div>
+            <div>asdasd</div>
         </Wrap>
     );
 };

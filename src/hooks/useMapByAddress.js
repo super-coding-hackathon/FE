@@ -5,7 +5,7 @@ const { kakao } = window;
 const geo = new kakao.maps.services.Geocoder();
 
 const useMapByAddress = (element, options?) => {
-    const [address, setAddress] = useState('서울 강남구 역삼동 858');
+    const [address, setAddress] = useState('');
     const map = useMap(element);
     const chageAddress = (newAddr) => {
         setAddress(newAddr);
@@ -14,6 +14,7 @@ const useMapByAddress = (element, options?) => {
     const prevInfo = useRef(null);
 
     useEffect(() => {
+        if (!address) return;
         const debounce = setTimeout(() => {
             geo.addressSearch(address, (result, status) => {
                 console.log(result);
@@ -31,9 +32,8 @@ const useMapByAddress = (element, options?) => {
                     });
 
                     info.open(map, marker);
-                    if (map) {
-                        map.setCenter(coords);
-                    }
+
+                    map.setCenter(coords);
 
                     prevMarker.current = marker;
                     prevInfo.current = info;
@@ -45,7 +45,7 @@ const useMapByAddress = (element, options?) => {
                     console.log('에러 발생');
                 }
             });
-        }, 300);
+        }, 100);
 
         return () => {
             if (prevMarker.current) {

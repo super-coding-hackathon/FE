@@ -1,4 +1,3 @@
-import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import MapComponent from '../../components/MapComponent';
@@ -7,7 +6,7 @@ const Apart = () => {
     return (
         <Wrap>
             <MapComponent />
-            <ListUl></ListUl>
+            <ListUl>sadfsdf</ListUl>
         </Wrap>
     );
 };
