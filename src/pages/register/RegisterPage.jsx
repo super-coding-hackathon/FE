@@ -21,7 +21,7 @@ const RegisterPage = () => {
     longitude: null, //위도(소수점 6자리)
     maintenanceFee: null,
     mapId: '', // 카카오 map Id
-    price: null,
+    price: 200,
     name: '',
     roadAddress: '',
     squareFeet: null,

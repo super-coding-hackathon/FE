@@ -1,73 +1,65 @@
-import { useMutation } from "@tanstack/react-query";
-import React, { useRef, useState } from "react";
-import { RiFileImageLine } from "react-icons/ri";
-import { CreateHome } from "../../api/home/post";
+import { useMutation } from '@tanstack/react-query'
+import React, { useRef, useState } from 'react'
+import { RiFileImageLine } from 'react-icons/ri'
+import { CreateHome } from '../../api/home/post'
 
-const StepTwo = ({
-  handle,
-  formData,
-  step,
-  setStep,
-  openPostCode,
-  setOpenPostCode,
-  setFormData,
-}) => {
-  const [errors, setErrors] = useState({});
-  const [imgList, setImgList] = useState([]);
-  const [thumnail, setThumnail] = useState(null);
+const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCode, setFormData }) => {
+  const [errors, setErrors] = useState({})
+  const [imgList, setImgList] = useState([])
+  const [thumnail, setThumnail] = useState(null)
 
-  const imageRef = useRef();
+  const imageRef = useRef()
 
   const onClickImageUpload = () => {
-    imageRef.current.click();
-  };
+    imageRef.current.click()
+  }
 
   const handleImagesChange = (e) => {
-    const files = e.target.files;
-    const newImages = [];
+    const files = e.target.files
+    const newImages = []
     if (files.length > 5) {
-      alert("사진은 최대 5개입니다.");
-      return;
+      alert('사진은 최대 5개입니다.')
+      return
     } else {
       for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        console.log(file);
+        const file = files[i]
+        console.log(file)
 
         // newImages.push(URL.createObjectURL(fileObject));
-        newImages.push(file);
+        newImages.push(file)
       }
       setFormData({
         ...formData,
         thumbnailImage: newImages[0],
         imageFiles: newImages.slice(1),
-      });
+      })
 
-      setThumnail(URL.createObjectURL(newImages[0]));
-      setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)));
+      setThumnail(URL.createObjectURL(newImages[0]))
+      setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
     }
-  };
+  }
 
   const validate = () => {
-    let errors = {};
+    let errors = {}
 
     if (step === 2 && formData.squareFeet === null) {
-      errors.squareFeet = "평수는 1이상으로 입력해주세요.";
+      errors.squareFeet = '평수는 1이상으로 입력해주세요.'
     }
     if (step === 2 && formData.floor === null) {
-      errors.floor = "층수는 1이상으로 입력해주세요.";
+      errors.floor = '층수는 1이상으로 입력해주세요.'
     }
     if (step === 2 && formData.maintenanceFee === null) {
-      errors.maintenanceFee = "관리비는 1이상으로 입력해주세요.";
+      errors.maintenanceFee = '관리비는 1이상으로 입력해주세요.'
     }
 
-    return errors;
-  };
+    return errors
+  }
 
   const thumnailLayout = () => {
     if (thumnail) {
-      return <img src={thumnail} alt="thumnail" />;
+      return <img src={thumnail} alt="thumnail" />
     }
-  };
+  }
 
   const imgListLayout = () => {
     if (imgList.length === 0) {
@@ -78,67 +70,69 @@ const StepTwo = ({
           <div className="sub-img"></div>
           <div className="sub-img"></div>
         </>
-      );
+      )
     } else {
       return imgList.map((image, index) => (
         <div key={index} className="sub-img">
           <img src={image} alt={`이미지 ${index + 1}`} />
         </div>
-      ));
+      ))
     }
-  };
+  }
 
   const { mutate: registerMutate } = useMutation(CreateHome, {
     onSuccess: (response) => {
-      console.log(response);
+      console.log(response)
     },
     onError: (response) => console.log(response),
-  });
+  })
 
   const clickButton = (state) => {
-    if (state === "next") {
-      const errors = validate();
+    if (state === 'next') {
+      const errors = validate()
       if (Object.keys(errors).length === 0) {
         // navigate('/')
         // console.log("등록 완료");
-        const formDataToSend = new FormData();
-        if (formData.categoryId === "아파트") {
-          formDataToSend.append("categoryId", 1);
-        } else if (formData.categoryId === "빌라") {
-          formDataToSend.append("categoryId", 2);
+        const formDataToSend = new FormData()
+        if (formData.categoryId === '아파트') {
+          formDataToSend.append('categoryId', 1)
+        } else if (formData.categoryId === '빌라') {
+          formDataToSend.append('categoryId', 2)
         } else {
-          formDataToSend.append("categoryId", 3);
+          formDataToSend.append('categoryId', 3)
         }
-        formDataToSend.append("address", formData.address);
-        formDataToSend.append("detailAddress", formData.detailAddress);
-        formDataToSend.append("deposit", formData.deposit);
-        formDataToSend.append("floor", formData.floor);
-        formDataToSend.append("isParking", formData.isParking);
-        formDataToSend.append("latitude", formData.latitude);
-        formDataToSend.append("longitude", formData.longitude);
-        formDataToSend.append("maintenanceFee", formData.maintenanceFee);
-        formDataToSend.append("mapId", formData.mapId);
-        formDataToSend.append("price", formData.price);
-        formDataToSend.append("roadAddress", formData.roadAddress);
-        formDataToSend.append("squareFeet", formData.squareFeet);
-        formDataToSend.append("thumbnailImage", formData.thumbnailImage);
-        formDataToSend.append("transactionType", formData.transactionType);
+        formDataToSend.append('address', formData.address)
+        formDataToSend.append('detailAddress', formData.detailAddress)
+        formDataToSend.append('deposit', formData.deposit)
+        formDataToSend.append('floor', formData.floor)
+        formDataToSend.append('name', formData.name)
+        formDataToSend.append('isParking', formData.isParking)
+        formDataToSend.append('latitude', formData.latitude)
+        formDataToSend.append('longitude', formData.longitude)
+        formDataToSend.append('maintenanceFee', formData.maintenanceFee)
+        formDataToSend.append('mapId', formData.mapId)
+        formDataToSend.append('price', formData.price)
+        formDataToSend.append('roadAddress', formData.roadAddress)
+        formDataToSend.append('squareFeet', formData.squareFeet)
+        formDataToSend.append('imageFiles', formData.imageFiles)
+        // formDataToSend.append('thumbnailImage', formData.thumbnailImage)
+        formDataToSend.append('transactionType', formData.transactionType)
 
         formData.imageFiles.forEach((imageFile, index) => {
-          formDataToSend.append(`imageFiles[${index}]`, imageFile);
-        });
+          formDataToSend.append(`imageFiles[${index}]`, imageFile)
+        })
 
-        registerMutate(formDataToSend);
+        registerMutate(formDataToSend)
         // setStep(1);
       } else {
-        setErrors(errors);
+        setErrors(errors)
       }
     } else {
       // navigate('/')
       // alert("메인으로");
-      setStep(step - 1);
+      setStep(step - 1)
     }
-  };
+  }
 
   return (
     <>
@@ -157,9 +151,7 @@ const StepTwo = ({
             />
             <span>평</span>
           </div>
-          {errors.squareFeet && (
-            <div className="valid">{errors.squareFeet}</div>
-          )}
+          {errors.squareFeet && <div className="valid">{errors.squareFeet}</div>}
         </div>
 
         <div className="value-box-side">
@@ -193,20 +185,13 @@ const StepTwo = ({
             />
             <span>만원</span>
           </div>
-          {errors.maintenanceFee && (
-            <div className="valid">{errors.maintenanceFee}</div>
-          )}
+          {errors.maintenanceFee && <div className="valid">{errors.maintenanceFee}</div>}
         </div>
       </div>
 
       <div className="value-box-flex">
         <label htmlFor="isParking">주차</label>
-        <input
-          type="checkbox"
-          name="isParking"
-          checked={formData.isParking}
-          onChange={handle.onChangeCheck}
-        />
+        <input type="checkbox" name="isParking" checked={formData.isParking} onChange={handle.onChangeCheck} />
       </div>
 
       <div className="value-img-container">
@@ -219,26 +204,23 @@ const StepTwo = ({
           multiple
           id="image"
           ref={imageRef}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           onChange={handleImagesChange}
         />
         <div className="img-layout">
           <div className="thumnail">{thumnailLayout()}</div>
           <div className="img-list">{imgListLayout()}</div>
         </div>
-        <p>
-          여러 사진을 한번에 최대 5장 업로드 할 수 있으며, 첫번째 사진은
-          썸네일로 사용됩니다.
-        </p>
+        <p>여러 사진을 한번에 최대 5장 업로드 할 수 있으며, 첫번째 사진은 썸네일로 사용됩니다.</p>
       </div>
 
       <div className="footer">
-        <button onClick={() => clickButton("prev")}>뒤로</button>
+        <button onClick={() => clickButton('prev')}>뒤로</button>
         <span>{step} / 2 Page</span>
-        <button onClick={() => clickButton("next")}>등록</button>
+        <button onClick={() => clickButton('next')}>등록</button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default StepTwo;
+export default StepTwo

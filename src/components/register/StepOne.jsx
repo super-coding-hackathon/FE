@@ -114,11 +114,15 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
       if (Object.keys(errors).length === 0) {
         setStep(step + 1)
         // 임시 저장 기능
+        // console.log(typeof mapData.id)
+        console.log(mapData)
         setFormData({
           ...formData,
           mapId: mapData?.id,
-          latitude: mapData?.x,
-          longitude: mapData?.y,
+          // latitude: mapData?.x*1,
+          latitude: Number.parseFloat(mapData?.y),
+          // longitude: mapData?.y*1,
+          longitude: Number.parseFloat(mapData?.x),
         })
       } else {
         setErrors(errors)
