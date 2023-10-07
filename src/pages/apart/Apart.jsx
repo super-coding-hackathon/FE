@@ -1,12 +1,12 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Apart = () => {
-    const mapRef = useRef();
+import MapComponent from '../../components/MapComponent';
 
+const Apart = () => {
     return (
         <Wrap>
-            <MapComponent ref={mapRef} />
+            <MapComponent />
             <ListUl></ListUl>
         </Wrap>
     );
@@ -17,8 +17,7 @@ export default Apart;
 const Wrap = styled.div`
     display: grid;
     grid-template-columns: 1fr 300px;
+    height: 100%;
 `;
-
-const MapComponent = styled.div``;
 
 const ListUl = styled.ul``;

@@ -1,44 +1,64 @@
-import { useEffect, useState } from 'react';
-import generateMap from '../util/generateMap';
+import { useEffect, useState, useRef } from 'react';
+import useMap from './useMap';
 
 const { kakao } = window;
 const geo = new kakao.maps.services.Geocoder();
 
 const useMapByAddress = (element, options?) => {
-    const map = generateMap(element, options);
-    const [address, setAddress] = useState('');
-
+    const [address, setAddress] = useState('서울 강남구 역삼동 858');
+    const map = useMap(element);
     const chageAddress = (newAddr) => {
         setAddress(newAddr);
     };
+    const prevMarker = useRef(null);
+    const prevInfo = useRef(null);
 
     useEffect(() => {
-        geo.addressSearch(address, (result, status) => {
-            if (status === kakao.maps.services.Status.OK) {
-                const { x, y } = result[0];
-                const coords = new kakao.maps.LatLng(y, x);
+        const debounce = setTimeout(() => {
+            geo.addressSearch(address, (result, status) => {
+                console.log(result);
+                if (status === kakao.maps.services.Status.OK) {
+                    const { x, y } = result[0];
+                    const coords = new kakao.maps.LatLng(y, x);
 
-                const marker = new kakao.maps.Marker({
-                    map,
-                    position: coords,
-                });
+                    const marker = new kakao.maps.Marker({
+                        map,
+                        position: coords,
+                    });
 
-                const info = new kakao.maps.infoWindow({
-                    content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
-                });
+                    const info = new kakao.maps.InfoWindow({
+                        content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
+                    });
 
-                info.open(map, marker);
+                    info.open(map, marker);
+                    if (map) {
+                        map.setCenter(coords);
+                    }
 
-                map.setCenter(coords);
+                    prevMarker.current = marker;
+                    prevInfo.current = info;
+                }
+                if (status === kakao.maps.services.Status.ZERO_RESULT) {
+                    console.log('검색결과가 없습니다.');
+                }
+                if (status === kakao.maps.services.Status.ERROR) {
+                    console.log('에러 발생');
+                }
+            });
+        }, 300);
+
+        return () => {
+            if (prevMarker.current) {
+                prevMarker.current.setMap(null);
+                prevMarker.current = null;
             }
-            if (status === kakao.maps.services.Status.ZERO_RESULT) {
-                console.log('검색결과가 없습니다.');
+            if (prevInfo.current) {
+                prevInfo.current.close();
+                prevInfo.current = null;
             }
-            if (status === kakao.maps.services.Status.ERROR) {
-                console.log('에러 발생');
-            }
-        });
-    }, [address]);
+            clearTimeout(debounce);
+        };
+    }, [address, map]);
 
     return chageAddress;
 };
