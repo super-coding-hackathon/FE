@@ -5,13 +5,12 @@ import DaumPostCode from 'react-daum-postcode'
 import { useNavigate } from 'react-router-dom'
 import useMapByAddress from '../../hooks/useMapByAddress'
 
-const StepOne = ({ handle, formData, step, setStep, openPostCode, setOpenPostCode }) => {
+const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, setOpenPostCode }) => {
   const navigate = useNavigate()
 
   const [errors, setErrors] = useState({})
   const mapRef = useRef(null)
   const { chageAddress, mapData } = useMapByAddress(mapRef)
-  console.log(mapData)
 
   const categoryOption = [
     { value: '아파트', label: '아파트', name: 'categoryId' },
@@ -104,9 +103,6 @@ const StepOne = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
     if (step === 1 && formData.name.length === 0) {
       errors.name = '건물의 명칭 또는 이름을 입력해주세요.'
     }
-    // if (formData.transactionType.length !== 0 && formData.price === null) {
-    //   errors.price = "계약금은 최소 1이상으로 입력해주세요.";
-    // }
 
     return errors
   }
@@ -118,6 +114,12 @@ const StepOne = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
       if (Object.keys(errors).length === 0) {
         setStep(step + 1)
         // 임시 저장 기능
+        setFormData({
+          ...formData,
+          mapId: mapData?.id,
+          latitude: mapData?.x,
+          longitude: mapData?.y,
+        })
       } else {
         setErrors(errors)
       }

@@ -61,7 +61,7 @@ const useMapByAddress = (element, options) => {
       clearTimeout(debounce)
     }
   }, [address, map])
-
+  //   console.log(mapData)
   return { chageAddress, mapData }
 }
 
