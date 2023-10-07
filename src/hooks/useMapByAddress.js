@@ -17,7 +17,7 @@ const useMapByAddress = (element, options) => {
   useEffect(() => {
     if (!address) return
     const debounce = setTimeout(() => {
-      ps.addressSearch(address, (result, status) => {
+      ps.keywordSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const { x, y } = result[0]
           const coords = new kakao.maps.LatLng(y, x)
