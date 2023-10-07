@@ -2,8 +2,11 @@ import { useMutation } from '@tanstack/react-query'
 import React, { useRef, useState } from 'react'
 import { RiFileImageLine } from 'react-icons/ri'
 import { CreateHome } from '../../api/home/post'
+import { useNavigate } from 'react-router-dom'
 
 const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCode, setFormData }) => {
+  const navigate = useNavigate()
+
   const [errors, setErrors] = useState({})
   const [imgList, setImgList] = useState([])
   const [thumnail, setThumnail] = useState(null)
@@ -83,6 +86,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
   const { mutate: registerMutate } = useMutation(CreateHome, {
     onSuccess: (response) => {
       console.log(response)
+      navigate('/')
     },
     onError: (response) => console.log(response),
   })
@@ -91,8 +95,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
     if (state === 'next') {
       const errors = validate()
       if (Object.keys(errors).length === 0) {
-        // navigate('/')
-        // console.log("등록 완료");
+        console.log(formData)
         const formDataToSend = new FormData()
         if (formData.categoryId === '아파트') {
           formDataToSend.append('categoryId', 1)
@@ -114,12 +117,11 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
         formDataToSend.append('price', formData.price)
         formDataToSend.append('roadAddress', formData.roadAddress)
         formDataToSend.append('squareFeet', formData.squareFeet)
-        formDataToSend.append('imageFiles', formData.imageFiles)
-        // formDataToSend.append('thumbnailImage', formData.thumbnailImage)
+        formDataToSend.append('thumbnailImage', formData.thumbnailImage)
         formDataToSend.append('transactionType', formData.transactionType)
 
-        formData.imageFiles.forEach((imageFile, index) => {
-          formDataToSend.append(`imageFiles[${index}]`, imageFile)
+        formData.imageFiles.forEach((imageFile) => {
+          formDataToSend.append(`imageFiles`, imageFile)
         })
 
         registerMutate(formDataToSend)
@@ -128,7 +130,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
         setErrors(errors)
       }
     } else {
-      // navigate('/')
+      navigate('/')
       // alert("메인으로");
       setStep(step - 1)
     }
