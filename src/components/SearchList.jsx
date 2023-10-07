@@ -11,7 +11,7 @@ const SearchList = ({ data, handleSelect }) => {
                     </CustomLi>
                 ))
             ) : (
-                <div>데이터 없음</div>
+                <CustomLi>데이터 없음</CustomLi>
             )}
         </CustomUl>
     );
