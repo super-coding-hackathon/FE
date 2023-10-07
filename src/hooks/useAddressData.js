@@ -6,29 +6,35 @@ const useDebouncedAddressData = (delay) => {
     const { value, setValue } = useInput('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [data, setData] = useState([]);
+    const [open, setOpen] = useState(false);
 
     const handleItemSelect = (item) => {
         setSelectedItem(item);
-        setValue(item.place_name); // item.text
+        setValue(item.place_name);
+        setOpen(false);
     };
 
     const handleInputChange = (e) => {
-        const text = e.target.value;
+        const newSearchKeyword = e.target.value;
 
         if (!selectedItem) {
-            setValue(text);
-        } else if (text !== selectedItem) {
-            // seletedItem.place_name
+            setValue(newSearchKeyword);
+        } else if (newSearchKeyword !== selectedItem.place_name.trim()) {
             setSelectedItem(null);
-            setValue(text);
+            setValue(newSearchKeyword);
         }
     };
 
     useEffect(() => {
+        if (value.trim().length === 0) {
+            setData([]);
+        }
         if (!selectedItem && value.trim().length > 0) {
             const debounce = setTimeout(() => {
-                search_address_by_keyword(value, (result) => {
+                search_address_by_keyword(value, (result, status) => {
+                    console.log(status, result);
                     setData(result);
+                    setOpen(true);
                 });
             }, delay);
 
@@ -43,6 +49,7 @@ const useDebouncedAddressData = (delay) => {
         handleInputChange,
         value,
         data,
+        open,
     };
 };
 
