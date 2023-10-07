@@ -1,66 +1,72 @@
-import { useEffect, useState, useRef } from 'react';
-import useMap from './useMap';
+import { useEffect, useState, useRef } from 'react'
+import useMap from './useMap'
 
-const { kakao } = window;
-const geo = new kakao.maps.services.Geocoder();
+const { kakao } = window
+const geo = new kakao.maps.services.Geocoder()
 
 const useMapByAddress = (element, options?) => {
-    const [address, setAddress] = useState('');
-    const map = useMap(element);
-    const chageAddress = (newAddr) => {
-        setAddress(newAddr);
-    };
-    const prevMarker = useRef(null);
-    const prevInfo = useRef(null);
+  const [address, setAddress] = useState('')
+  const map = useMap(element)
+  const chageAddress = (newAddr) => {
+    setAddress(newAddr)
+  }
+  const prevMarker = useRef(null)
+  const prevInfo = useRef(null)
+  const [coords, setCoords] = useState({
+    lat: 0,
+    lng: 0,
+  })
 
-    useEffect(() => {
-        if (!address) return;
-        const debounce = setTimeout(() => {
-            geo.addressSearch(address, (result, status) => {
-                console.log(result);
-                if (status === kakao.maps.services.Status.OK) {
-                    const { x, y } = result[0];
-                    const coords = new kakao.maps.LatLng(y, x);
+  useEffect(() => {
+    if (!address) return
+    const debounce = setTimeout(() => {
+      geo.addressSearch(address, (result, status) => {
+        console.log(result)
+        if (status === kakao.maps.services.Status.OK) {
+          const { x, y } = result[0]
+          const coords = new kakao.maps.LatLng(y, x)
 
-                    const marker = new kakao.maps.Marker({
-                        map,
-                        position: coords,
-                    });
+          setCoords({ lat: y, lng: x })
 
-                    const info = new kakao.maps.InfoWindow({
-                        content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
-                    });
+          const marker = new kakao.maps.Marker({
+            map,
+            position: coords,
+          })
 
-                    info.open(map, marker);
+          const info = new kakao.maps.InfoWindow({
+            content: `<div style="width:150px;text-align:center;padding:6px 0;">${address}</div>`,
+          })
 
-                    map.setCenter(coords);
+          info.open(map, marker)
 
-                    prevMarker.current = marker;
-                    prevInfo.current = info;
-                }
-                if (status === kakao.maps.services.Status.ZERO_RESULT) {
-                    console.log('검색결과가 없습니다.');
-                }
-                if (status === kakao.maps.services.Status.ERROR) {
-                    console.log('에러 발생');
-                }
-            });
-        }, 100);
+          map.setCenter(coords)
 
-        return () => {
-            if (prevMarker.current) {
-                prevMarker.current.setMap(null);
-                prevMarker.current = null;
-            }
-            if (prevInfo.current) {
-                prevInfo.current.close();
-                prevInfo.current = null;
-            }
-            clearTimeout(debounce);
-        };
-    }, [address, map]);
+          prevMarker.current = marker
+          prevInfo.current = info
+        }
+        if (status === kakao.maps.services.Status.ZERO_RESULT) {
+          console.log('검색결과가 없습니다.')
+        }
+        if (status === kakao.maps.services.Status.ERROR) {
+          console.log('에러 발생')
+        }
+      })
+    }, 100)
 
-    return chageAddress;
-};
+    return () => {
+      if (prevMarker.current) {
+        prevMarker.current.setMap(null)
+        prevMarker.current = null
+      }
+      if (prevInfo.current) {
+        prevInfo.current.close()
+        prevInfo.current = null
+      }
+      clearTimeout(debounce)
+    }
+  }, [address, map])
 
-export default useMapByAddress;
+  return { chageAddress, coords }
+}
+
+export default useMapByAddress
