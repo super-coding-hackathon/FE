@@ -1,23 +1,20 @@
-import useMapByAddress from '../../hooks/useMapByAddress';
-import { useRef } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components'
+import MapComponent from '../../components/MapComponent'
 
 const Office = () => {
-    const mapRef = useRef(null);
-    const chageAddress = useMapByAddress(mapRef);
+  return (
+    <Wrap>
+      <MapComponent />
+      <ListUl></ListUl>
+    </Wrap>
+  )
+}
 
-    return (
-        <Wrap>
-            <div ref={mapRef}></div>
-            <div>asdasd</div>
-        </Wrap>
-    );
-};
-
-export default Office;
+export default Office
 
 const Wrap = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    height: 100%;
-`;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  height: 100%;
+`
+const ListUl = styled.ul``
