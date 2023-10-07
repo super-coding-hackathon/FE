@@ -7,7 +7,6 @@ import StepOne from "../../components/register/StepOne";
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1);
-  console.log(step);
   const [openPostCode, setOpenPostCode] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -23,6 +22,7 @@ const RegisterPage = () => {
     maintenanceFee: null,
     mapId: "", // 카카오 map Id
     price: null,
+    name: "",
     roadAddress: "",
     squareFeet: null,
     thumbnailImage: "",
@@ -37,6 +37,7 @@ const RegisterPage = () => {
       setOpenPostCode((prev) => !prev);
     },
     selectAddress: (data) => {
+      console.log(data);
       setFormData({
         ...formData,
         address: data.address,
