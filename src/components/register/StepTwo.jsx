@@ -14,6 +14,7 @@ const StepTwo = ({
 }) => {
   const [errors, setErrors] = useState({});
   const [imgList, setImgList] = useState([]);
+  const [thumnail, setThumnail] = useState(null);
 
   const imageRef = useRef();
 
@@ -26,16 +27,23 @@ const StepTwo = ({
     const newImages = [];
     if (files.length > 5) {
       alert("사진은 최대 5개입니다.");
+      return;
     } else {
       for (let i = 0; i < files.length; i++) {
-        newImages.push(URL.createObjectURL(files[i]));
+        const file = files[i];
+        console.log(file);
+
+        // newImages.push(URL.createObjectURL(fileObject));
+        newImages.push(file);
       }
-      setImgList(newImages);
       setFormData({
         ...formData,
         thumbnailImage: newImages[0],
         imageFiles: newImages.slice(1),
       });
+
+      setThumnail(URL.createObjectURL(newImages[0]));
+      setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)));
     }
   };
 
@@ -56,13 +64,13 @@ const StepTwo = ({
   };
 
   const thumnailLayout = () => {
-    if (formData.thumbnailImage.length !== 0) {
-      return <img src={formData.thumbnailImage} alt="thumnail" />;
+    if (thumnail) {
+      return <img src={thumnail} alt="thumnail" />;
     }
   };
 
   const imgListLayout = () => {
-    if (formData.imageFiles.length === 0) {
+    if (imgList.length === 0) {
       return (
         <>
           <div className="sub-img"></div>
@@ -72,7 +80,7 @@ const StepTwo = ({
         </>
       );
     } else {
-      return formData.imageFiles.map((image, index) => (
+      return imgList.map((image, index) => (
         <div key={index} className="sub-img">
           <img src={image} alt={`이미지 ${index + 1}`} />
         </div>

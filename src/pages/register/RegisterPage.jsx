@@ -22,6 +22,7 @@ const RegisterPage = () => {
     maintenanceFee: null,
     mapId: "", // 카카오 map Id
     price: null,
+    name: "",
     roadAddress: "",
     squareFeet: null,
     thumbnailImage: "",

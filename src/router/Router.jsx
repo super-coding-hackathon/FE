@@ -6,6 +6,8 @@ import GeneralLayout from "./../layout/GeneralLayout";
 import Apart from "./../pages/apart/Apart";
 import Studio from "./../pages/studio/Studio";
 import Office from "./../pages/office/Office";
+import MyPage from "../pages/my/MyPage";
+import NotFound from "../pages/NotFound";
 
 const Routeres = () => {
   return (
@@ -19,6 +21,8 @@ const Routeres = () => {
           <Route path="3" element={<Office />} />
         </Route>
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/my" element={<MyPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

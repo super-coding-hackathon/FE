@@ -108,6 +108,9 @@ const StepOne = ({
     ) {
       errors.deposit = "보증금은 최소 1이상으로 입력해주세요.";
     }
+    if (step === 1 && formData.name.length === 0) {
+      errors.name = "건물의 명칭 또는 이름을 입력해주세요.";
+    }
     // if (formData.transactionType.length !== 0 && formData.price === null) {
     //   errors.price = "계약금은 최소 1이상으로 입력해주세요.";
     // }
@@ -118,7 +121,7 @@ const StepOne = ({
   const clickButton = (state) => {
     if (state === "next") {
       const errors = validate();
-      console.log(errors);
+      // console.log(errors);
       if (Object.keys(errors).length === 0) {
         setStep(step + 1);
         // 임시 저장 기능
@@ -158,6 +161,18 @@ const StepOne = ({
         {errors.detailAddress && (
           <div className="valid">{errors.detailAddress}</div>
         )}
+      </div>
+
+      <div className="value-box">
+        <label htmlFor="name">명칭(이름)</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          onChange={handle.onChangeInput}
+          value={formData.name}
+        />
+        {errors.name && <div className="valid">{errors.name}</div>}
       </div>
 
       <div className="value-box">
