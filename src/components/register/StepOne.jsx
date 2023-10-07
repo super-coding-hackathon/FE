@@ -10,7 +10,8 @@ const StepOne = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
 
   const [errors, setErrors] = useState({})
   const mapRef = useRef(null)
-  const { chageAddress, coords } = useMapByAddress(mapRef)
+  const { chageAddress, mapData } = useMapByAddress(mapRef)
+  console.log(mapData)
 
   const categoryOption = [
     { value: '아파트', label: '아파트', name: 'categoryId' },
