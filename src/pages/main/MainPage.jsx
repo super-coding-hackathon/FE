@@ -6,7 +6,7 @@ import SearchList from '../../components/SearchList';
 import useDebouncedAddressData from '../../hooks/useAddressData';
 
 const MainPage = () => {
-    const { value, data, handleInputChange, handleItemSelect } = useDebouncedAddressData(600);
+    const { value, data, handleInputChange, handleItemSelect, open } = useDebouncedAddressData(600);
 
     return (
         <Wrap>
@@ -19,7 +19,7 @@ const MainPage = () => {
                 />
                 <Button variant="dark">검색</Button>
             </CustomInput>
-            <SearchList data={data} handleSelect={handleItemSelect} />
+            {open && <SearchList data={data} handleSelect={handleItemSelect} />}
         </Wrap>
     );
 };
