@@ -23,3 +23,11 @@ export const officeCoords = atom({
     lng: 127.028001,
   },
 })
+
+export const currentCoords = atom({
+  key: 'current',
+  default: {
+    lat: 37.498086,
+    lng: 127.028001,
+  },
+})

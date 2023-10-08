@@ -14,7 +14,6 @@ const SearchList = ({ data, handleSelect, category }) => {
             as="li"
             onClick={() => {
               handleSelect(item, category)
-              navigate(`/${category}`)
             }}
           >
             {item.place_name}
@@ -36,7 +35,7 @@ const CustomUl = styled(ListGroup)`
 
 const CustomLi = styled(ListGroup.Item)`
   height: 50px;
-  background-color: white;
+  background-color: rgb(0, 128, 0, 0.2);
   display: flex;
   align-items: center;
   cursor: pointer;

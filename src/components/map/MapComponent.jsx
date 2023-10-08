@@ -4,13 +4,15 @@ import styled from 'styled-components'
 import ReactDOMServer from 'react-dom/server'
 import Overlay from './Overlary'
 import SaleListItem from './SaleListItem'
+import { useRecoilValue } from 'recoil'
+import { currentCoords } from '../../atoms/coordsAtoms'
 
 const { kakao } = window
 
 const MapComponent = ({ data, handler }) => {
   const map = useRef()
-
-  console.log(data)
+  const coords = useRecoilValue(currentCoords)
+  const markerRefs = useRef({})
 
   const handleDragEnd = useCallback((map) => {
     const coords = map.getCenter()
@@ -21,9 +23,18 @@ const MapComponent = ({ data, handler }) => {
     }
   }, [])
 
+  const handleItemClick = (homeId) => {
+    if (!markerRefs.current[homeId]) return
+
+    const { center } = markerRefs.current[homeId]
+    map.current.setCenter(center)
+  }
+
   useEffect(() => {
     const mapDiv = document.getElementById('map')
-    map.current = generateMap(mapDiv)
+    map.current = generateMap(mapDiv, {
+      center: new window.kakao.maps.LatLng(parseFloat(coords.lat), parseFloat(coords.lng)),
+    })
     const eventHandler = () => {
       handleDragEnd(map.current)
     }
@@ -45,6 +56,8 @@ const MapComponent = ({ data, handler }) => {
           position: center,
           clickable: true,
         })
+
+        markerRefs.current[apart.homeId] = { marker, center }
 
         const infowindow = new kakao.maps.InfoWindow({
           content: ReactDOMServer.renderToString(<Overlay apartInfo={apart} />),
@@ -73,7 +86,7 @@ const MapComponent = ({ data, handler }) => {
       <div id="map"></div>
       <ListUl>
         {data?.map((sale) => (
-          <SaleListItem key={sale.homeId} {...sale} />
+          <SaleListItem key={sale.homeId} {...sale} onClick={() => handleItemClick(sale.homeId)} />
         ))}
       </ListUl>
     </Wrap>

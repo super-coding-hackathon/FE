@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import search_address_by_keyword from '../api/search_address'
 import useInput from './useInput'
 import { useSetRecoilState } from 'recoil'
-import { apartCoords, officeCoords, studioCoords } from '../atoms/coordsAtoms'
+import { apartCoords, currentCoords, officeCoords, studioCoords } from '../atoms/coordsAtoms'
+import { useNavigate } from 'react-router-dom'
 
 const useDebouncedAddressData = (delay) => {
   const { value, setValue } = useInput('')
@@ -12,6 +13,8 @@ const useDebouncedAddressData = (delay) => {
   const setApartCoords = useSetRecoilState(apartCoords)
   const setOfficeCoords = useSetRecoilState(officeCoords)
   const setStudioCoords = useSetRecoilState(studioCoords)
+  const setCurrentCoords = useSetRecoilState(currentCoords)
+  const navigate = useNavigate()
 
   const handleItemSelect = (item, category) => {
     setSelectedItem(item)
@@ -21,6 +24,8 @@ const useDebouncedAddressData = (delay) => {
       lat: item.y,
       lng: item.x,
     }
+
+    setCurrentCoords(coords)
     switch (category) {
       case 1:
         setApartCoords(coords)
@@ -34,6 +39,8 @@ const useDebouncedAddressData = (delay) => {
       default:
         return
     }
+
+    navigate(`/${category}`, { state: { coords } })
   }
 
   const handleInputChange = (e) => {

@@ -13,9 +13,9 @@ function shallowEqual(prevProps, nextProps) {
   return keys1.every((key) => prevProps[key] === nextProps[key])
 }
 
-const SaleListItem = memo(({ homeId, name, transactionType, deposit, price }) => {
+const SaleListItem = memo(({ homeId, name, transactionType, deposit, price, onClick }) => {
   return (
-    <Wrap key={homeId}>
+    <Wrap key={homeId} onClick={onClick}>
       <Title>{name}</Title>
       <Type>거래형태 : {transactionType}</Type>
       <Deposit>계약금 : {deposit}</Deposit>
