@@ -4,7 +4,7 @@ import useMap from './useMap'
 const { kakao } = window
 const ps = new kakao.maps.services.Places()
 
-const useMapByAddress = (element, options?) => {
+const useMapByAddress = (element, options) => {
   const [address, setAddress] = useState('')
   const map = useMap(element)
   const chageAddress = (newAddr) => {
@@ -61,7 +61,7 @@ const useMapByAddress = (element, options?) => {
       clearTimeout(debounce)
     }
   }, [address, map])
-
+  //   console.log(mapData)
   return { chageAddress, mapData }
 }
 
