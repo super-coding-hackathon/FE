@@ -5,13 +5,12 @@ import ReactDOMServer from 'react-dom/server'
 import Overlay from './Overlary'
 import SaleListItem from './SaleListItem'
 import { useRecoilValue } from 'recoil'
-import { currentCoords } from '../../atoms/coordsAtoms'
 
 const { kakao } = window
 
 const MapComponent = ({ data, handler, mapCoords }) => {
+  console.log(mapCoords)
   const map = useRef()
-  const coords = useRecoilValue(currentCoords)
   const markerRefs = useRef({})
 
   const handleDragEnd = useCallback((map) => {
