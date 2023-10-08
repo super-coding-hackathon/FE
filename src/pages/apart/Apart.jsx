@@ -10,10 +10,8 @@ const Apart = () => {
   const [coords, setCoords] = useRecoilState(apartCoords)
   const qc = useQueryClient()
 
-  const { data, isLoading } = useQuery(
-    ['apart', coords],
-    () => getCategoryData({ categoryId: 1, lat: coords.lat, lng: coords.lng }),
-    // { cacheTime: 0, staleTime: 0 },
+  const { data, isLoading } = useQuery(['apart', coords], () =>
+    getCategoryData({ categoryId: 1, lat: coords.lat, lng: coords.lng }),
   )
 
   const chageCoords = useCallback((lat, lng) => {
