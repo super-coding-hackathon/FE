@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 function shallowEqual(prevProps, nextProps) {
@@ -19,6 +20,7 @@ const SaleListItem = memo(({ homeId, name, transactionType, deposit, price }) =>
       <Type>거래형태 : {transactionType}</Type>
       <Deposit>계약금 : {deposit}</Deposit>
       <Price>가격 : {price}</Price>
+      <Link to={`/building/${homeId}`}>거래신청</Link>
     </Wrap>
   )
 }, shallowEqual)

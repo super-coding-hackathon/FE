@@ -34,6 +34,9 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Button>
+              <CustomLink to="/register">매물등록하기</CustomLink>
+            </Button>
+            <Button>
               <CustomLink to="/mypage">마이페이지</CustomLink>
             </Button>
             <Button>
@@ -44,7 +47,6 @@ const Header = () => {
           </>
         ) : (
           <>
-            {' '}
             <Button>
               <CustomLink to="/sign-up">회원가입</CustomLink>
             </Button>
@@ -86,7 +88,7 @@ const CategoryList = styled.ul`
   grid-template-columns: repeat(8, 1fr);
 
   grid-column-start: 5;
-  grid-column-end: 26;
+  grid-column-end: 22;
 `
 
 const CategoryBtn = styled.li`
@@ -107,7 +109,7 @@ const CustomNav = styled(NavLink)`
 `
 
 const BtnWrap = styled.div`
-  grid-column: 26 / 31;
+  grid-column: 22/ 31;
   display: flex;
   justify-content: space-around;
   align-items: center;

@@ -7,7 +7,7 @@ import SaleListItem from './SaleListItem'
 
 const { kakao } = window
 
-const MapComponent = ({ data, handler, isLoading }) => {
+const MapComponent = ({ data, handler }) => {
   const map = useRef()
 
   console.log(data)
