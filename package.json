@@ -54,5 +54,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://13.209.89.233:8080"
+  "proxy": {
+    "/api": {
+      "target": "http://13.209.89.233:8080"
+    }
+  }
 }
