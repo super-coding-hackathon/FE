@@ -1,0 +1,5 @@
+[[redirects]]
+from = "/proxy/*"
+  to = "http://13.209.89.233:8080"  
+  status = 200
+  force = true
