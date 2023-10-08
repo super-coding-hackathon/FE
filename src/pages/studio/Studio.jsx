@@ -19,7 +19,7 @@ const Studio = () => {
     qc.invalidateQueries(['studio'])
   }, [])
 
-  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} />
+  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} category={3} />
 }
 
 export default Studio

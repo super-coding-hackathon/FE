@@ -1,10 +1,7 @@
 import ListGroup from 'react-bootstrap/ListGroup'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
 
-const SearchList = ({ data, handleSelect, category }) => {
-  const navigate = useNavigate()
-
+const SearchList = ({ data, handleSelect, category, onClick }) => {
   return (
     <CustomUl as="ul">
       {data.length > 0 ? (
@@ -14,6 +11,9 @@ const SearchList = ({ data, handleSelect, category }) => {
             as="li"
             onClick={() => {
               handleSelect(item, category)
+              if (onClick) {
+                onClick()
+              }
             }}
           >
             {item.place_name}

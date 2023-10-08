@@ -4,12 +4,11 @@ import styled from 'styled-components'
 import ReactDOMServer from 'react-dom/server'
 import Overlay from './Overlary'
 import SaleListItem from './SaleListItem'
-import { useRecoilValue } from 'recoil'
+import SearchComponent from '../SearchComponent'
 
 const { kakao } = window
 
-const MapComponent = ({ data, handler, mapCoords }) => {
-  console.log(mapCoords)
+const MapComponent = ({ data, handler, mapCoords, category }) => {
   const map = useRef()
   const markerRefs = useRef({})
 
@@ -80,6 +79,12 @@ const MapComponent = ({ data, handler, mapCoords }) => {
     }
   }, [data])
 
+  useEffect(() => {
+    const center = new kakao.maps.LatLng(mapCoords.lat, mapCoords.lng)
+
+    map.current.setCenter(center)
+  }, [mapCoords])
+
   return (
     <Wrap>
       <div id="map"></div>
@@ -88,6 +93,9 @@ const MapComponent = ({ data, handler, mapCoords }) => {
           <SaleListItem key={sale.homeId} {...sale} onClick={() => handleItemClick(sale.homeId)} />
         ))}
       </ListUl>
+      <Search>
+        <SearchComponent category={category} />
+      </Search>
     </Wrap>
   )
 }
@@ -96,8 +104,17 @@ export default MapComponent
 
 const Wrap = styled.div`
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 300px 1px;
   height: 100%;
+  position: relative;
+`
+
+const Search = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 250px;
+  z-index: 999;
 `
 
 const ListUl = styled.ul`

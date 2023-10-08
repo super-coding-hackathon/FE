@@ -19,7 +19,7 @@ const Office = () => {
     qc.invalidateQueries(['office'])
   }, [])
 
-  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} />
+  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} category={2} />
 }
 
 export default Office

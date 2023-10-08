@@ -1,15 +1,15 @@
-import InputGroup from 'react-bootstrap/InputGroup'
-import Form from 'react-bootstrap/Form'
-import { Button, ButtonGroup, ToggleButton } from 'react-bootstrap'
+import { Button, ButtonGroup, ToggleButton, InputGroup, Form } from 'react-bootstrap'
 import styled from 'styled-components'
 import SearchList from '../../components/SearchList'
 import useDebouncedAddressData from '../../hooks/useDebouncedAddressData'
 import { useRecoilState } from 'recoil'
 import { currentCategory } from '../../atoms/categoryAtoms'
+import SearchComponent from '../../components/SearchComponent'
+import { useNavigate } from 'react-router-dom'
 
 const MainPage = () => {
-  const { value, data, handleInputChange, handleItemSelect, open } = useDebouncedAddressData(600)
   const [category, setCategory] = useRecoilState(currentCategory)
+  const navigate = useNavigate()
 
   return (
     <Wrap>
@@ -24,16 +24,7 @@ const MainPage = () => {
           원룸
         </ToggleButton>
       </ButtonGroup>
-      <CustomInput>
-        <Form.Control
-          placeholder="매물의 주소를 입력하세요"
-          aria-describedby="search"
-          value={value}
-          onChange={handleInputChange}
-        />
-        <Button variant="dark">검색</Button>
-      </CustomInput>
-      {open && <SearchList data={data} handleSelect={handleItemSelect} category={category} />}
+      <SearchComponent category={category} onClick={() => navigate(`/${category}`)} />
     </Wrap>
   )
 }
