@@ -1,23 +1,25 @@
 import { useEffect, useState, useRef } from 'react'
 import useMap from './useMap'
+import search_address_by_keyword from '../api/search_address'
 
 const { kakao } = window
 const ps = new kakao.maps.services.Places()
 
 const useMapByAddress = (element, options?) => {
   const [address, setAddress] = useState('')
+  const [mapData, setMapData] = useState()
   const map = useMap(element)
+  const prevMarker = useRef(null)
+  const prevInfo = useRef(null)
+
   const chageAddress = (newAddr) => {
     setAddress(newAddr)
   }
-  const prevMarker = useRef(null)
-  const prevInfo = useRef(null)
-  const [mapData, setMapData] = useState()
 
   useEffect(() => {
     if (!address) return
     const debounce = setTimeout(() => {
-      ps.keywordSearch(address, (result, status) => {
+      search_address_by_keyword.keywordSearch(address, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
           const { x, y } = result[0]
           const coords = new kakao.maps.LatLng(y, x)

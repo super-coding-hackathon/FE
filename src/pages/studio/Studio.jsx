@@ -1,20 +1,22 @@
-import styled from 'styled-components';
-import MapComponent from '../../components/MapComponent';
+import MapComponent from '../../components/map/MapComponent'
+import { useRecoilState } from 'recoil'
+import { useQuery } from '@tanstack/react-query'
+import { studioCoords } from '../../atoms/coordsAtoms'
+import { getCategoryData } from '../../api/category/category'
 
 const Studio = () => {
-    return (
-        <Wrap>
-            <MapComponent />
-            <ListUl>asdasd</ListUl>
-        </Wrap>
-    );
-};
+  const [coords, setCoords] = useRecoilState(studioCoords)
 
-export default Studio;
+  const { data, isLoading } = useQuery(['studio'], () =>
+    getCategoryData({ categoryId: 3, lat: coords.lat, lng: coords.lng }),
+  )
 
-const Wrap = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    height: 100%;
-`;
-const ListUl = styled.ul``;
+  const chageCoords = (lat, lng) => {
+    setCoords({ lat, lng })
+  }
+
+  if (isLoading) return <div>로딩중...</div>
+  return <MapComponent data={data.data} handler={chageCoords} />
+}
+
+export default Studio

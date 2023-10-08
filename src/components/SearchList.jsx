@@ -1,38 +1,48 @@
-import ListGroup from 'react-bootstrap/ListGroup';
-import styled from 'styled-components';
+import ListGroup from 'react-bootstrap/ListGroup'
+import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
-const SearchList = ({ data, handleSelect }) => {
-    return (
-        <CustomUl as="ul">
-            {data.length > 0 ? (
-                data.slice(0, 7).map((item) => (
-                    <CustomLi key={item.id} as="li" onClick={() => handleSelect(item)}>
-                        {item.place_name}
-                    </CustomLi>
-                ))
-            ) : (
-                <CustomLi>데이터 없음</CustomLi>
-            )}
-        </CustomUl>
-    );
-};
+const SearchList = ({ data, handleSelect, category }) => {
+  const navigate = useNavigate()
 
-export default SearchList;
+  return (
+    <CustomUl as="ul">
+      {data.length > 0 ? (
+        data.slice(0, 7).map((item) => (
+          <CustomLi
+            key={item.id}
+            as="li"
+            onClick={() => {
+              handleSelect(item, category)
+              navigate(`/${category}`)
+            }}
+          >
+            {item.place_name}
+          </CustomLi>
+        ))
+      ) : (
+        <CustomLi>데이터 없음</CustomLi>
+      )}
+    </CustomUl>
+  )
+}
+
+export default SearchList
 
 const CustomUl = styled(ListGroup)`
-    margin-top: 20px;
-    width: 490px;
-`;
+  margin-top: 20px;
+  width: 490px;
+`
 
 const CustomLi = styled(ListGroup.Item)`
-    height: 50px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 10px;
+  height: 50px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
 
-    &:hover {
-        background-color: gray;
-    }
-`;
+  &:hover {
+    background-color: gray;
+  }
+`

@@ -24,10 +24,10 @@ const Header = () => {
           <CustomNav to="/1">아파트</CustomNav>
         </CategoryBtn>
         <CategoryBtn>
-          <CustomNav to="/2">원룸</CustomNav>
+          <CustomNav to="/2">오피스텔</CustomNav>
         </CategoryBtn>
         <CategoryBtn>
-          <CustomNav to="/3">오피스텔</CustomNav>
+          <CustomNav to="/3">원룸</CustomNav>
         </CategoryBtn>
       </CategoryList>
       <BtnWrap>

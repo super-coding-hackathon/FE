@@ -19,8 +19,8 @@ const Routeres = () => {
         <Route path="/" element={<GeneralLayout />}>
           <Route path="" element={<Main />} />
           <Route path="1" element={<Apart />} />
-          <Route path="2" element={<Studio />} />
-          <Route path="3" element={<Office />} />
+          <Route path="2" element={<Office />} />
+          <Route path="3" element={<Studio />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />
         </Route>
