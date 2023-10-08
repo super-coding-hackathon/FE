@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const RegisterWrap = styled.div`
   max-width: 700px;
@@ -6,6 +6,10 @@ export const RegisterWrap = styled.div`
   margin: 60px auto 40px;
   input {
     outline: none;
+  }
+  .css-1nmdiq5-menu {
+    position: absolute;
+    z-index: 3;
   }
 
   .value-box {
@@ -161,4 +165,4 @@ export const RegisterWrap = styled.div`
       font-size: 18px;
     }
   }
-`;
+`

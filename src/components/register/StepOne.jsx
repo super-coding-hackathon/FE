@@ -26,6 +26,8 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
   const customStyles = {
     overlay: {
       backgroundColor: 'rgba(0,0,0,0.5)',
+      position: 'absolute',
+      'z-index': '2',
     },
     content: {
       left: '40px',

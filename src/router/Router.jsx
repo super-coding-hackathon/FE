@@ -10,6 +10,7 @@ import MyPage from '../pages/my/MyPage'
 import NotFound from '../pages/NotFound'
 import SignUp from '../pages/sign-up/SignUp'
 import SignIn from '../pages/sign-In/SiginIn'
+import DetailPage from '../pages/detail/DetailPage'
 
 const Routeres = () => {
   return (
@@ -24,8 +25,9 @@ const Routeres = () => {
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />
         </Route>
+        <Route path="/bulding/:homeId" element={<DetailPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/my" element={<MyPage />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
