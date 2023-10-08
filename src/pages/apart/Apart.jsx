@@ -11,11 +11,6 @@ const Apart = () => {
   const [coords, setCoords] = useRecoilState(apartCoords)
   const qc = useQueryClient()
   const location = useLocation()
-  const initialCoords = location.state?.coords
-
-  useEffect(() => {
-    setCoords(initialCoords)
-  }, [])
 
   const { data, isLoading } = useQuery(
     ['apart', coords],
@@ -28,7 +23,7 @@ const Apart = () => {
     qc.invalidateQueries(['apart'])
   }, [])
 
-  return <MapComponent data={data?.data} handler={chageCoords} isLoading={isLoading} />
+  return <MapComponent data={data?.data} handler={chageCoords} coords={coords} />
 }
 
 export default Apart

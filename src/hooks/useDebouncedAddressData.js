@@ -13,7 +13,7 @@ const useDebouncedAddressData = (delay) => {
   const setApartCoords = useSetRecoilState(apartCoords)
   const setOfficeCoords = useSetRecoilState(officeCoords)
   const setStudioCoords = useSetRecoilState(studioCoords)
-  const setCurrentCoords = useSetRecoilState(currentCoords)
+
   const navigate = useNavigate()
 
   const handleItemSelect = (item, category) => {
@@ -25,7 +25,6 @@ const useDebouncedAddressData = (delay) => {
       lng: item.x,
     }
 
-    setCurrentCoords(coords)
     switch (category) {
       case 1:
         setApartCoords(coords)

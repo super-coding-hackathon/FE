@@ -9,7 +9,7 @@ import { currentCoords } from '../../atoms/coordsAtoms'
 
 const { kakao } = window
 
-const MapComponent = ({ data, handler }) => {
+const MapComponent = ({ data, handler, mapCoords }) => {
   const map = useRef()
   const coords = useRecoilValue(currentCoords)
   const markerRefs = useRef({})
@@ -33,7 +33,7 @@ const MapComponent = ({ data, handler }) => {
   useEffect(() => {
     const mapDiv = document.getElementById('map')
     map.current = generateMap(mapDiv, {
-      center: new window.kakao.maps.LatLng(parseFloat(coords.lat), parseFloat(coords.lng)),
+      center: new window.kakao.maps.LatLng(parseFloat(mapCoords.lat), parseFloat(mapCoords.lng)),
     })
     const eventHandler = () => {
       handleDragEnd(map.current)
