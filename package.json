@@ -53,10 +53,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": {
-    "/api": {
-      "target": "http://13.209.89.233:8080"
-    }
   }
 }

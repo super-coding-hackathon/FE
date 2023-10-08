@@ -21,9 +21,7 @@ const Apart = () => {
     qc.invalidateQueries(['apart'])
   }, [])
 
-  if (isLoading) return <div>로딩중...</div>
-
-  return <MapComponent data={data.data} handler={chageCoords} />
+  return <MapComponent data={data?.data} handler={chageCoords} isLoading={isLoading} />
 }
 
 export default Apart

@@ -7,13 +7,15 @@ import SaleListItem from './SaleListItem'
 
 const { kakao } = window
 
-const MapComponent = ({ data, handler }, ref) => {
+const MapComponent = ({ data, handler, isLoading }) => {
   const map = useRef()
+
+  console.log(data)
 
   const handleDragEnd = useCallback((map) => {
     const coords = map.getCenter()
-    // console.log('중심 좌표', coords.getLat(), coords.getLng())
-    // console.log('현재 데이터', data[0])
+    console.log('중심 좌표', coords.getLat(), coords.getLng())
+
     if (handler) {
       handler(coords.getLat(), coords.getLng())
     }
@@ -25,7 +27,7 @@ const MapComponent = ({ data, handler }, ref) => {
     const eventHandler = () => {
       handleDragEnd(map.current)
     }
-    console.log('마운트')
+
     const mapsEvent = kakao.maps.event
     mapsEvent.addListener(map.current, 'dragend', eventHandler)
 
@@ -70,7 +72,7 @@ const MapComponent = ({ data, handler }, ref) => {
     <Wrap>
       <div id="map"></div>
       <ListUl>
-        {data.map((sale) => (
+        {data?.map((sale) => (
           <SaleListItem key={sale.homeId} {...sale} />
         ))}
       </ListUl>
@@ -78,7 +80,7 @@ const MapComponent = ({ data, handler }, ref) => {
   )
 }
 
-export default forwardRef(MapComponent)
+export default MapComponent
 
 const Wrap = styled.div`
   display: grid;
