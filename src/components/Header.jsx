@@ -3,9 +3,11 @@ import { NavLink, Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { isLoggedInState } from '../atoms/userAtoms'
 import { useRecoilState } from 'recoil'
+import { useState } from 'react'
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
+  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
+  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('token'))
 
   const logout = () => {
     setIsLoggedIn(false)
@@ -21,13 +23,13 @@ const Header = () => {
       </LogoWrap>
       <CategoryList>
         <CategoryBtn>
-          <CustomNav to="/1">아파트</CustomNav>
+          <CustomNav to="/apart">아파트</CustomNav>
         </CategoryBtn>
         <CategoryBtn>
-          <CustomNav to="/2">오피스텔</CustomNav>
+          <CustomNav to="/office">오피스텔</CustomNav>
         </CategoryBtn>
         <CategoryBtn>
-          <CustomNav to="/3">원룸</CustomNav>
+          <CustomNav to="/studio">원룸</CustomNav>
         </CategoryBtn>
       </CategoryList>
       <BtnWrap>
