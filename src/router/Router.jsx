@@ -2,15 +2,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import GlobalStyle from '../layout/GlobalStyle'
 import Main from '../pages/main/MainPage'
 import RegisterPage from '../pages/register/RegisterPage'
-import GeneralLayout from './../layout/GeneralLayout'
 import Apart from './../pages/apart/Apart'
 import Studio from './../pages/studio/Studio'
 import Office from './../pages/office/Office'
 import MyPage from '../pages/my/MyPage'
 import NotFound from '../pages/NotFound'
-import SignUp from '../pages/sign-up/SignUp'
-import SignIn from '../pages/sign-In/SiginIn'
+
 import DetailPage from '../pages/detail/DetailPage'
+import GeneralLayout from '../layout/GeneralLayout'
+import SignUp from '../pages/auth/SignUp'
+import SignIn from '../pages/auth/SiginIn'
 
 const Routeres = () => {
   return (
@@ -24,11 +25,11 @@ const Routeres = () => {
           <Route path="studio" element={<Studio />} />
           <Route path="sign-up" element={<SignUp />} />
           <Route path="sign-in" element={<SignIn />} />
+          <Route path="/building/:homeId" element={<DetailPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route path="/building/:homeId" element={<DetailPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )

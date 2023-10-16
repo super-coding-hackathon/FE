@@ -6,6 +6,7 @@ import api from '../../api/axiosInstance'
 import ToastAlarm from '../../components/ToastAlarm'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as S from './auth.style'
 
 const requestSignUp = async (formData) => {
   const response = await api.post('/api/user/signup', formData)
@@ -54,9 +55,9 @@ const SignUp = () => {
   const password = watch('password', '')
 
   return (
-    <Wrap>
-      <CustomForm onSubmit={handleSubmit(onSubmit)}>
-        <div>
+    <S.SignContainer>
+      <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <div className="info-item">
           <Form.Label htmlFor="email">이메일</Form.Label>
           <Form.Control
             type="text"
@@ -70,9 +71,9 @@ const SignUp = () => {
               },
             })}
           />
-          {errors.email && <FormText id="email">{errors.email.message}</FormText>}
+          {errors.email && <S.FormText id="email">{errors.email.message}</S.FormText>}
         </div>
-        <div>
+        <div className="info-item">
           <Form.Label htmlFor="password">패스워드</Form.Label>
           <Form.Control
             type="password"
@@ -90,9 +91,9 @@ const SignUp = () => {
               },
             })}
           />
-          {errors.password && <FormText id="password">{errors.password.message}</FormText>}
+          {errors.password && <S.FormText id="password">{errors.password.message}</S.FormText>}
         </div>
-        <div>
+        <div className="info-item">
           <Form.Label htmlFor="passwordCheck">패스워드 확인</Form.Label>
           <Form.Control
             type="password"
@@ -103,9 +104,9 @@ const SignUp = () => {
               validate: (value) => value === password || '입력한 패스워드와 일치하지 않습니다.',
             })}
           />
-          {errors.passwordCheck && <FormText id="passwordCheck">{errors.passwordCheck.message}</FormText>}
+          {errors.passwordCheck && <S.FormText id="passwordCheck">{errors.passwordCheck.message}</S.FormText>}
         </div>
-        <div>
+        <div className="info-item">
           <Form.Label htmlFor="nick-name">닉네임</Form.Label>
           <Form.Control
             type="text"
@@ -115,9 +116,9 @@ const SignUp = () => {
               required: '닉네임을 입력해주세요',
             })}
           />
-          {errors.nickname && <FormText id="nick-name">{errors.nickname.message}</FormText>}
+          {errors.nickname && <S.FormText id="nick-name">{errors.nickname.message}</S.FormText>}
         </div>
-        <div>
+        <div className="info-item">
           <Form.Label htmlFor="phone">전화번호</Form.Label>
           <Form.Control
             type="phone"
@@ -131,34 +132,13 @@ const SignUp = () => {
               },
             })}
           />
-          {errors.phoneNumber && <FormText id="phone">{errors.phoneNumber.message}</FormText>}
+          {errors.phoneNumber && <S.FormText id="phone">{errors.phoneNumber.message}</S.FormText>}
         </div>
         <Button type="submit">가입하기</Button>
-      </CustomForm>
+      </S.FormContainer>
       <ToastAlarm show={showToast} onClose={onClose} message={toastMsg} variant={variant} />
-    </Wrap>
+    </S.SignContainer>
   )
 }
 
 export default SignUp
-
-const Wrap = styled.div`
-  height: 100%;
-  background-color: gray;
-
-  display: grid;
-  place-items: center;
-`
-
-const CustomForm = styled.form`
-  width: 400px;
-  height: 550px;
-  max-height: 550px;
-  display: grid;
-  grid-gap: 12px;
-  grid-template-rows: repeat(6, 1fr);
-`
-
-const FormText = styled(Form.Text)`
-  color: red;
-`

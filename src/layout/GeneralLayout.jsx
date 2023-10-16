@@ -1,26 +1,16 @@
 import { Outlet } from 'react-router-dom'
-import Header from '../components/Header'
-import styled from 'styled-components'
+import Header from '../components/header/Header'
+import * as S from './generalLayout.style'
 
 const GeneralLayout = () => {
   return (
-    <Wrap>
+    <S.LayoutBox>
       <Header />
-      <OutletWrap>
+      <S.OutletWrap>
         <Outlet />
-      </OutletWrap>
-    </Wrap>
+      </S.OutletWrap>
+    </S.LayoutBox>
   )
 }
 
 export default GeneralLayout
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`
-
-const OutletWrap = styled.div`
-  flex-grow: 1;
-`
