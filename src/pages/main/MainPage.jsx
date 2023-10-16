@@ -1,18 +1,31 @@
-import { Button, ButtonGroup, ToggleButton, InputGroup, Form } from 'react-bootstrap'
-import styled from 'styled-components'
-import SearchList from '../../components/SearchList'
-import useDebouncedAddressData from '../../hooks/useDebouncedAddressData'
+import { ButtonGroup, ToggleButton } from 'react-bootstrap'
 import { useRecoilState } from 'recoil'
 import { currentCategory } from '../../atoms/categoryAtoms'
 import SearchComponent from '../../components/SearchComponent'
 import { useNavigate } from 'react-router-dom'
+import * as S from './main.style'
 
 const MainPage = () => {
   const [category, setCategory] = useRecoilState(currentCategory)
   const navigate = useNavigate()
+  const searchAddress = (categoryId) => {
+    switch (categoryId) {
+      case 1:
+        navigate('/apart')
+        break
+      case 2:
+        navigate('/office')
+        break
+      case 3:
+        navigate('/studio')
+        break
+      default:
+        return
+    }
+  }
 
   return (
-    <Wrap>
+    <S.MainContainer>
       <ButtonGroup>
         <ToggleButton type="radio" variant={'outline-success'} checked={category === 1} onClick={() => setCategory(1)}>
           아파트
@@ -24,20 +37,9 @@ const MainPage = () => {
           원룸
         </ToggleButton>
       </ButtonGroup>
-      <SearchComponent category={category} onClick={() => navigate(`/${category}`)} />
-    </Wrap>
+      <SearchComponent category={category} onClick={() => searchAddress(category)} />
+    </S.MainContainer>
   )
 }
 
 export default MainPage
-
-const Wrap = styled.div`
-  display: grid;
-  place-content: center;
-  padding-top: 200px;
-`
-
-const CustomInput = styled(InputGroup)`
-  margin-top: 20px;
-  width: 500px;
-`

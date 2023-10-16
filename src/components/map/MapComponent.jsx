@@ -92,6 +92,16 @@ const MapComponent = ({ data, handler, mapCoords, category }) => {
         {data?.map((sale) => (
           <SaleListItem key={sale.homeId} {...sale} onClick={() => handleItemClick(sale.homeId)} />
         ))}
+        {/* <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem />
+        <SaleListItem /> */}
       </ListUl>
       <Search>
         <SearchComponent category={category} />
@@ -103,10 +113,19 @@ const MapComponent = ({ data, handler, mapCoords, category }) => {
 export default MapComponent
 
 const Wrap = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 300px 1px;
   height: 100%;
+  display: flex;
   position: relative;
+  /* background-color: pink; */
+  width: 100%;
+  padding: 0;
+  height: calc(100vh - 95px);
+  #map {
+    max-width: 1300px;
+    width: 100%;
+    /* height: calc(100vh - 95px); */
+    height: 100%;
+  }
 `
 
 const Search = styled.div`
@@ -114,9 +133,11 @@ const Search = styled.div`
   top: 20px;
   left: 20px;
   width: 250px;
-  z-index: 999;
+  z-index: 1;
 `
 
 const ListUl = styled.ul`
-  overflow: scroll;
+  max-width: 300px;
+  width: 100%;
+  overflow-y: auto;
 `

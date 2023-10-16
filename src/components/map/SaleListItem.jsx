@@ -28,10 +28,14 @@ const SaleListItem = memo(({ homeId, name, transactionType, deposit, price, onCl
 export default SaleListItem
 
 const Wrap = styled.div`
-  display: grid;
+  /* width: 100%; */
+  /* max-width: 300px; */
+  width: 100%;
+  /* display: grid; */
   border-bottom: 1px solid black;
   padding: 10px;
   cursor: pointer;
+  /* background-color: skyblue; */
 `
 
 const Title = styled.h1`
