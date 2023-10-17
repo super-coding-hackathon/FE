@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { useSetRecoilState } from 'recoil'
 import { isLoggedInState } from '../../atoms/userAtoms'
+import * as S from './auth.style'
 
 const requestSignIn = async (body) => {
   const response = await api.post('/api/user/login', body)
@@ -55,9 +56,9 @@ const SignIn = () => {
   }
 
   return (
-    <Wrap>
-      <CustomForm onSubmit={handleSubmit(onSubmit)}>
-        <div>
+    <S.SignContainer>
+      <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <div className="info-item">
           <Form.Label htmlFor="email">이메일</Form.Label>
           <Form.Control
             type="text"
@@ -71,9 +72,9 @@ const SignIn = () => {
               },
             })}
           />
-          {errors.email && <FormText id="email">{errors.email.message}</FormText>}
+          {errors.email && <S.FormText id="email">{errors.email.message}</S.FormText>}
         </div>
-        <div>
+        <div className="info-item">
           <Form.Label htmlFor="password">패스워드</Form.Label>
           <Form.Control
             type="password"
@@ -91,34 +92,13 @@ const SignIn = () => {
               },
             })}
           />
-          {errors.password && <FormText id="password">{errors.password.message}</FormText>}
+          {errors.password && <S.FormText id="password">{errors.password.message}</S.FormText>}
         </div>
         <Button type="submit">로 그 인</Button>
-      </CustomForm>
+      </S.FormContainer>
       <ToastAlarm show={showToast} onClose={onClose} message={toastMsg} variant={variant} />
-    </Wrap>
+    </S.SignContainer>
   )
 }
 
 export default SignIn
-
-const Wrap = styled.div`
-  height: 100%;
-  background-color: gray;
-
-  display: grid;
-  place-items: center;
-`
-
-const CustomForm = styled.form`
-  width: 400px;
-  height: 550px;
-  max-height: 550px;
-  display: grid;
-  grid-gap: 12px;
-  grid-template-rows: repeat(6, 1fr);
-`
-
-const FormText = styled(Form.Text)`
-  color: red;
-`

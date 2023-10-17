@@ -1,11 +1,12 @@
-import api from "../axiosInstance";
+import api from '../axiosInstance'
+console.log(api)
 
 export async function SignUp(formData) {
-  const { data } = await api.post("api/user/signup", formData);
-  return data;
+  const { data } = await api.post('user/signup', formData)
+  return data
 }
 
 export async function Login(formData) {
-  const { data } = await api.post("api/user/login", formData);
-  return data;
+  const { data } = await api.post('user/login', formData)
+  return data
 }

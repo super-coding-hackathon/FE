@@ -31,17 +31,17 @@ export default SearchList
 const CustomUl = styled(ListGroup)`
   margin-top: 20px;
   width: 490px;
+  background-color: rgb(0, 128, 0, 0.2);
 `
 
 const CustomLi = styled(ListGroup.Item)`
   height: 50px;
-  background-color: rgb(0, 128, 0, 0.2);
   display: flex;
   align-items: center;
   cursor: pointer;
   padding: 10px;
 
   &:hover {
-    background-color: gray;
+    background-color: #dadada;
   }
 `

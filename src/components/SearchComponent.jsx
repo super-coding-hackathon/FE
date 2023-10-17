@@ -4,7 +4,7 @@ import SearchList from './SearchList'
 import useDebouncedAddressData from '../hooks/useDebouncedAddressData'
 
 const SearchComponent = ({ category, onClick }) => {
-  const { value, data, handleInputChange, handleItemSelect, open } = useDebouncedAddressData(600)
+  const { value, data, handleInputChange, handleItemSelect, open } = useDebouncedAddressData(300)
 
   return (
     <div>

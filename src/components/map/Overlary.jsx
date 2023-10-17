@@ -15,6 +15,7 @@ export default Overlay
 
 const Wrap = styled.div`
   display: grid;
+  /* background-color: skyblue; */
 
   background-color: white;
   width: 180px;

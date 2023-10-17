@@ -14,6 +14,7 @@ const useDebouncedAddressData = (delay) => {
   const setStudioCoords = useSetRecoilState(studioCoords)
 
   const handleItemSelect = (item, category) => {
+    console.log(item)
     setSelectedItem(item)
     setValue(item.place_name)
     setOpen(false)

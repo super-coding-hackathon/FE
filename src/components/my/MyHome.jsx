@@ -17,7 +17,7 @@ const MyHome = () => {
   })
 
   const directDetail = (id) => {
-    navigate(`/bulding/${id}`)
+    navigate(`/building/${id}`)
   }
 
   const mapList = () => {
