@@ -9,7 +9,7 @@ export const HeaderWrapper = styled.header`
   .header-left {
     display: flex;
     align-items: center;
-    padding-left: 80px;
+    padding-left: 120px;
   }
 `
 
@@ -41,7 +41,7 @@ export const BtnWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
-  padding-right: 80px;
+  padding-right: 120px;
 `
 
 export const CustomLink = styled(Link)`
