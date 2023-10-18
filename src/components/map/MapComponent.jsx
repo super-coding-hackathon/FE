@@ -92,16 +92,6 @@ const MapComponent = ({ data, handler, mapCoords, category }) => {
         {data?.map((sale) => (
           <SaleListItem key={sale.homeId} {...sale} onClick={() => handleItemClick(sale.homeId)} />
         ))}
-        {/* <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem />
-        <SaleListItem /> */}
       </ListUl>
       <Search>
         <SearchComponent category={category} />
