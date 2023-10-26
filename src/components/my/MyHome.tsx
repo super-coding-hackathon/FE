@@ -1,22 +1,24 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { GetMyRegister } from '../../api/my/get'
 import * as S from '../../pages/my/my.style'
 import { useNavigate } from 'react-router-dom'
+import { MyHomeType } from './type'
 
 const MyHome = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState(0)
   console.log('page :', page)
-  const [size, setSize] = useState(6)
+  // const [size, setSize] = useState(6)
+  let size = 6
 
   const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
     onSuccess: (res) => {
-      console.log(res)
+      console.log('home :', res)
     },
   })
 
-  const directDetail = (id) => {
+  const directDetail = (id: number) => {
     navigate(`/building/${id}`)
   }
 
@@ -24,7 +26,7 @@ const MyHome = () => {
     if (myList?.contents.length === 0) {
       return <p className="none">등록된 건물이 없습니다.</p>
     } else {
-      return myList?.contents.map((el) => (
+      return myList?.contents.map((el: MyHomeType) => (
         <li key={el.homeId} onClick={() => directDetail(el.homeId)}>
           <div className="thumb">
             <img src={el.thumbnailUrl} alt="thumbnail" />

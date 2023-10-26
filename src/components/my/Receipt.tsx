@@ -1,24 +1,25 @@
-import React, { useState } from 'react'
+import { FC, useState } from 'react'
 import * as S from '../../pages/my/my.style'
 import { AiFillQuestionCircle } from 'react-icons/ai'
 import Modal from 'react-modal'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+
+import { BuyerDetail, ReceiptProps, SellerDetail } from './type'
 import Accordion from './Accordion'
 
-const Receipt = ({ data, rendered, page, prevPage, nextPage }) => {
-  // console.log('현재 state는 :', rendered, '입니다.')
+const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, page, prevPage, nextPage }) => {
+  // debugger
   // console.log(data)
-  // console.log(page)
-  const navigate = useNavigate()
-  const [openModal, setOpenModal] = useState(false)
+  // const navigate = useNavigate()
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
-  const [selectedItemIndex, setSelectedItemIndex] = useState(null)
+  const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null)
 
   const clickToolTip = () => {
-    setOpenModal((prev) => !prev)
+    setOpenModal(!openModal)
   }
 
-  const customStyles = {
+  const customStyles: ReactModal.Styles = {
     overlay: {
       backgroundColor: 'rgba(0,0,0,0.5)',
       position: 'absolute',
@@ -30,13 +31,13 @@ const Receipt = ({ data, rendered, page, prevPage, nextPage }) => {
       width: '750px',
       height: '400px',
       padding: '10px',
-      boxSizing: 'borderBox',
+      boxSizing: 'border-box',
       overflow: 'hidden',
       borderRadius: '12px',
     },
   }
 
-  const tooltipBoxStyles = {
+  const tooltipBoxStyles: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'flex',
@@ -52,51 +53,40 @@ const Receipt = ({ data, rendered, page, prevPage, nextPage }) => {
     fontWeight: '800',
   }
 
-  const clickAccordion = (index) => {
+  const clickAccordion = (index: number) => {
     setSelectedItemIndex(selectedItemIndex === index ? null : index)
   }
 
   const renderItemList = () => {
-    if (rendered === '판매 현황') {
-      return data?.contents.map((el, index) => (
-        <>
-          <li className="item" key={el.homeId} onClick={() => clickAccordion(index)}>
-            <div className="item_desc imgBox">
-              {/* buyerContractFile */}
-              <img className="item_desc" src={el.thumbnailUrl} alt="상품" />
-            </div>
-            <div className="item_desc">{el.homeName}</div>
-            <div className="item_desc">{el.deposit}만원</div>
-            <div className="item_desc">{el.address}</div>
-            <div className="item_desc">{el.buyer}</div>
-            <div className="item_desc">{el.transactionStatus}</div>
-          </li>
-          {/* {openAccordion && <Accordion />} */}
-          {selectedItemIndex === index && <Accordion key={index} data={el} id={el.transactionId} roll="판매자" />}
-        </>
-      ))
-    } else {
-      return data?.contents.map((el, index) => (
-        // <li className="item" key={el.homeId} onClick={() => directDetail(el.homeId)}>
-        <>
-          <li className="item" key={el.homeId} onClick={() => clickAccordion(index)}>
-            <div className="item_desc imgBox">
-              {el.sellerContractFile && <a href={el.sellerContractFile} target="_blank" rel="noopener noreferrer" />}
-
-              <img className="item_desc" src={el.thumbnailUrl} alt="상품" />
-            </div>
-            <div className="item_desc">{el.homeName}</div>
-            <div className="item_desc">{el.deposit}만원</div>
-            <div className="item_desc">{el.address}</div>
-            <div className="item_desc">{el.seller}</div>
-            <div className="item_desc">{el.transactionStatus}</div>
-          </li>
-          {/* {openAccordion && <Accordion />} */}
-          {selectedItemIndex === index && <Accordion key={index} data={el} id={el.transactionId} roll="구매자" />}
-        </>
-      ))
-    }
+    return data?.contents.map((el, index) => (
+      <>
+        <li className="item" key={el.homeId} onClick={() => clickAccordion(index)}>
+          <div className="item_desc imgBox">
+            {rendered === '구매 현황' && el.sellerContractFile && (
+              <a href={el.sellerContractFile} target="_blank" rel="noopener noreferrer" />
+            )}
+            <img className="item_desc" src={el.thumbnailUrl} alt="상품" />
+          </div>
+          <div className="item_desc">{el.homeName}</div>
+          <div className="item_desc">{el.deposit}만원</div>
+          <div className="item_desc">{el.address}</div>
+          <div className="item_desc">
+            {rendered === '판매 현황' ? (el as SellerDetail).buyer : (el as SellerDetail).seller}
+          </div>
+          <div className="item_desc">{el.transactionStatus}</div>
+        </li>
+        {selectedItemIndex === index && (
+          <Accordion
+            key={index}
+            data={el}
+            id={el.transactionId}
+            roll={rendered === '판매 현황' ? '판매자' : '구매자'}
+          />
+        )}
+      </>
+    ))
   }
+
   return (
     <S.PurchaseContainer>
       <h2>{rendered}</h2>
@@ -126,11 +116,6 @@ const Receipt = ({ data, rendered, page, prevPage, nextPage }) => {
           )}
           <div className="page">{page + 1}</div>
           {data?.hasNext && (
-            // <>
-            //   <div className="page">{page + 2}</div>
-            //   ...
-            //   <div className="page"> {data?.totalPages}</div>
-            // </>
             <div className="page" onClick={nextPage}>
               {page + 2}
             </div>

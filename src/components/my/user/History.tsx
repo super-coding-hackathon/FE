@@ -1,12 +1,13 @@
-import React from 'react'
+import { FC } from 'react'
 import * as S from '../../../pages/my/my.style'
 import { AiOutlineRight } from 'react-icons/ai'
+import { HistoryProps } from '../type'
 
-const History = ({ data, setRendered, rendered, title }) => {
+const History: FC<HistoryProps> = ({ data, setRendered, title }) => {
   // console.log(rendered)
   const bgColorClass = title === '판매 현황' ? 'bg-green' : 'bg-white'
 
-  const directDetail = (state) => {
+  const directDetail = (state: string) => {
     // console.log(state)
     setRendered(state)
   }

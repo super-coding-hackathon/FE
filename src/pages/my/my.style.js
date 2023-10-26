@@ -39,7 +39,7 @@ export const MyPageWrap = styled.div`
 export const TabSection = styled.div`
   display: flex;
   flex-direction: column;
-  width: 120px;
+  min-width: 120px;
   /* background-color: pink; */
   .tab {
     display: flex;
@@ -58,11 +58,13 @@ export const TabSection = styled.div`
 `
 
 export const RenderSection = styled.section`
+  max-width: 1350px;
   width: 100%;
   height: 100%;
   padding: 0 80px;
   box-sizing: border-box;
   margin: 0 auto;
+  /* background-color: pink; */
 `
 
 export const History = styled.div`
