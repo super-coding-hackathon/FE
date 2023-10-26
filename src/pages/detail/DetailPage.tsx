@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import * as S from './detail.styls'
-import useMapByAddress from './../../hooks/useMapByAddress'
+import useMapByAddress from '../../hooks/useMapByAddress'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { GetHomeDetail } from '../../api/home/get'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CreateTransaction } from '../../api/transaction/post'
+import { HomeDetailType, imgFilesType } from '../../components/detail/type'
 
 const DetailPage = () => {
   const queryClient = useQueryClient()
@@ -12,23 +13,26 @@ const DetailPage = () => {
   const mapRef = useRef(null)
   const id = Number(useParams().homeId)
   // console.log(id)
-  const { chageAddress, mapData } = useMapByAddress(mapRef)
+  const { chageAddress } = useMapByAddress(mapRef)
 
-  const [thumbnail, setThumbnail] = useState([])
-  const [imgList, setImgList] = useState([])
+  const [thumbnail, setThumbnail] = useState<imgFilesType[]>([])
+  // console.log('thumbnail :', thumbnail)
+  const [imgList, setImgList] = useState<imgFilesType[]>([])
+  // console.log('imgList :', imgList)
 
-  const { data: homeDetailInfo } = useQuery(['homeDetailInfo'], () => GetHomeDetail(id), {
+  const { data: homeDetailInfo } = useQuery<HomeDetailType>(['homeDetailInfo'], () => GetHomeDetail(id), {
     onSuccess: (res) => {
-      console.log(res)
+      // console.log(res)
       setThumbnail(res.imageFiles.filter((el) => el.isThumbnail))
-      setImgList(res.imageFiles.filter((el) => !el.isThumbnail))?.map((el) => el)
+      // setImgList(res.imageFiles.filter((el) => !el.isThumbnail)).map((el) => el)
+      setImgList(res.imageFiles.filter((el) => !el.isThumbnail))
       chageAddress(res.address)
     },
   })
 
   const { mutate: transactionMutate } = useMutation(CreateTransaction, {
-    onSuccess: (res) => {
-      console.log(res)
+    onSuccess: () => {
+      // console.log(res)
       queryClient.invalidateQueries(['buyStatus'])
       queryClient.invalidateQueries(['sellStatus'])
     },
@@ -41,14 +45,14 @@ const DetailPage = () => {
 
   return (
     <S.DetailWrap>
-      <div className="info-top">
+      <S.InfoTop>
         <div className="name">{homeDetailInfo?.name}</div>
         <div className="info-right">
           <div className="user-name">등록자 : {homeDetailInfo?.seller}</div>
           <div className="create-at">등록 날짜 : {homeDetailInfo?.createdAt.split(' ')[0]}</div>
         </div>
-      </div>
-      <div className="info-box">
+      </S.InfoTop>
+      <S.InfoBox>
         <div className="info-item">
           <p>주소 : </p>
           <span>{homeDetailInfo?.address}</span>
@@ -58,8 +62,8 @@ const DetailPage = () => {
           <p>상세 주소 : </p>
           <span>{homeDetailInfo?.detailAddress}</span>
         </div>
-      </div>
-      <div className="info-box">
+      </S.InfoBox>
+      <S.InfoBox>
         <div className="info-item">
           <p>도로명 주소 : </p>
           <span>{homeDetailInfo?.roadAddress}</span>
@@ -69,8 +73,8 @@ const DetailPage = () => {
           <p>건물 종류 : </p>
           <span>이거 안됨</span>
         </div>
-      </div>
-      <div className="info-box">
+      </S.InfoBox>
+      <S.InfoBox>
         <div className="info-item">
           <p>전세/매매 : </p>
           <span>{homeDetailInfo?.transactionType}</span>
@@ -80,8 +84,8 @@ const DetailPage = () => {
           <p>가격 : </p>
           <span>{homeDetailInfo?.price}만원</span>
         </div>
-      </div>
-      <div className="info-box">
+      </S.InfoBox>
+      <S.InfoBox>
         <div className="info-item">
           <p>관리비 : </p>
           <span>{homeDetailInfo?.maintenanceFee}만원</span>
@@ -91,8 +95,8 @@ const DetailPage = () => {
           <p>보증금 : </p>
           <span>{homeDetailInfo?.deposit}만원</span>
         </div>
-      </div>
-      <div className="info-box">
+      </S.InfoBox>
+      <S.InfoBox>
         <div className="info-item">
           <p>크기 : </p>
           <span>{homeDetailInfo?.floor}평</span>
@@ -102,9 +106,9 @@ const DetailPage = () => {
           <p>층 수 : </p>
           <span>{homeDetailInfo?.floor}층</span>
         </div>
-      </div>
+      </S.InfoBox>
 
-      <div className="info-box">
+      <S.InfoBox>
         <div className="info-item">
           <p>주차 : </p>
           <span>{homeDetailInfo?.isParking === true ? '가능' : '불가'}</span>
@@ -113,7 +117,7 @@ const DetailPage = () => {
         <p className="post" onClick={startTransaction}>
           거래 요청하기
         </p>
-      </div>
+      </S.InfoBox>
 
       <div className="title">건물 사진</div>
       <div className="img-container">
