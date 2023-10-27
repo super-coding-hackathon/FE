@@ -1,6 +1,13 @@
 import Toast from 'react-bootstrap/Toast'
 
-const ToastAlarm = ({ onClose, show, message, variant }) => {
+type Props = {
+  onClose: () => void
+  show: boolean
+  message: string
+  variant: string
+}
+
+const ToastAlarm = ({ onClose, show, message, variant }:Props) => {
   return (
     <Toast
       onClose={onClose}

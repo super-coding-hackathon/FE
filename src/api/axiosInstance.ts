@@ -5,10 +5,11 @@ const api = axios.create({
 })
 
 api.interceptors.request.use((request) => {
-  const token = JSON.parse(sessionStorage.getItem('token'))
+  const token = sessionStorage.getItem('token')
 
   if (token) {
-    request.headers['Authorization'] = `Bearer ${token}`
+    const parsedToken = JSON.parse(token)
+    request.headers['Authorization'] = `Bearer ${parsedToken}`
   }
 
   return request

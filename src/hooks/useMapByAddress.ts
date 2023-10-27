@@ -1,28 +1,43 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, RefObject } from 'react'
 import useMap from './useMap'
 import search_address_by_keyword from '../api/search_address'
+import { IKakaoMarker, IKakaoInfoWindow } from 'sharekim-kakao-map-types'
+
+export interface mapDataType {
+  address_name: string
+  category_group_code: string
+  category_group_name: string
+  category_name: string
+  distance: string
+  id: string
+  phone: string
+  place_name: string
+  place_url: string
+  road_address_name: string
+  x: string
+  y: string
+}
 
 const { kakao } = window
-const ps = new kakao.maps.services.Places()
 
-const useMapByAddress = (element, options) => {
+const useMapByAddress = (element: RefObject<HTMLElement>) => {
   const [address, setAddress] = useState('')
-  const [mapData, setMapData] = useState()
+  const [mapData, setMapData] = useState<mapDataType>()
   const map = useMap(element)
-  const prevMarker = useRef(null)
-  const prevInfo = useRef(null)
+  const prevMarker = useRef<IKakaoMarker | null>(null)
+  const prevInfo = useRef<IKakaoInfoWindow | null>(null)
 
-  const chageAddress = (newAddr) => {
+  const chageAddress = (newAddr: string) => {
     setAddress(newAddr)
   }
 
   useEffect(() => {
     if (!address) return
     const debounce = setTimeout(() => {
-      search_address_by_keyword(address, (result, status) => {
+      search_address_by_keyword(address, (result: mapDataType[], status: any) => {
         if (status === kakao.maps.services.Status.OK) {
           const { x, y } = result[0]
-          const coords = new kakao.maps.LatLng(y, x)
+          const coords = new kakao.maps.LatLng(parseFloat(y), parseFloat(x))
 
           setMapData(result[0])
 
@@ -36,8 +51,9 @@ const useMapByAddress = (element, options) => {
           })
 
           info.open(map, marker)
-
-          map.setCenter(coords)
+          if (map) {
+            map.setCenter(coords)
+          }
 
           prevMarker.current = marker
           prevInfo.current = info
@@ -63,7 +79,7 @@ const useMapByAddress = (element, options) => {
       clearTimeout(debounce)
     }
   }, [address, map])
-  //   console.log(mapData)
+
   return { chageAddress, mapData }
 }
 

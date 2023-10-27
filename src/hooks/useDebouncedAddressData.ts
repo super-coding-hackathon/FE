@@ -1,36 +1,36 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import search_address_by_keyword from '../api/search_address'
 import useInput from './useInput'
 import { useSetRecoilState } from 'recoil'
-import { apartCoords, currentCoords, officeCoords, studioCoords } from '../atoms/coordsAtoms'
+import { apartCoords, officeCoords, studioCoords } from '../atoms/coordsAtoms'
+import { mapDataType } from './useMapByAddress'
 
-const useDebouncedAddressData = (delay) => {
+const useDebouncedAddressData = (delay: number) => {
   const { value, setValue } = useInput('')
-  const [selectedItem, setSelectedItem] = useState(null)
+  const [selectedItem, setSelectedItem] = useState<any>(null)
   const [data, setData] = useState([])
   const [open, setOpen] = useState(false)
   const setApartCoords = useSetRecoilState(apartCoords)
   const setOfficeCoords = useSetRecoilState(officeCoords)
   const setStudioCoords = useSetRecoilState(studioCoords)
 
-  const handleItemSelect = (item, category) => {
-    console.log(item)
+  const handleItemSelect = (item: mapDataType, category: string) => {
     setSelectedItem(item)
     setValue(item.place_name)
     setOpen(false)
     const coords = {
-      lat: item.y,
-      lng: item.x,
+      lat: parseFloat(item.y),
+      lng: parseFloat(item.x),
     }
 
     switch (category) {
-      case 1:
+      case 'apart':
         setApartCoords(coords)
         break
-      case 2:
+      case 'office':
         setOfficeCoords(coords)
         break
-      case 3:
+      case 'studio':
         setStudioCoords(coords)
         break
       default:
@@ -38,7 +38,7 @@ const useDebouncedAddressData = (delay) => {
     }
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newSearchKeyword = e.target.value
 
     if (!selectedItem) {
@@ -56,7 +56,7 @@ const useDebouncedAddressData = (delay) => {
 
     if (!selectedItem && value.trim().length > 0) {
       const debounce = setTimeout(() => {
-        search_address_by_keyword(value, (result, status) => {
+        search_address_by_keyword(value, (result: any) => {
           setData(result)
           setOpen(true)
         })

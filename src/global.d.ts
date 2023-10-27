@@ -1,6 +1,8 @@
+import { IKakao } from 'sharekim-kakao-map-types'
+
 declare global {
   interface Window {
-    kakao: any
+    kakao: IKakao
   }
 }
 

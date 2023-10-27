@@ -2,7 +2,16 @@ import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-function shallowEqual(prevProps, nextProps) {
+type Props = {
+  homeId: number
+  name: string
+  transactionType: string
+  deposit: number
+  price: number
+  onClick: () => void
+}
+
+function shallowEqual(prevProps: any, nextProps: any) {
   const keys1 = Object.keys(prevProps)
   const keys2 = Object.keys(nextProps)
 
@@ -13,7 +22,7 @@ function shallowEqual(prevProps, nextProps) {
   return keys1.every((key) => prevProps[key] === nextProps[key])
 }
 
-const SaleListItem = memo(({ homeId, name, transactionType, deposit, price, onClick }) => {
+const SaleListItem = memo(({ homeId, name, transactionType, deposit, price, onClick }: Props) => {
   return (
     <Wrap key={homeId} onClick={onClick}>
       <Title>{name}</Title>

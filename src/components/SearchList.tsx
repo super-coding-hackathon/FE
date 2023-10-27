@@ -1,7 +1,17 @@
 import ListGroup from 'react-bootstrap/ListGroup'
 import styled from 'styled-components'
+import { mapDataType } from '../hooks/useMapByAddress'
+import { useNavigate } from 'react-router-dom'
 
-const SearchList = ({ data, handleSelect, category, onClick }) => {
+type Props = {
+  data: mapDataType[]
+  handleSelect: (item: mapDataType, category: string) => void
+  category: string
+}
+
+const SearchList = ({ data, handleSelect, category }: Props) => {
+  const navigate = useNavigate()
+
   return (
     <CustomUl as="ul">
       {data.length > 0 ? (
@@ -11,9 +21,7 @@ const SearchList = ({ data, handleSelect, category, onClick }) => {
             as="li"
             onClick={() => {
               handleSelect(item, category)
-              if (onClick) {
-                onClick()
-              }
+              navigate(`/${category}`)
             }}
           >
             {item.place_name}

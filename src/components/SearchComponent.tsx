@@ -3,7 +3,11 @@ import styled from 'styled-components'
 import SearchList from './SearchList'
 import useDebouncedAddressData from '../hooks/useDebouncedAddressData'
 
-const SearchComponent = ({ category, onClick }) => {
+type Props = {
+  category: string
+}
+
+const SearchComponent = ({ category }: Props) => {
   const { value, data, handleInputChange, handleItemSelect, open } = useDebouncedAddressData(300)
 
   return (
@@ -17,7 +21,7 @@ const SearchComponent = ({ category, onClick }) => {
         />
         <Button variant="dark">검색</Button>
       </CustomInput>
-      {open && <SearchList data={data} handleSelect={handleItemSelect} category={category} onClick={onClick} />}
+      {open && <SearchList data={data} handleSelect={handleItemSelect} category={category} />}
     </div>
   )
 }
