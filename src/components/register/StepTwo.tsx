@@ -1,49 +1,73 @@
 import { useMutation } from '@tanstack/react-query'
-import React, { useRef, useState } from 'react'
-import { RiFileImageLine } from 'react-icons/ri'
+import { ChangeEvent, FC, useRef, useState } from 'react'
+
 import { CreateHome } from '../../api/home/post'
 import { useNavigate } from 'react-router-dom'
+import { InvalidateErrors, StepProps } from './type'
 
-const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCode, setFormData }) => {
+const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }) => {
   const navigate = useNavigate()
 
-  const [errors, setErrors] = useState({})
-  const [imgList, setImgList] = useState([])
-  const [thumnail, setThumnail] = useState(null)
+  const [errors, setErrors] = useState<InvalidateErrors>({})
+  const [imgList, setImgList] = useState<File[]>([])
+  const [thumnail, setThumbnail] = useState<string | null>(null)
 
-  const imageRef = useRef()
+  const imageRef = useRef<HTMLInputElement>()
 
   const onClickImageUpload = () => {
-    imageRef.current.click()
-  }
-
-  const handleImagesChange = (e) => {
-    const files = e.target.files
-    const newImages = []
-    if (files.length > 5) {
-      alert('사진은 최대 5개입니다.')
-      return
-    } else {
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        console.log(file)
-
-        // newImages.push(URL.createObjectURL(fileObject));
-        newImages.push(file)
-      }
-      setFormData({
-        ...formData,
-        thumbnailImage: newImages[0],
-        imageFiles: newImages.slice(1),
-      })
-
-      setThumnail(URL.createObjectURL(newImages[0]))
-      setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
+    if (imageRef.current) {
+      imageRef.current.click()
     }
   }
 
+  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    const newImages = []
+    // if (files.length > 5) {
+    //   alert('사진은 최대 5개입니다.')
+    //   return
+    // } else {
+    //   for (let i = 0; i < files.length; i++) {
+    //     const file = files[i]
+    //     console.log(file)
+
+    //     // newImages.push(URL.createObjectURL(fileObject));
+    //     newImages.push(file)
+    //   }
+    //   setFormData({
+    //     ...formData,
+    //     thumbnailImage: newImages[0],
+    //     imageFiles: newImages.slice(1),
+    //   })
+
+    //   setThumnail(URL.createObjectURL(newImages[0]))
+    //   setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
+    // }
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+
+      if (files.length > 5) {
+        alert('사진은 최대 5개입니다.');
+        return;
+      } else {
+        const newImages = [...files];
+        setFormData({
+          ...formData,
+          // thumbnailImage: newImages[0],
+          thumbnailImage: newImages[0] ? newImages[0].name : null,
+          // imageFiles: newImages.slice(1),
+          imageFiles: newImages.length > 1 ? newImages.slice(1) : [],
+        });
+
+        setThumbnail(URL.createObjectURL(newImages[0]));
+        setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image));
+      }
+    }
+
+  }
+
   const validate = () => {
-    let errors = {}
+    let errors:InvalidateErrors = {}
 
     if (step === 2 && formData.squareFeet === null) {
       errors.squareFeet = '평수는 1이상으로 입력해주세요.'
@@ -91,7 +115,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
     onError: (response) => console.log(response),
   })
 
-  const clickButton = (state) => {
+  const clickButton = (state:'prev'|'next') => {
     if (state === 'next') {
       const errors = validate()
       if (Object.keys(errors).length === 0) {
@@ -148,7 +172,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
               min="1"
               max="99999999"
               name="squareFeet"
-              value={formData.squareFeet}
+              value={formData.squareFeet || ""}
               onChange={handle.onChangeNumber}
             />
             <span>평</span>
@@ -165,7 +189,7 @@ const StepTwo = ({ handle, formData, step, setStep, openPostCode, setOpenPostCod
               min="1"
               max="99999999"
               name="floor"
-              value={formData.floor}
+              value={formData.floor || ""}
               onChange={handle.onChangeNumber}
             />
             <span>층</span>

@@ -1,13 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
 import useMap from './useMap'
 import search_address_by_keyword from '../api/search_address'
+import { mapDataType } from '../components/register/type'
 
 const { kakao } = window
 const ps = new kakao.maps.services.Places()
 
 const useMapByAddress = (element, options) => {
   const [address, setAddress] = useState('')
-  const [mapData, setMapData] = useState()
+  const [mapData, setMapData] = useState(null)
   const map = useMap(element)
   const prevMarker = useRef(null)
   const prevInfo = useRef(null)

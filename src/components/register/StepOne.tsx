@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import Modal from 'react-modal'
-import Select from 'react-select'
+// import Select from 'react-select'
 import DaumPostCode from 'react-daum-postcode'
 import { useNavigate } from 'react-router-dom'
 import useMapByAddress from '../../hooks/useMapByAddress'
+import { InvalidateErrors, StepProps } from './type'
 
-const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, setOpenPostCode }) => {
+const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, openPostCode, setOpenPostCode }) => {
   const navigate = useNavigate()
 
-  const [errors, setErrors] = useState({})
-  const mapRef = useRef(null)
+  const [errors, setErrors] = useState<InvalidateErrors>({})
+  const mapRef = useRef<HTMLDivElement | null>(null)
   const { chageAddress, mapData } = useMapByAddress(mapRef)
+  // const { mapData } = useMapByAddress(mapRef) as mapDataType | null
 
   const categoryOption = [
     { value: '아파트', label: '아파트', name: 'categoryId' },
@@ -23,21 +25,21 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
     { value: '매매', label: '매매', name: 'transactionType' },
   ]
 
-  const customStyles = {
-    overlay: {
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      position: 'absolute',
-      'z-index': '2',
-    },
-    content: {
-      left: '40px',
-      margin: 'auto',
-      width: '500px',
-      height: '400px',
-      padding: '0',
-      overflow: 'hidden',
-    },
-  }
+  // const customStyles = {
+  //   overlay: {
+  //     backgroundColor: 'rgba(0,0,0,0.5)',
+  //     position: 'absolute',
+  //     'z-index': '2',
+  //   },
+  //   content: {
+  //     left: '40px',
+  //     margin: 'auto',
+  //     width: '500px',
+  //     height: '400px',
+  //     padding: '0',
+  //     overflow: 'hidden',
+  //   },
+  // }
 
   // 전세 매매 분류 함수
   const checkTransactionType = () => {
@@ -52,7 +54,7 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
               min="1"
               max="99999999"
               name="deposit"
-              value={formData.deposit}
+              value={formData.deposit || ''}
               onChange={handle.onChangeNumber}
             />
             <span>만원</span>
@@ -71,7 +73,7 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
               min="1"
               max="99999999"
               name="deposit"
-              value={formData.deposit}
+              value={formData.deposit || ''}
               onChange={handle.onChangeNumber}
             />
             <span>만원</span>
@@ -85,7 +87,7 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
   }
 
   const validate = () => {
-    let errors = {}
+    let errors: InvalidateErrors = {}
 
     if (step === 1 && formData.address.length === 0) {
       errors.address = '주소를 입력해주세요.'
@@ -108,8 +110,9 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
 
     return errors
   }
+  console.log(mapData)
 
-  const clickButton = (state) => {
+  const clickButton = (state: 'prev' | 'next') => {
     if (state === 'next') {
       const errors = validate()
       // console.log(errors);
@@ -117,13 +120,12 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
         setStep(step + 1)
         // 임시 저장 기능
         // console.log(typeof mapData.id)
-        console.log(mapData)
         setFormData({
           ...formData,
           mapId: mapData?.id,
-          // latitude: mapData?.x*1,
+          //// latitude: mapData?.x*1,
           latitude: Number.parseFloat(mapData?.y),
-          // longitude: mapData?.y*1,
+          // // longitude: mapData?.y*1,
           longitude: Number.parseFloat(mapData?.x),
         })
       } else {
@@ -167,24 +169,48 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
 
       <div className="value-box">
         <label htmlFor="category">건물 종류</label>
-        <Select
+        {/* <Select
           placeholder="건물 종류"
           options={categoryOption}
           value={categoryOption.find((option) => option.value === formData.categoryId)}
           onChange={handle.onChangeSelect}
-        />
+        /> */}
+        <select
+          placeholder="전세/매매"
+          value={formData.transactionType}
+          onChange={(e) => handle.onChangeSelect({ name: 'transactionType', value: e.target.value })}
+        >
+          <option value="">전세/매매 선택</option>
+          {categoryOption.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
 
         {errors.categoryId && <div className="valid">{errors.categoryId}</div>}
       </div>
 
       <div className="value-box">
         <label htmlFor="transactionType">전세/매매</label>
-        <Select
+        {/* <Select
           placeholder="전세/매매"
           options={transactionTypeOption}
           value={transactionTypeOption.find((option) => option.value === formData.transactionType)}
           onChange={handle.onChangeSelect}
-        />
+        /> */}
+
+        <select
+          value={formData.transactionType}
+          onChange={(e) => handle.onChangeSelect({ name: 'transactionType', value: e.target.value })}
+        >
+          <option value="">전세/매매 선택</option>
+          {transactionTypeOption.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
         {errors.transactionType && <div className="valid">{errors.transactionType}</div>}
       </div>
 
@@ -204,11 +230,15 @@ const StepOne = ({ handle, formData, setFormData, step, setStep, openPostCode, s
       <Modal
         isOpen={openPostCode}
         ariaHideApp={false}
-        style={customStyles}
+        // style={customStyles}
         onRequestClose={() => setOpenPostCode(false)}
         shouldCloseOnOverlayClick={true}
       >
-        <DaumPostCode onComplete={handle.selectAddress} autoClose={false} height="100%" />
+        <DaumPostCode
+          onComplete={handle.selectAddress}
+          autoClose={false}
+          // height="100%"
+        />
       </Modal>
     </>
   )
