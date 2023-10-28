@@ -3,8 +3,9 @@ import Modal from 'react-modal'
 // import Select from 'react-select'
 import DaumPostCode from 'react-daum-postcode'
 import { useNavigate } from 'react-router-dom'
-import useMapByAddress from '../../hooks/useMapByAddress'
+
 import { InvalidateErrors, StepProps } from './type'
+import useMapByAddress from '../../hooks/useMapByAddress'
 
 const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, openPostCode, setOpenPostCode }) => {
   const navigate = useNavigate()
@@ -25,21 +26,20 @@ const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, 
     { value: '매매', label: '매매', name: 'transactionType' },
   ]
 
-  // const customStyles = {
-  //   overlay: {
-  //     backgroundColor: 'rgba(0,0,0,0.5)',
-  //     position: 'absolute',
-  //     'z-index': '2',
-  //   },
-  //   content: {
-  //     left: '40px',
-  //     margin: 'auto',
-  //     width: '500px',
-  //     height: '400px',
-  //     padding: '0',
-  //     overflow: 'hidden',
-  //   },
-  // }
+  const customStyles: ReactModal.Styles = {
+    overlay: {
+      position: 'absolute',
+      zIndex: '2',
+    },
+    content: {
+      left: '40px',
+      margin: 'auto',
+      width: '500px',
+      height: '400px',
+      padding: '0',
+      overflow: 'hidden',
+    },
+  }
 
   // 전세 매매 분류 함수
   const checkTransactionType = () => {
@@ -110,7 +110,7 @@ const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, 
 
     return errors
   }
-  console.log(mapData)
+  // console.log(mapData)
 
   const clickButton = (state: 'prev' | 'next') => {
     if (state === 'next') {
@@ -120,14 +120,16 @@ const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, 
         setStep(step + 1)
         // 임시 저장 기능
         // console.log(typeof mapData.id)
-        setFormData({
-          ...formData,
-          mapId: mapData?.id,
-          //// latitude: mapData?.x*1,
-          latitude: Number.parseFloat(mapData?.y),
-          // // longitude: mapData?.y*1,
-          longitude: Number.parseFloat(mapData?.x),
-        })
+        if (mapData !== undefined) {
+          setFormData({
+            ...formData,
+            mapId: mapData.id,
+            //// latitude: mapData?.x*1,
+            latitude: Number.parseFloat(mapData.y),
+            // // longitude: mapData?.y*1,
+            longitude: Number.parseFloat(mapData.x),
+          })
+        }
       } else {
         setErrors(errors)
       }
@@ -176,11 +178,11 @@ const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, 
           onChange={handle.onChangeSelect}
         /> */}
         <select
-          placeholder="전세/매매"
+          placeholder="건물종류"
           value={formData.transactionType}
-          onChange={(e) => handle.onChangeSelect({ name: 'transactionType', value: e.target.value })}
+          onChange={(e) => handle.onChangeSelect({ name: 'categoryId', value: e.target.value })}
         >
-          <option value="">전세/매매 선택</option>
+          <option value="">건물종류</option>
           {categoryOption.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -228,10 +230,10 @@ const StepOne: FC<StepProps> = ({ handle, formData, setFormData, step, setStep, 
       </div>
 
       <Modal
-        isOpen={openPostCode}
+        isOpen={openPostCode || false}
         ariaHideApp={false}
-        // style={customStyles}
-        onRequestClose={() => setOpenPostCode(false)}
+        style={customStyles}
+        onRequestClose={() => setOpenPostCode && setOpenPostCode(false)}
         shouldCloseOnOverlayClick={true}
       >
         <DaumPostCode

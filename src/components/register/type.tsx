@@ -6,17 +6,17 @@ export interface FormDataType {
   categoryId: string
   deposit: number | null
   floor: number | null
-  imageFiles: []
+  imageFiles: File[]
   isParking: boolean
   latitude: number | null //위도(소수점 6자리)
   longitude: number | null //위도(소수점 6자리)
   maintenanceFee: number | null
-  mapId: string // 카카오 map Id
+  mapId: string | undefined // 카카오 map Id
   price: number
   name: string
   roadAddress: string
   squareFeet: number | null
-  thumbnailImage: string | null
+  thumbnailImage: File | null
   transactionType: string
 }
 
@@ -47,19 +47,4 @@ export interface InvalidateErrors {
   squareFeet?: string
   floor?: string
   maintenanceFee?: string
-}
-
-export interface mapDataType {
-  address_name: string
-  category_group_code: string
-  category_group_name: string
-  category_name: string
-  distance: string
-  id: string
-  phone: string
-  place_name: string
-  place_url: string
-  road_address_name: string
-  x: string
-  y: string
 }

@@ -2,13 +2,13 @@ import { useState } from 'react'
 
 import * as S from './register.style'
 
-import StepTwo from '../../components/register/StepTwo'
 import StepOne from '../../components/register/StepOne'
 import { FormDataType } from '../../components/register/type'
+import StepTwo from '../../components/register/StepTwo'
 
 const RegisterPage = () => {
   const [step, setStep] = useState<number>(1)
-  const [openPostCode, setOpenPostCode] = useState<boolean>(false)
+  const [openPostCode, setOpenPostCode] = useState<boolean | undefined>(false)
 
   const [formData, setFormData] = useState<FormDataType>({
     address: '',
@@ -26,7 +26,7 @@ const RegisterPage = () => {
     name: '',
     roadAddress: '',
     squareFeet: null,
-    thumbnailImage: '',
+    thumbnailImage: null,
     transactionType: '',
   })
 

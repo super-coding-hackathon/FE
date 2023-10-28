@@ -9,10 +9,10 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
   const navigate = useNavigate()
 
   const [errors, setErrors] = useState<InvalidateErrors>({})
-  const [imgList, setImgList] = useState<File[]>([])
+  const [imgList, setImgList] = useState<string[]>([])
   const [thumnail, setThumbnail] = useState<string | null>(null)
 
-  const imageRef = useRef<HTMLInputElement>()
+  const imageRef = useRef<HTMLInputElement | null>(null)
 
   const onClickImageUpload = () => {
     if (imageRef.current) {
@@ -21,8 +21,8 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
   }
 
   const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    const newImages = []
+    // const files = e.target.files
+    // const newImages = []
     // if (files.length > 5) {
     //   alert('사진은 최대 5개입니다.')
     //   return
@@ -44,30 +44,32 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
     //   setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
     // }
     if (e.target.files) {
-      const files = Array.from(e.target.files);
+      const files = Array.from(e.target.files)
 
       if (files.length > 5) {
-        alert('사진은 최대 5개입니다.');
-        return;
+        alert('사진은 최대 5개입니다.')
+        return
       } else {
-        const newImages = [...files];
+        const newImages: File[] = [...files]
         setFormData({
           ...formData,
-          // thumbnailImage: newImages[0],
-          thumbnailImage: newImages[0] ? newImages[0].name : null,
+          thumbnailImage: newImages[0],
+          // thumbnailImage: newImages[0] ? newImages[0].name : null,
           // imageFiles: newImages.slice(1),
           imageFiles: newImages.length > 1 ? newImages.slice(1) : [],
-        });
+        })
 
-        setThumbnail(URL.createObjectURL(newImages[0]));
-        setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image));
+        // console.log('dd')
+
+        setThumbnail(URL.createObjectURL(newImages[0]))
+        // setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
+        setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
       }
     }
-
   }
 
   const validate = () => {
-    let errors:InvalidateErrors = {}
+    let errors: InvalidateErrors = {}
 
     if (step === 2 && formData.squareFeet === null) {
       errors.squareFeet = '평수는 1이상으로 입력해주세요.'
@@ -115,38 +117,45 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
     onError: (response) => console.log(response),
   })
 
-  const clickButton = (state:'prev'|'next') => {
+  const clickButton = (state: 'prev' | 'next') => {
     if (state === 'next') {
       const errors = validate()
       if (Object.keys(errors).length === 0) {
         console.log(formData)
         const formDataToSend = new FormData()
-        if (formData.categoryId === '아파트') {
-          formDataToSend.append('categoryId', 1)
-        } else if (formData.categoryId === '빌라') {
-          formDataToSend.append('categoryId', 2)
-        } else {
-          formDataToSend.append('categoryId', 3)
-        }
+        // if (formData.categoryId === '아파트') {
+        //   formDataToSend.append('categoryId', 1)
+        // } else if (formData.categoryId === '빌라') {
+        //   formDataToSend.append('categoryId', 2)
+        // } else {
+        //   formDataToSend.append('categoryId', 3)
+        // }
+        formDataToSend.append(
+          'categoryId',
+          String(formData.categoryId === '아파트' ? 1 : formData.categoryId === '빌라' ? 2 : 3),
+        )
         formDataToSend.append('address', formData.address)
         formDataToSend.append('detailAddress', formData.detailAddress)
-        formDataToSend.append('deposit', formData.deposit)
-        formDataToSend.append('floor', formData.floor)
+        formDataToSend.append('deposit', String(formData.deposit))
+        formDataToSend.append('floor', String(formData.floor))
         formDataToSend.append('name', formData.name)
-        formDataToSend.append('isParking', formData.isParking)
-        formDataToSend.append('latitude', formData.latitude)
-        formDataToSend.append('longitude', formData.longitude)
-        formDataToSend.append('maintenanceFee', formData.maintenanceFee)
-        formDataToSend.append('mapId', formData.mapId)
-        formDataToSend.append('price', formData.price)
+        formDataToSend.append('isParking', String(formData.isParking))
+        formDataToSend.append('latitude', String(formData.latitude))
+        formDataToSend.append('longitude', String(formData.longitude))
+        formDataToSend.append('maintenanceFee', String(formData.maintenanceFee))
+        formDataToSend.append('mapId', String(formData.mapId))
+        formDataToSend.append('price', String(formData.price))
         formDataToSend.append('roadAddress', formData.roadAddress)
-        formDataToSend.append('squareFeet', formData.squareFeet)
-        formDataToSend.append('thumbnailImage', formData.thumbnailImage)
+        formDataToSend.append('squareFeet', String(formData.squareFeet))
+
         formDataToSend.append('transactionType', formData.transactionType)
 
         formData.imageFiles.forEach((imageFile) => {
           formDataToSend.append(`imageFiles`, imageFile)
         })
+        if (formData.thumbnailImage) {
+          formDataToSend.append('thumbnailImage', formData.thumbnailImage)
+        }
 
         registerMutate(formDataToSend)
         // setStep(1);
@@ -172,7 +181,7 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
               min="1"
               max="99999999"
               name="squareFeet"
-              value={formData.squareFeet || ""}
+              value={formData.squareFeet || ''}
               onChange={handle.onChangeNumber}
             />
             <span>평</span>
@@ -189,7 +198,7 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
               min="1"
               max="99999999"
               name="floor"
-              value={formData.floor || ""}
+              value={formData.floor || ''}
               onChange={handle.onChangeNumber}
             />
             <span>층</span>
@@ -205,7 +214,7 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
               type="number"
               min="1"
               max="99999999"
-              value={formData.maintenanceFee}
+              value={formData.maintenanceFee?.toString()}
               name="maintenanceFee"
               onChange={handle.onChangeNumber}
             />

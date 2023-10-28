@@ -8,14 +8,14 @@ import { MyHomeType } from './type'
 const MyHome = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState(0)
-  console.log('page :', page)
+  // console.log('page :', page)
   // const [size, setSize] = useState(6)
   let size = 6
 
   const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
-    onSuccess: (res) => {
-      console.log('home :', res)
-    },
+    // onSuccess: (res) => {
+    //   console.log('home :', res)
+    // },
   })
 
   const directDetail = (id: number) => {
@@ -59,12 +59,12 @@ const MyHome = () => {
   }
 
   const nextPage = () => {
-    console.log('다음으로')
+    // console.log('다음으로')
     setPage(page + 1)
   }
 
   const prevPage = () => {
-    console.log('앞으로')
+    // console.log('앞으로')
     setPage(page - 1)
   }
 
