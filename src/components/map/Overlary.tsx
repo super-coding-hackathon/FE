@@ -1,6 +1,17 @@
 import styled from 'styled-components'
 
-const Overlay = ({ apartInfo }) => {
+type ApartInfo = {
+  name: string
+  transactionType: string
+  deposit: number
+  price: number
+}
+
+type Props = {
+  apartInfo: ApartInfo
+}
+
+const Overlay = ({ apartInfo }: Props) => {
   return (
     <Wrap>
       <Title>아파트 명: {apartInfo.name}</Title>

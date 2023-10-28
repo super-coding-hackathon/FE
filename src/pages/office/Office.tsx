@@ -10,16 +10,16 @@ const Office = () => {
   const [coords, setCoords] = useRecoilState(officeCoords)
   const qc = useQueryClient()
 
-  const { data, isLoading } = useQuery(['office', coords], () =>
+  const { data } = useQuery(['office', coords], () =>
     getCategoryData({ categoryId: 2, lat: coords.lat, lng: coords.lng }),
   )
 
-  const chageCoords = useCallback((lat, lng) => {
+  const chageCoords = useCallback((lat: number, lng: number) => {
     setCoords(() => ({ lat, lng }))
     qc.invalidateQueries(['office'])
   }, [])
 
-  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} category={2} />
+  return <MapComponent data={data?.data} handler={chageCoords} mapCoords={coords} category={'office'} />
 }
 
 export default Office

@@ -1,3 +1,5 @@
 export const queryKeys = {
-  treatments: 'treatments',
+  office: 'office',
+  studio: 'studio',
+  apart: 'apart',
 }

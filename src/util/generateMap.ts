@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { IKakaoMapOptions } from 'sharekim-kakao-map-types'
 
-const generateMap = (element: ReactNode, options = null) => {
+const generateMap = (element: HTMLElement, options?: IKakaoMapOptions) => {
   const defaultOptions = {
     center: new window.kakao.maps.LatLng(37.498086, 127.028001),
     level: 3,

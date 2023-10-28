@@ -1,14 +1,10 @@
-import styled from 'styled-components'
-import { NavLink, Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { isLoggedInState } from '../../atoms/userAtoms'
 import { useRecoilState } from 'recoil'
-import { useState } from 'react'
 import * as S from './header.style'
 
 const Header = () => {
-  // const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
-  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem('token'))
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
 
   const logout = () => {
     setIsLoggedIn(false)

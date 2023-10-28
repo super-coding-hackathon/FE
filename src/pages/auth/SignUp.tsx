@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import { Form, Button } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
@@ -7,8 +6,17 @@ import ToastAlarm from '../../components/ToastAlarm'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import * as S from './auth.style'
+import { isAxiosError } from 'axios'
 
-const requestSignUp = async (formData) => {
+type FormData = {
+  email: string
+  nickname: string
+  password: string
+  passwordCheck: string
+  phoneNumber: string
+}
+
+const requestSignUp = async (formData: FormData) => {
   const response = await api.post('/api/user/signup', formData)
 
   return response
@@ -20,7 +28,7 @@ const SignUp = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({ mode: 'onChange' })
+  } = useForm<FormData>({ mode: 'onChange' })
   const [showToast, setShowToast] = useState(false)
   const [toastMsg, setToastMsg] = useState('')
   const [variant, setVariant] = useState('danger')
@@ -33,9 +41,13 @@ const SignUp = () => {
 
   const mutation = useMutation(requestSignUp, {
     onError: (error) => {
-      setToastMsg(() => error.response.data.message)
-      setVariant('danger')
-      setShowToast(() => true)
+      if (isAxiosError(error)) {
+        if (error.response) {
+          setToastMsg(error.response.data.message)
+          setVariant('danger')
+          setShowToast(() => true)
+        }
+      }
     },
     onSuccess: () => {
       setToastMsg('회원가입에 성공했습니다.')
@@ -44,7 +56,7 @@ const SignUp = () => {
     },
   })
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormData) => {
     console.log(data)
     try {
       await mutation.mutateAsync(data)

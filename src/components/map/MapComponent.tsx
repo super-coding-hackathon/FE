@@ -1,18 +1,42 @@
-import { useRef, useEffect, useCallback, forwardRef } from 'react'
+import { useRef, useEffect, useCallback } from 'react'
 import generateMap from '../../util/generateMap'
 import styled from 'styled-components'
 import ReactDOMServer from 'react-dom/server'
 import Overlay from './Overlary'
 import SaleListItem from './SaleListItem'
 import SearchComponent from '../SearchComponent'
+import { IKakaoMap } from 'sharekim-kakao-map-types'
+
+type CoordsType = {
+  lat: number
+  lng: number
+}
+
+type DataType = {
+  deposit: number
+  homeId: number
+  latitude: number
+  longitude: number
+  name: string
+  price: number
+  transactionType: string
+}
+
+type Props = {
+  data: DataType[]
+  handler: (lat: number, lng: number) => void
+  mapCoords: CoordsType
+  category: string
+}
 
 const { kakao } = window
 
-const MapComponent = ({ data, handler, mapCoords, category }) => {
-  const map = useRef()
-  const markerRefs = useRef({})
+const MapComponent = ({ data, handler, mapCoords, category }: Props) => {
+  const map = useRef<any>()
+  const markerRefs = useRef<any>({})
 
-  const handleDragEnd = useCallback((map) => {
+  const handleDragEnd = useCallback((map: IKakaoMap) => {
+    console.log(map)
     const coords = map.getCenter()
     console.log('중심 좌표', coords.getLat(), coords.getLng())
 
@@ -21,7 +45,7 @@ const MapComponent = ({ data, handler, mapCoords, category }) => {
     }
   }, [])
 
-  const handleItemClick = (homeId) => {
+  const handleItemClick = (homeId: number) => {
     if (!markerRefs.current[homeId]) return
 
     const { center } = markerRefs.current[homeId]
@@ -29,9 +53,9 @@ const MapComponent = ({ data, handler, mapCoords, category }) => {
   }
 
   useEffect(() => {
-    const mapDiv = document.getElementById('map')
+    const mapDiv = document.getElementById('map') as HTMLElement
     map.current = generateMap(mapDiv, {
-      center: new window.kakao.maps.LatLng(parseFloat(mapCoords.lat), parseFloat(mapCoords.lng)),
+      center: new window.kakao.maps.LatLng(mapCoords.lat, mapCoords.lng),
     })
     const eventHandler = () => {
       handleDragEnd(map.current)
