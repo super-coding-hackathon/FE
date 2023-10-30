@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import * as S from './register.style'
 
-import StepTwo from '../../components/register/StepTwo'
 import StepOne from '../../components/register/StepOne'
+import { FormDataType } from '../../components/register/type'
+import StepTwo from '../../components/register/StepTwo'
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(1)
-  const [openPostCode, setOpenPostCode] = useState(false)
+  const [step, setStep] = useState<number>(1)
+  const [openPostCode, setOpenPostCode] = useState<boolean | undefined>(false)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataType>({
     address: '',
     detailAddress: '',
     categoryId: '',
@@ -25,7 +26,7 @@ const RegisterPage = () => {
     name: '',
     roadAddress: '',
     squareFeet: null,
-    thumbnailImage: '',
+    thumbnailImage: null,
     transactionType: '',
   })
 
@@ -36,7 +37,7 @@ const RegisterPage = () => {
     clickPost: () => {
       setOpenPostCode((prev) => !prev)
     },
-    selectAddress: (data) => {
+    selectAddress: (data: { address: string; roadAddress: string }) => {
       console.log(data)
       setFormData({
         ...formData,
@@ -45,14 +46,14 @@ const RegisterPage = () => {
       })
       setOpenPostCode(false)
     },
-    onChangeInput: (e) => {
+    onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
       setFormData({
         ...formData,
         [name]: value,
       })
     },
-    onChangeSelect: (e) => {
+    onChangeSelect: (e: { name: string; value: string }) => {
       const { name, value } = e
       setFormData({
         ...formData,
@@ -60,14 +61,15 @@ const RegisterPage = () => {
         // formData로 바꿀 때 number로 바꾸기(Category Id)
       })
     },
-    onChangeNumber: (e) => {
+    onChangeNumber: (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
+      // const { name, value } = e
       setFormData({
         ...formData,
         [name]: Number(value),
       })
     },
-    onChangeCheck: (e) => {
+    onChangeCheck: (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, checked } = e.target
       setFormData({
         ...formData,
@@ -76,7 +78,7 @@ const RegisterPage = () => {
     },
   }
 
-  const stepPage = {
+  const stepPage: { [key: number]: JSX.Element } = {
     1: (
       <StepOne
         handle={handle}
@@ -95,8 +97,8 @@ const RegisterPage = () => {
         setFormData={setFormData}
         step={step}
         setStep={setStep}
-        openPostCode={openPostCode}
-        setOpenPostCode={setOpenPostCode}
+        // openPostCode={openPostCode}
+        // setOpenPostCode={setOpenPostCode}
       />
     ),
   }

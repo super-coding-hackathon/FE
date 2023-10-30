@@ -1,17 +1,25 @@
-import React, { useState } from 'react'
+import { FC } from 'react'
 import { AiOutlineRight } from 'react-icons/ai'
 import * as S from '../../../pages/my/my.style'
 import { useQuery } from '@tanstack/react-query'
 import { GetMyRegister } from '../../../api/my/get'
+import { MyHomeList } from '../type'
 
-const MyList = ({ setRendered }) => {
-  const [page, setPage] = useState(0)
-  const [size, setSize] = useState(8)
+interface MyListProps {
+  setRendered: (value: string) => void
+}
 
-  const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
-    onSuccess: (res) => {
-      // console.log(res)
-    },
+const MyList: FC<MyListProps> = ({ setRendered }) => {
+  // const [page, setPage] = useState<number>(0)
+  // const [size, setSize] = useState<number>(8)
+  let page = 0
+  let size = 8
+
+  const { data: myList } = useQuery<MyHomeList>(['myList', page, size], () => GetMyRegister('myList', page, size), {
+    // onSuccess: (res) => {
+    //   // console.log(res)
+    // },
+    // 개수 잘라야함
   })
 
   const directDetail = () => {
@@ -34,7 +42,7 @@ const MyList = ({ setRendered }) => {
             <div className="name">{el.homeName}</div>
           </li>
         ))}
-        {myList?.contents.length < 6 && <span onClick={directDetail}>더 보기</span>}
+        {myList && myList?.contents.length < 5 && <span onClick={directDetail}>더 보기</span>}
         {/* <li className="home-item">
           <img className="thumb" src="" alt="" />
           <div className="name">ㅊㅇ</div>

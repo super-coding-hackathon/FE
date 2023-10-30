@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
+import { FileProps } from './type'
 
-const File = ({ transactionMutate, id, roll, status }) => {
-  const [selectedDocument, setSelectedDocument] = useState(null)
-  // console.log(transactionMutate)
-  console.log(roll)
+const File: FC<FileProps> = ({ transactionMutate, id, roll }) => {
+  const [selectedDocument, setSelectedDocument] = useState<File | null>(null)
 
-  const handleDocumentChange = (event) => {
-    setSelectedDocument(event.target.files[0])
+  const handleDocumentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedDocument(event.target.files[0])
+    }
   }
 
   const uploadDocument = () => {
@@ -19,20 +20,12 @@ const File = ({ transactionMutate, id, roll, status }) => {
       formData.append('buyerContractFile', selectedDocument)
     }
 
-    // if(roll === '판매자'){
-    //   if(status ===)
-    // } else{
-    //   // 구매자 일때
-    // }
-
     let obj = {
       id,
       formData,
     }
-
-    // debugger
+    console.log(obj)
     console.log(selectedDocument)
-    // console.log(formData)
     transactionMutate(obj)
   }
 

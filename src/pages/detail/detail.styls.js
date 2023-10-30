@@ -1,58 +1,7 @@
 import styled from 'styled-components'
 
 export const DetailWrap = styled.div`
-  /* background-color: pink; */
   padding: 0 80px 200px;
-  .info-top {
-    display: flex;
-    justify-content: space-between;
-    background-color: skyblue;
-    margin-bottom: 50px;
-    .name {
-      font-size: 30px;
-      font-weight: 700;
-    }
-    .info-right {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-      .user-name {
-      }
-      .create-at {
-      }
-    }
-  }
-  .info-box {
-    padding: 10px 0;
-    box-sizing: border-box;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    height: 70px;
-    /* background-color: pink; */
-
-    .info-item {
-      width: 48%;
-      height: 100%;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      p {
-        font-size: 20px;
-        font-weight: 700;
-      }
-      span {
-        font-size: 18px;
-      }
-    }
-    .post {
-      cursor: pointer;
-      background-color: #ddd;
-      padding: 15px 20px;
-    }
-  }
 
   .img-container {
     width: 100%;
@@ -92,5 +41,54 @@ export const DetailWrap = styled.div`
     /* background-color: pink; */
     border: 1px solid;
     margin: 0 auto;
+  }
+`
+export const InfoTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  /* background-color: skyblue; */
+  margin-bottom: 50px;
+  .name {
+    font-size: 30px;
+    font-weight: 700;
+  }
+  .info-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    .user-name {
+    }
+    .create-at {
+    }
+  }
+`
+
+export const InfoBox = styled.div`
+  padding: 10px 0;
+  box-sizing: border-box;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  height: 70px;
+  .info-item {
+    width: 48%;
+    height: 100%;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    p {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    span {
+      font-size: 18px;
+    }
+  }
+  .post {
+    cursor: pointer;
+    background-color: #ddd;
+    padding: 15px 20px;
   }
 `
