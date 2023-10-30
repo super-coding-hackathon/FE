@@ -84,7 +84,7 @@ const MapComponent = ({ data, handler, mapCoords, category }: Props) => {
         const infowindow = new kakao.maps.InfoWindow({
           content: ReactDOMServer.renderToString(<Overlay apartInfo={apart} />),
           removable: true,
-        })
+        } as InfoWindowOptions)
 
         kakao.maps.event.addListener(marker, 'click', () => {
           infowindow.open(map.current, marker)
