@@ -6,25 +6,26 @@ import { GetHomeDetail } from '../../api/home/get'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CreateTransaction } from '../../api/transaction/post'
 import { HomeDetailType, imgFilesType } from '../../components/detail/type'
+import InfoItem from './../../components/detail/InfoItem'
+import InfoTop from '../../components/detail/InfoTop'
+import InfoList from '../../components/detail/InfoList'
+import Thumbnail from '../../components/detail/Thumbnail'
+import ImgList from '../../components/detail/ImgList'
 
 const DetailPage = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const mapRef = useRef(null)
   const id = Number(useParams().homeId)
-  // console.log(id)
   const { chageAddress } = useMapByAddress(mapRef)
 
   const [thumbnail, setThumbnail] = useState<imgFilesType[]>([])
-  // console.log('thumbnail :', thumbnail)
   const [imgList, setImgList] = useState<imgFilesType[]>([])
-  // console.log('imgList :', imgList)
 
   const { data: homeDetailInfo } = useQuery<HomeDetailType>(['homeDetailInfo'], () => GetHomeDetail(id), {
     onSuccess: (res) => {
       // console.log(res)
       setThumbnail(res.imageFiles.filter((el) => el.isThumbnail))
-      // setImgList(res.imageFiles.filter((el) => !el.isThumbnail)).map((el) => el)
       setImgList(res.imageFiles.filter((el) => !el.isThumbnail))
       chageAddress(res.address)
     },
@@ -32,7 +33,6 @@ const DetailPage = () => {
 
   const { mutate: transactionMutate } = useMutation(CreateTransaction, {
     onSuccess: () => {
-      // console.log(res)
       queryClient.invalidateQueries(['buyStatus'])
       queryClient.invalidateQueries(['sellStatus'])
     },
@@ -45,96 +45,29 @@ const DetailPage = () => {
 
   return (
     <S.DetailWrap>
-      <S.InfoTop>
-        <div className="name">{homeDetailInfo?.name}</div>
-        <div className="info-right">
-          <div className="user-name">등록자 : {homeDetailInfo?.seller}</div>
-          <div className="create-at">등록 날짜 : {homeDetailInfo?.createdAt.split(' ')[0]}</div>
-        </div>
-      </S.InfoTop>
-      <S.InfoBox>
-        <div className="info-item">
-          <p>주소 : </p>
-          <span>{homeDetailInfo?.address}</span>
-        </div>
+      {homeDetailInfo && (
+        <>
+          <InfoTop homeDetailInfo={homeDetailInfo} />
+          <InfoList homeDetailInfo={homeDetailInfo} />
 
-        <div className="info-item">
-          <p>상세 주소 : </p>
-          <span>{homeDetailInfo?.detailAddress}</span>
-        </div>
-      </S.InfoBox>
-      <S.InfoBox>
-        <div className="info-item">
-          <p>도로명 주소 : </p>
-          <span>{homeDetailInfo?.roadAddress}</span>
-        </div>
+          <S.InfoBox>
+            <InfoItem title="주차" desc={homeDetailInfo.isParking === true ? '가능' : '불가'} />
 
-        <div className="info-item">
-          <p>건물 종류 : </p>
-          <span>이거 안됨</span>
-        </div>
-      </S.InfoBox>
-      <S.InfoBox>
-        <div className="info-item">
-          <p>전세/매매 : </p>
-          <span>{homeDetailInfo?.transactionType}</span>
-        </div>
+            <p className="post" onClick={startTransaction}>
+              거래 요청하기
+            </p>
+          </S.InfoBox>
 
-        <div className="info-item">
-          <p>가격 : </p>
-          <span>{homeDetailInfo?.price}만원</span>
-        </div>
-      </S.InfoBox>
-      <S.InfoBox>
-        <div className="info-item">
-          <p>관리비 : </p>
-          <span>{homeDetailInfo?.maintenanceFee}만원</span>
-        </div>
+          <div className="title">건물 사진</div>
+          <div className="img-container">
+            <Thumbnail thumbnail={thumbnail} />
+            <ImgList imgList={imgList} />
+          </div>
 
-        <div className="info-item">
-          <p>보증금 : </p>
-          <span>{homeDetailInfo?.deposit}만원</span>
-        </div>
-      </S.InfoBox>
-      <S.InfoBox>
-        <div className="info-item">
-          <p>크기 : </p>
-          <span>{homeDetailInfo?.floor}평</span>
-        </div>
-
-        <div className="info-item">
-          <p>층 수 : </p>
-          <span>{homeDetailInfo?.floor}층</span>
-        </div>
-      </S.InfoBox>
-
-      <S.InfoBox>
-        <div className="info-item">
-          <p>주차 : </p>
-          <span>{homeDetailInfo?.isParking === true ? '가능' : '불가'}</span>
-        </div>
-
-        <p className="post" onClick={startTransaction}>
-          거래 요청하기
-        </p>
-      </S.InfoBox>
-
-      <div className="title">건물 사진</div>
-      <div className="img-container">
-        <div className="thumb">
-          {thumbnail?.map((el, index) => (
-            <img src={el.imageUrl} key={index} alt="썸네일" />
-          ))}
-        </div>
-        <div className="img-list">
-          {imgList?.map((el, index) => (
-            <img src={el.imageUrl} key={index} alt={`사진 ${index}`} />
-          ))}
-        </div>
-      </div>
-
-      <div className="title">지도</div>
-      <div className="map" ref={mapRef}></div>
+          <div className="title">지도</div>
+          <div className="map" ref={mapRef}></div>
+        </>
+      )}
     </S.DetailWrap>
   )
 }

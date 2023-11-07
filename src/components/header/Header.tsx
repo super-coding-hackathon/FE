@@ -1,16 +1,20 @@
 import { Button } from 'react-bootstrap'
 import * as S from './header.style'
 import { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { isLoggedInState } from '../../atoms/userAtoms'
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState)
+  const [JWTToken, setJWTToken] = useState<string | null>(null)
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')
+    setJWTToken(token)
     if (token) {
       setIsLoggedIn(true)
     }
-  }, [])
+  }, [isLoggedIn, JWTToken])
 
   const logout = () => {
     setIsLoggedIn(false)

@@ -1,11 +1,11 @@
-import { useMutation } from '@tanstack/react-query'
+// import { useMutation } from '@tanstack/react-query'
 import { ChangeEvent, FC, useRef, useState } from 'react'
 
-import { CreateHome } from '../../api/home/post'
+// import { CreateHome } from '../../api/home/post'
 import { useNavigate } from 'react-router-dom'
-import { InvalidateErrors, StepProps } from './type'
+import { InvalidateErrors, StepProps } from '../../register/type'
 
-const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }) => {
+const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }) => {
   const navigate = useNavigate()
 
   const [errors, setErrors] = useState<InvalidateErrors>({})
@@ -57,38 +57,50 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
     return errors
   }
 
+  // 썸네일
   const thumnailLayout = () => {
     if (thumnail) {
       return <img src={thumnail} alt="thumnail" />
+    } else if (formData.thumbnailImage && Array.isArray(formData.thumbnailImage)) {
+      const thumb = formData.thumbnailImage[0]
+      return <img src={thumb} alt="thumnail" />
     }
   }
 
+  // 이미지 리스트
   const imgListLayout = () => {
-    if (imgList.length === 0) {
-      return (
-        <>
-          <div className="sub-img"></div>
-          <div className="sub-img"></div>
-          <div className="sub-img"></div>
-          <div className="sub-img"></div>
-        </>
-      )
-    } else {
+    if (imgList.length > 0) {
+      console.log('이거?')
       return imgList.map((image, index) => (
         <div key={index} className="sub-img">
           <img src={image} alt={`이미지 ${index + 1}`} />
         </div>
       ))
+    } else if (formData.imageFiles) {
+      return formData.imageFiles.map((image, index) => {
+        let imageUrl
+        if (typeof image === 'string') {
+          imageUrl = image
+        } else if (image instanceof File) {
+          imageUrl = URL.createObjectURL(image)
+        }
+
+        return (
+          <div key={index} className="sub-img">
+            <img src={imageUrl} alt={`이미지 ${index + 1}`} />
+          </div>
+        )
+      })
     }
   }
 
-  const { mutate: registerMutate } = useMutation(CreateHome, {
-    onSuccess: (response) => {
-      console.log(response)
-      navigate('/')
-    },
-    onError: (response) => console.log(response),
-  })
+  // const { mutate: registerMutate } = useMutation(CreateHome, {
+  //   onSuccess: (response) => {
+  //     console.log(response)
+  //     navigate('/')
+  //   },
+  //   onError: (response) => console.log(response),
+  // })
 
   const clickButton = (state: 'prev' | 'next') => {
     if (state === 'next') {
@@ -128,9 +140,6 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
             formDataToSend.append(`imageFiles`, imageFile)
           })
         }
-        // if (formData.thumbnailImage) {
-        //   formDataToSend.append('thumbnailImage', formData.thumbnailImage)
-        // }
 
         if (formData.thumbnailImage) {
           if (typeof formData.thumbnailImage === 'string') {
@@ -140,7 +149,11 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
           }
         }
 
-        registerMutate(formDataToSend)
+        // if (formData.thumbnailImage) {
+        //   formDataToSend.append('thumbnailImage', formData.thumbnailImage)
+        // }
+
+        // registerMutate(formDataToSend)
         // setStep(1);
       } else {
         setErrors(errors)
@@ -215,7 +228,7 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
       <div className="value-img-container">
         <div className="top">
           <label htmlFor="image">사진</label>
-          <button onClick={onClickImageUpload}>이미지 업로드</button>
+          <button onClick={onClickImageUpload}>이미지 수정</button>
         </div>
         <input
           type="file"
@@ -241,4 +254,4 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
   )
 }
 
-export default StepTwo
+export default EditStepTwo

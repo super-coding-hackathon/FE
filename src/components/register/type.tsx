@@ -6,7 +6,7 @@ export interface FormDataType {
   categoryId: string
   deposit: number | null
   floor: number | null
-  imageFiles: File[]
+  imageFiles: File[] | string[] | null
   isParking: boolean
   latitude: number | null //위도(소수점 6자리)
   longitude: number | null //위도(소수점 6자리)
@@ -16,7 +16,7 @@ export interface FormDataType {
   name: string
   roadAddress: string
   squareFeet: number | null
-  thumbnailImage: File | null
+  thumbnailImage: File | string[] | null
   transactionType: string
 }
 
@@ -35,6 +35,8 @@ export interface StepProps {
   setStep: (step: number) => void
   openPostCode?: boolean
   setOpenPostCode?: (value: boolean) => void
+  imgListUrl?: string[]
+  Thumbnail?: string[]
 }
 
 export interface InvalidateErrors {

@@ -13,9 +13,9 @@ const MyHome = () => {
   let size = 6
 
   const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
-    // onSuccess: (res) => {
-    //   console.log('home :', res)
-    // },
+    onSuccess: (res) => {
+      console.log('home :', res)
+    },
   })
 
   const directDetail = (id: number) => {
