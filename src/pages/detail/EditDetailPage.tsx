@@ -15,24 +15,19 @@ const EditDetailPage = () => {
   const [openPostCode, setOpenPostCode] = useState<boolean | undefined>(false)
   const id = useParams().homeId
 
-  // const [imgList, setImgList] = useState<string[]>([])
-  const [imgListUrl, setImgListUrl] = useState<string[]>([])
-  // console.log('imgList :', imgListUrl)
+  // const [imgListUrl, setImgListUrl] = useState<string[]>([])
 
-  const [thumnailUrl, setThumnailUrl] = useState<string[]>([])
-  // console.log('thumnail :', thumnailUrl)
+  // const [thumnailUrl, setThumnailUrl] = useState<string[]>([])
 
   const { data: homeDetailInfo } = useQuery<HomeDetailType>(['homeDetailInfo'], () => GetHomeDetail(id), {
-    onSuccess: (res) => {
-      // console.log('res :::', res)
-      //이미지 로직 처리
-      const imgList = res.imageFiles.filter((el) => !el.isThumbnail)
-      const thumnail = res.imageFiles.filter((el) => el.isThumbnail)
-      setImgListUrl(imgList.map((img) => img.imageUrl))
-
-      setThumnailUrl(thumnail.map((img) => img.imageUrl))
-      // setThumnailUrl(thumnail.map((img) => img.imageUrl))
-    },
+    // onSuccess: (res) => {
+    //   //이미지 로직 처리
+    //   // const imgList = res.imageFiles.filter((el) => !el.isThumbnail)
+    //   // const thumnail = res.imageFiles.filter((el) => el.isThumbnail)
+    //   // setImgListUrl(imgList.map((img) => img.imageUrl))
+    //   // setFormData({ ...formData, thumbnailImage: thumnailUrl, imageFiles: imgListUrl })
+    //   // setThumnailUrl(thumnail.map((img) => img.imageUrl))
+    // },
   })
 
   const [formData, setFormData] = useState<FormDataType>({
@@ -88,6 +83,11 @@ const EditDetailPage = () => {
       // console.log(checkCategory(categoryName))
       // const categoryId = checkCategory(categoryName)
 
+      const imgList = homeDetailInfo.imageFiles.filter((el) => !el.isThumbnail)
+      const thumnail = homeDetailInfo.imageFiles.filter((el) => el.isThumbnail)
+      // setThumnailUrl(thumnail.map((img) => img.imageUrl))
+      // setImgListUrl(imgList.map((img) => img.imageUrl))
+
       setFormData({
         ...formData,
         address,
@@ -102,11 +102,13 @@ const EditDetailPage = () => {
         squareFeet,
         transactionType,
         detailAddress,
-        thumbnailImage: thumnailUrl,
-        imageFiles: imgListUrl,
+        // thumbnailImage: thumnailUrl,
+        // imageFiles: imgListUrl,
+        thumbnailImage: thumnail.map((img) => img.imageUrl),
+        imageFiles: imgList.map((img) => img.imageUrl),
       })
     }
-  }, [homeDetailInfo, thumnailUrl, imgListUrl])
+  }, [homeDetailInfo])
 
   console.log('formData :', formData)
 

@@ -21,8 +21,6 @@ const EditStepOne: FC<StepProps> = ({
   const [errors, setErrors] = useState<InvalidateErrors>({})
   const mapRef = useRef<HTMLDivElement | null>(null)
   const { chageAddress, mapData } = useMapByAddress(mapRef)
-  // console.log('step One : ', formData)
-  // const { mapData } = useMapByAddress(mapRef) as mapDataType | null
 
   const categoryOption = [
     { value: '아파트', label: '아파트', name: 'categoryId' },

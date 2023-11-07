@@ -1,16 +1,22 @@
-// import { useMutation } from '@tanstack/react-query'
 import { ChangeEvent, FC, useRef, useState } from 'react'
 
-// import { CreateHome } from '../../api/home/post'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { InvalidateErrors, StepProps } from '../../register/type'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { PutHome } from '../../../api/home/put'
 
 const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }) => {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  const id = useParams().homeId
 
   const [errors, setErrors] = useState<InvalidateErrors>({})
   const [imgList, setImgList] = useState<string[]>([])
   const [thumnail, setThumbnail] = useState<string | null>(null)
+  // console.log('thumnail :', thumnail)
+  // console.log('imgList :', imgList)
+  // console.log(formData)
 
   const imageRef = useRef<HTMLInputElement | null>(null)
 
@@ -70,7 +76,6 @@ const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormDa
   // 이미지 리스트
   const imgListLayout = () => {
     if (imgList.length > 0) {
-      console.log('이거?')
       return imgList.map((image, index) => (
         <div key={index} className="sub-img">
           <img src={image} alt={`이미지 ${index + 1}`} />
@@ -94,27 +99,22 @@ const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormDa
     }
   }
 
-  // const { mutate: registerMutate } = useMutation(CreateHome, {
-  //   onSuccess: (response) => {
-  //     console.log(response)
-  //     navigate('/')
-  //   },
-  //   onError: (response) => console.log(response),
-  // })
+  const { mutate: putHomeDetail } = useMutation(PutHome, {
+    onSuccess: () => {
+      console.log('성공')
+      queryClient.invalidateQueries(['myList'])
+      queryClient.invalidateQueries(['homeDetailInfo'])
+      navigate('/mypage')
+    },
+    onError: (response) => console.log(response),
+  })
 
   const clickButton = (state: 'prev' | 'next') => {
     if (state === 'next') {
       const errors = validate()
       if (Object.keys(errors).length === 0) {
-        console.log(formData)
         const formDataToSend = new FormData()
-        // if (formData.categoryId === '아파트') {
-        //   formDataToSend.append('categoryId', 1)
-        // } else if (formData.categoryId === '빌라') {
-        //   formDataToSend.append('categoryId', 2)
-        // } else {
-        //   formDataToSend.append('categoryId', 3)
-        // }
+
         formDataToSend.append(
           'categoryId',
           String(formData.categoryId === '아파트' ? 1 : formData.categoryId === '빌라' ? 2 : 3),
@@ -135,13 +135,14 @@ const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormDa
 
         formDataToSend.append('transactionType', formData.transactionType)
 
-        if (formData.imageFiles) {
+        if (imgList && imgList.length > 0 && formData.imageFiles) {
           formData.imageFiles.forEach((imageFile) => {
             formDataToSend.append(`imageFiles`, imageFile)
           })
         }
 
-        if (formData.thumbnailImage) {
+        if (thumnail && thumnail !== '') {
+          console.log('ddd')
           if (typeof formData.thumbnailImage === 'string') {
             formDataToSend.append('thumbnailImage', formData.thumbnailImage)
           } else if (formData.thumbnailImage instanceof File) {
@@ -149,18 +150,12 @@ const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormDa
           }
         }
 
-        // if (formData.thumbnailImage) {
-        //   formDataToSend.append('thumbnailImage', formData.thumbnailImage)
-        // }
-
-        // registerMutate(formDataToSend)
-        // setStep(1);
+        putHomeDetail({ id, formDataToSend })
+        setStep(1)
       } else {
         setErrors(errors)
       }
     } else {
-      navigate('/')
-      // alert("메인으로");
       setStep(step - 1)
     }
   }

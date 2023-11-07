@@ -33,7 +33,7 @@ const InfoList: FC<InfoListProps> = ({ homeDetailInfo }) => {
         <InfoItem title="보증금" desc={homeDetailInfo.deposit} />
       </S.InfoBox>
       <S.InfoBox>
-        <InfoItem title="크기" desc={homeDetailInfo.floor} />
+        <InfoItem title="크기" desc={homeDetailInfo.squareFeet} />
 
         <InfoItem title="층 수" desc={homeDetailInfo.floor} />
       </S.InfoBox>
