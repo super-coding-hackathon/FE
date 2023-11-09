@@ -38,6 +38,22 @@ export interface BuyerDetail {
   transactionStatusId: number
 }
 
+export interface TransactionDetail {
+  homeId: number
+  accountNumber?: string | null | undefined
+  address: string
+  deposit: number
+  homeName: string
+  seller: string
+  sellerContractFile: string | null | undefined
+  buyer?: string
+  buyerContractFile?: string | null | undefined
+  thumbnailUrl: string
+  transactionId: number
+  transactionStatus: string
+  transactionStatusId: number
+}
+
 export interface IncludePage<T> {
   contents: T[]
   hasNext: boolean

@@ -12,9 +12,9 @@ const Seller: FC<RenderProps> = ({ rendered }) => {
     ['soldInfo', page, size],
     () => GetMySold('soldInfo', page, size),
     {
-      onSuccess: (res) => {
-        console.log(res)
-      },
+      // onSuccess: (res) => {
+      //   console.log('판매 현황 :::', res)
+      // },
     },
   )
   // const { data: soldInfo } = useQuery(['soldInfo'], GetMySold, {

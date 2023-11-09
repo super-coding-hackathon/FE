@@ -1,22 +1,34 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import * as S from '../../pages/my/my.style'
 import { AiFillQuestionCircle } from 'react-icons/ai'
 import Modal from 'react-modal'
-// import { useNavigate } from 'react-router-dom'
 
 import { BuyerDetail, ReceiptProps, SellerDetail } from './type'
-import Accordion from './Accordion'
+// import Accordion from './Accordion'
+import { useNavigate } from 'react-router-dom'
+// import Pagination from './Pagination'
 
-const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, page, prevPage, nextPage }) => {
-  // debugger
-  // console.log(data)
-  // const navigate = useNavigate()
+const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, page }) => {
+  // prevPage, nextPage
   const [openModal, setOpenModal] = useState<boolean>(false)
+  console.log(data)
+  console.log(page)
+  const navigate = useNavigate()
 
-  const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null)
+  const [roll, setRoll] = useState<string>('')
 
   const clickToolTip = () => {
     setOpenModal(!openModal)
+  }
+
+  const pageBtn = (total: number) => {
+    const pages = Array.from({ length: total }, (_, i) => i + 1)
+
+    // 현재 page 차이
+    // 다음, 이전 click event
+
+    const pageElement = pages.map((number) => <div className="page">{number}</div>)
+    return pageElement
   }
 
   const customStyles: ReactModal.Styles = {
@@ -53,14 +65,14 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
     fontWeight: '800',
   }
 
-  const clickAccordion = (index: number) => {
-    setSelectedItemIndex(selectedItemIndex === index ? null : index)
+  const clickDetail = (id: number, roll: string) => {
+    navigate(`/${roll}/${id}/detail`)
   }
 
   const renderItemList = () => {
     return data?.contents.map((el, index) => (
       <>
-        <li className="item" key={el.homeId} onClick={() => clickAccordion(index)}>
+        <li className="item" key={index} onClick={() => clickDetail(el.transactionId, roll)}>
           <div className="item_desc imgBox">
             {rendered === '구매 현황' && el.sellerContractFile && (
               <a href={el.sellerContractFile} target="_blank" rel="noopener noreferrer" />
@@ -71,21 +83,21 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
           <div className="item_desc">{el.deposit}만원</div>
           <div className="item_desc">{el.address}</div>
           <div className="item_desc">
-            {rendered === '판매 현황' ? (el as SellerDetail).buyer : (el as SellerDetail).seller}
+            {rendered === '판매 현황' ? (el as SellerDetail).buyer : (el as BuyerDetail).seller}
           </div>
           <div className="item_desc">{el.transactionStatus}</div>
         </li>
-        {selectedItemIndex === index && (
-          <Accordion
-            key={index}
-            data={el}
-            id={el.transactionId}
-            roll={rendered === '판매 현황' ? '판매자' : '구매자'}
-          />
-        )}
       </>
     ))
   }
+
+  useEffect(() => {
+    if (rendered === '판매 현황') {
+      setRoll('sold')
+    } else {
+      setRoll('buy')
+    }
+  }, [])
 
   return (
     <S.PurchaseContainer>
@@ -108,8 +120,11 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
         {data?.contents.length === 0 && <p className="none">상품이 없습니다.</p>}
         {renderItemList()}
 
+        {/* <Pagination /> */}
+
         <div className="pagination">
-          {data?.hasPrevious && (
+          {pageBtn(data.totalPages)}
+          {/* {data?.hasPrevious && (
             <div className="page" onClick={prevPage}>
               {page}
             </div>
@@ -119,7 +134,8 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
             <div className="page" onClick={nextPage}>
               {page + 2}
             </div>
-          )}
+          )} */}
+          {}
         </div>
       </S.Table>
 

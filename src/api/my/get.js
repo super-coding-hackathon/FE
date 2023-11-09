@@ -1,4 +1,3 @@
-import axios from 'axios'
 import api from '../axiosInstance'
 
 export async function GetMyInfo() {
@@ -6,7 +5,8 @@ export async function GetMyInfo() {
   return data.data
 }
 
-export async function GetMyBought(key, page, size) {
+export async function GetMyBought(page, size) {
+  // console.log(page, size)
   const { data } = await api.get(`/api/my-page/buy`, { params: { page, size } })
   return data.data
 }

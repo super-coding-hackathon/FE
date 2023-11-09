@@ -21,10 +21,9 @@ const Buyer: FC<RenderProps> = ({ rendered }) => {
 
   const { data: boughtInfo } = useQuery<IncludePage<BuyerDetail>>(
     ['boughtInfo', page, size],
-    () => GetMyBought('boughtInfo', page, size),
+    () => GetMyBought(page, size),
     {
       onSuccess: (res) => {
-        // console.log('구매현황')
         console.log(res)
       },
     },
