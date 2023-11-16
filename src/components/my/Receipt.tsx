@@ -9,10 +9,7 @@ import { useNavigate } from 'react-router-dom'
 // import Pagination from './Pagination'
 
 const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, setPage }) => {
-  // prevPage, nextPage
   const [openModal, setOpenModal] = useState<boolean>(false)
-  // console.log(data)
-  // console.log(page)
   const navigate = useNavigate()
 
   const [roll, setRoll] = useState<string>('')
@@ -128,23 +125,7 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
         {data?.contents.length === 0 && <p className="none">상품이 없습니다.</p>}
         {renderItemList()}
 
-        {/* <Pagination /> */}
-
-        <div className="pagination">
-          {pageBtn(data.totalPages)}
-          {/* {data?.hasPrevious && (
-            <div className="page" onClick={prevPage}>
-              {page}
-            </div>
-          )}
-          <div className="page">{page + 1}</div>
-          {data?.hasNext && (
-            <div className="page" onClick={nextPage}>
-              {page + 2}
-            </div>
-          )} */}
-          {}
-        </div>
+        <div className="pagination">{pageBtn(data.totalPages)}</div>
       </S.Table>
 
       <Modal
