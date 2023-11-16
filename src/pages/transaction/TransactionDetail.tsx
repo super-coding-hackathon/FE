@@ -11,6 +11,7 @@ import { FaQuestion } from 'react-icons/fa'
 import StepList from '../../components/transaction/StepList'
 import FileWrap from '../../components/transaction/FileWrap'
 import { GetBuyDetail, GetSellDetail } from '../../api/transaction/get'
+import ChatList from '../../components/chatroom/ChatList'
 
 const StepDetail = () => {
   const [step, setStep] = useState<number>(1)
@@ -19,9 +20,13 @@ const StepDetail = () => {
   const roll = useParams().roll
   const [detailData, setDetailData] = useState<TransactionDetail | null>(null)
 
-  const { data: buyData } = useQuery<TransactionDetail>(['buyDetail', id], () => GetBuyDetail(id), {})
+  const { data: buyData } = useQuery<TransactionDetail>(['buyDetail', id], () => GetBuyDetail(id), {
+    enabled: roll === 'buy',
+  })
 
-  const { data: sellData } = useQuery<TransactionDetail>(['sellDetail', id], () => GetSellDetail(id), {})
+  const { data: sellData } = useQuery<TransactionDetail>(['sellDetail', id], () => GetSellDetail(id), {
+    enabled: roll === 'sold',
+  })
 
   useEffect(() => {
     if (roll === 'buy' && buyData) {
@@ -125,6 +130,8 @@ const StepDetail = () => {
           <StepList data={detailData} />
 
           <FileWrap data={detailData} roll={roll} />
+
+          <ChatList />
 
           <Modal
             isOpen={openModal}
