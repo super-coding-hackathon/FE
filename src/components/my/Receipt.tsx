@@ -8,11 +8,11 @@ import { BuyerDetail, ReceiptProps, SellerDetail } from './type'
 import { useNavigate } from 'react-router-dom'
 // import Pagination from './Pagination'
 
-const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, page }) => {
+const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered, setPage }) => {
   // prevPage, nextPage
   const [openModal, setOpenModal] = useState<boolean>(false)
-  console.log(data)
-  console.log(page)
+  // console.log(data)
+  // console.log(page)
   const navigate = useNavigate()
 
   const [roll, setRoll] = useState<string>('')
@@ -21,13 +21,21 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
     setOpenModal(!openModal)
   }
 
+  const clickPage = (pageNumber: number) => {
+    console.log(pageNumber)
+    setPage(pageNumber)
+  }
+
   const pageBtn = (total: number) => {
     const pages = Array.from({ length: total }, (_, i) => i + 1)
 
-    // 현재 page 차이
-    // 다음, 이전 click event
-
-    const pageElement = pages.map((number) => <div className="page">{number}</div>)
+    const pageElement = pages.map((number) => {
+      return (
+        <div className="page" onClick={() => clickPage(number - 1)}>
+          {number}
+        </div>
+      )
+    })
     return pageElement
   }
 
@@ -111,7 +119,7 @@ const Receipt: FC<ReceiptProps<SellerDetail | BuyerDetail>> = ({ data, rendered,
           <div className="table-title_item">건물 명</div>
           <div className="table-title_item">계약금</div>
           <div className="table-title_item">주소</div>
-          <div className="table-title_item">{rendered === '판매 현황' ? '판매자' : '구매자'}</div>
+          <div className="table-title_item">{rendered === '판매 현황' ? '구매자' : '판매자'}</div>
           <div className="table-title_item">
             거래 상태 <AiFillQuestionCircle onClick={clickToolTip} />
           </div>

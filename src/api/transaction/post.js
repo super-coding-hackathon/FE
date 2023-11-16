@@ -6,7 +6,8 @@ export async function CreateTransaction(id) {
 }
 
 export async function PostNextStep(obj) {
-  console.log(obj)
+  // export async function PostNextStep({id, obj}) {
+  // console.log(obj)
   const { data } = await api.post(`/api/transaction/${obj.id}/next-step`, obj.formData)
   return data
 }

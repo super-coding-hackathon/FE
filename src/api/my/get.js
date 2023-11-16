@@ -11,13 +11,13 @@ export async function GetMyBought(page, size) {
   return data.data
 }
 
-export async function GetMyRegister(key, page, size) {
+export async function GetMyRegister(page, size) {
   // console.log(page, size)
   const { data } = await api.get(`/api/my-page/home`, { params: { page, size } })
   return data.data
 }
 
-export async function GetMySold(key, page, size) {
+export async function GetMySold(page, size) {
   const { data } = await api.get(`/api/my-page/sell`, { params: { page, size } })
   return data.data
 }

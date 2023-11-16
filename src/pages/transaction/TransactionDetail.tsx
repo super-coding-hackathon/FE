@@ -25,17 +25,38 @@ const StepDetail = () => {
 
   useEffect(() => {
     if (roll === 'buy' && buyData) {
-      console.log('구매현황', buyData)
+      // console.log('구매현황', buyData)
       setDetailData(buyData)
       setStep(buyData.transactionStatusId)
     } else if (roll === 'sold' && sellData) {
       setDetailData(sellData)
       setStep(sellData.transactionStatusId)
-      console.log('판매현황', sellData)
+      // console.log('판매현황', sellData)
     }
   }, [buyData, sellData])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (roll === 'buy') {
+  //         const response = await GetBuyDetail(id)
+  //         // console.log('구매현황', response)
+  //         setDetailData(response)
+  //         setStep(response.transactionStatusId)
+  //       } else if (roll === 'sold') {
+  //         const response = await GetSellDetail(id)
+  //         // console.log('판매현황', response)
+  //         setDetailData(response)
+  //         setStep(response.transactionStatusId)
+  //       }
+  //     } catch (error) {
+  //       // console.error('Error fetching transaction detail:', error)
+  //     }
+  //   }
 
-  console.log('detailData :', detailData)
+  //   fetchData()
+  // }, [id, roll])
+
+  // console.log('detailData :', detailData)
 
   const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -104,10 +125,6 @@ const StepDetail = () => {
           <StepList data={detailData} />
 
           <FileWrap data={detailData} roll={roll} />
-
-          {/* map
-          {detailData.address && <div className="map" ref={mapRef}></div>}
-          버튼 */}
 
           <Modal
             isOpen={openModal}

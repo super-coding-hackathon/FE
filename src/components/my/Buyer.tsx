@@ -6,18 +6,19 @@ import { BuyerDetail, IncludePage, RenderProps } from './type'
 
 const Buyer: FC<RenderProps> = ({ rendered }) => {
   const [page, setPage] = useState(0)
-  const [size, setSize] = useState(8)
+  const size = 8
+  // const [size, setSize] = useState(8)
 
-  const nextPage = () => {
-    console.log('다음으로')
-    setPage(page + 1)
-    setSize(0) // 수정필요
-  }
+  // const nextPage = () => {
+  //   console.log('다음으로')
+  //   setPage(page + 1)
+  //   setSize(0) // 수정필요
+  // }
 
-  const prevPage = () => {
-    console.log('앞으로')
-    setPage(page - 1)
-  }
+  // const prevPage = () => {
+  //   console.log('앞으로')
+  //   setPage(page - 1)
+  // }
 
   const { data: boughtInfo } = useQuery<IncludePage<BuyerDetail>>(
     ['boughtInfo', page, size],
@@ -31,7 +32,14 @@ const Buyer: FC<RenderProps> = ({ rendered }) => {
   return (
     <>
       {boughtInfo && (
-        <Receipt data={boughtInfo} rendered={rendered} page={page} nextPage={nextPage} prevPage={prevPage} />
+        <Receipt
+          data={boughtInfo}
+          rendered={rendered}
+          // page={page}
+          setPage={setPage}
+          // nextPage={nextPage}
+          // prevPage={prevPage}
+        />
       )}
     </>
   )

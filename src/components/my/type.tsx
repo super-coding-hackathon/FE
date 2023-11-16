@@ -64,9 +64,10 @@ export interface IncludePage<T> {
 
 export interface ReceiptProps<T extends SellerDetail | BuyerDetail> extends RenderProps {
   data: IncludePage<T>
-  page: number
-  prevPage(): void
-  nextPage(): void
+  setPage(newPage: number): void
+  // page: number
+  // prevPage(): void
+  // nextPage(): void
 }
 
 export interface MyHomeType {
@@ -99,9 +100,10 @@ export interface RequestDataType {
 }
 
 export interface FileProps {
-  id: number
-  roll: '판매자' | '구매자'
-  transactionMutate: (requestData: RequestDataType) => void
+  // id: number
+  // roll: string
+  // transactionMutate: (requestData: RequestDataType) => void
+  setSelectedDocument: (document: File | null) => void
 }
 
 export interface StatusType {

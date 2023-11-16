@@ -15,7 +15,7 @@ const MyList: FC<MyListProps> = ({ setRendered }) => {
   let page = 0
   let size = 8
 
-  const { data: myList } = useQuery<MyHomeList>(['myList', page, size], () => GetMyRegister('myList', page, size), {
+  const { data: myList } = useQuery<MyHomeList>(['myList', page, size], () => GetMyRegister(page, size), {
     // onSuccess: (res) => {
     //   // console.log(res)
     // },

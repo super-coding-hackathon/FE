@@ -31,12 +31,12 @@ const TransactionInfo: FC<TransactionInfoProps> = ({ data, roll }) => {
       </li>
       {roll === 'buy' ? (
         <li>
-          <div className="title">구매자</div>
+          <div className="title">판매자</div>
           <div className="desc">{data.seller}</div>
         </li>
       ) : (
         <li>
-          <div className="title">판매자</div>
+          <div className="title">구매자</div>
           <div className="desc">{data.buyer}</div>
         </li>
       )}

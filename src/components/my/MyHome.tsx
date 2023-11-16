@@ -12,7 +12,7 @@ const MyHome = () => {
   // const [size, setSize] = useState(6)
   let size = 6
 
-  const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
+  const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister(page, size), {
     onSuccess: (res) => {
       console.log('home :', res)
     },
