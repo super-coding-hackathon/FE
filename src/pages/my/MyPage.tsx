@@ -20,6 +20,7 @@ const MyPage = (): ReactElement => {
   return (
     <S.MyPageWrap>
       <div className="title">마이페이지</div>
+
       <div className="flex-box">
         <Tab setRendered={setRendered} rendered={rendered} />
         <S.RenderSection>{render[rendered]}</S.RenderSection>

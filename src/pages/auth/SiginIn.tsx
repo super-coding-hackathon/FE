@@ -41,11 +41,13 @@ const SignIn = () => {
         }
       }
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       setToastMsg('로그인에 성공했습니다.')
       setVariant('success')
       setShowToast(true)
       setIsLoggedIn(true)
+      sessionStorage.setItem('email', res.data.email)
+      sessionStorage.setItem('nick', res.data.nickname)
     },
   })
 

@@ -12,6 +12,7 @@ import StepList from '../../components/transaction/StepList'
 import FileWrap from '../../components/transaction/FileWrap'
 import { GetBuyDetail, GetSellDetail } from '../../api/transaction/get'
 import ChatList from '../../components/chatroom/ChatList'
+// import ChatList from '../../components/chatroom/ChatList'
 
 const StepDetail = () => {
   const [step, setStep] = useState<number>(1)

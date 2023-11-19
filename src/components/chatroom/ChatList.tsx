@@ -1,41 +1,88 @@
-import { useEffect, useState } from 'react'
-import io from 'socket.io-client'
+import { useEffect, useRef, useState } from 'react'
+import { useSocket } from '../../hooks/useSocket'
+// import { io } from 'socket.io-client'
+// import { useSocket } from './useSocket'
+
+interface SocketType {
+  room: string
+  msg: string
+  messageType: string
+}
 
 const ChatList = () => {
-  // const socket = io(`${process.env.REACT_APP_SOCKET_URL}`)
-  const socket = io(`http://13.209.89.233:8088/`)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const [messages, setMessages] = useState<string[]>([])
+  const { socketResponse, sendData } = useSocket('2')
 
-  console.log(messages)
-  const [message, setMessage] = useState<string>('')
+  const [messages, setMessages] = useState<SocketType[]>([])
+  console.log('messages ----', messages)
 
+  // console.log(messages)
+  const [message, setMessage] = useState<SocketType>({
+    room: '',
+    msg: '',
+    messageType: 'CLIENT',
+  })
+
+  // hook
   useEffect(() => {
-    socket.on('chat message', (msg: string) => {
-      setMessages((prevMessages) => [...prevMessages, msg])
-    })
+    setMessages([...messages, socketResponse])
+  }, [socketResponse])
 
-    return () => {
-      socket.disconnect()
-    }
-  }, [])
+  console.log(message)
 
+  // hook
   const sendMessage = () => {
-    if (message.trim() !== '') {
-      socket.emit('chat message', message)
-      setMessage('')
+    if (inputRef?.current?.value) {
+      sendData({
+        msg: inputRef?.current?.value,
+      })
+    }
+  }
+  // let room = '2'
+  // const socket = io(`http://13.209.89.233:8088/`, {
+  //   // query: `room=${room}`
+  //   query: { room: room },
+  //   reconnection: false,
+  // })
+
+  // useEffect(() => {
+  //   socket.on('read_message', (msg: SocketType) => {
+  //     console.log(msg)
+  //     console.log('읽어왔어요')
+  //     // setMessages(msg)
+  //     // setMessages((prevMessages) => [...prevMessages, msg])
+  //     setMessages((prevMessages) => [...prevMessages, msg])
+  //   })
+
+  //   return () => {
+  //     socket.disconnect()
+  //   }
+  // }, [])
+
+  // const sendMessage = () => {
+  //   if (message.msg.trim() !== '') {
+  //     console.log('message ::', message)
+  //     socket?.emit('send_message', message)
+  //     console.log('보냇음')
+  //   }
+  // }
+
+  const onChangeInputHandler = () => {
+    if (inputRef.current) {
+      setMessage({ ...message, msg: inputRef.current.value })
     }
   }
 
-  console.log(socket)
+  // console.log(socket)
   return (
     <div>
       <ul>
         {messages.map((msg, index) => (
-          <li key={index}>{msg}</li>
+          <li key={index}>{msg.msg}</li>
         ))}
       </ul>
-      <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+      <input ref={inputRef} type="text" value={message.msg} onChange={onChangeInputHandler} />
       <button onClick={sendMessage}>전송</button>
     </div>
   )
