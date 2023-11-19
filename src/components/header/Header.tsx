@@ -9,7 +9,6 @@ const Header = () => {
   const [JWTToken, setJWTToken] = useState<string | null>(null)
 
   const [nickName, setNickName] = useState<string>('')
-  console.log(nickName)
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')

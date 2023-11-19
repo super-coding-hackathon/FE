@@ -11,7 +11,7 @@ import { FaQuestion } from 'react-icons/fa'
 import StepList from '../../components/transaction/StepList'
 import FileWrap from '../../components/transaction/FileWrap'
 import { GetBuyDetail, GetSellDetail } from '../../api/transaction/get'
-import ChatList from '../../components/chatroom/ChatList'
+import ChatRoom from '../../components/chatroom/ChatRoom'
 // import ChatList from '../../components/chatroom/ChatList'
 
 const StepDetail = () => {
@@ -132,7 +132,7 @@ const StepDetail = () => {
 
           <FileWrap data={detailData} roll={roll} />
 
-          <ChatList />
+          <ChatRoom />
 
           <Modal
             isOpen={openModal}

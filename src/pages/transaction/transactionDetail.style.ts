@@ -167,3 +167,106 @@ export const FileContainer = styled.ul`
     }
   }
 `
+
+export const ChatRoomWrap = styled.div`
+  display: flex;
+  justify-content: end;
+  .enter {
+    background-color: #90cc4b;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    width: 67px;
+    height: 67px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .chatList-container {
+    height: 600px;
+    width: 400px;
+    position: absolute;
+    top: 200px;
+    padding-top: 10px;
+    .header {
+      padding: 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      background-color: #f3f3f7;
+      border-radius: 12px 12px 0 0;
+      .opponent {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+    .chat-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 560px;
+      .list {
+        padding-top: 10px;
+        background-color: #bacee0;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        height: 520px;
+        border-radius: 0 0 12px 12px;
+
+        .client {
+          display: flex;
+          justify-content: flex-end;
+          margin-right: 3px;
+          span {
+            background-color: #ffeb33;
+            padding: 5px 7px;
+            border-radius: 6px;
+          }
+        }
+        .server {
+          display: flex;
+          position: relative;
+          left: 3px;
+
+          span {
+            background-color: #fff;
+            padding: 5px 7px;
+            border-radius: 6px;
+          }
+        }
+      }
+      .send-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .send-layout {
+          border: 1px solid #ccc;
+          border-radius: 12px;
+          height: 35px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #fff;
+          overflow: hidden;
+          padding: 0 7px;
+          input {
+            padding: 3px 5px;
+            border: none;
+            outline: none;
+            width: 100%;
+          }
+          svg {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+`

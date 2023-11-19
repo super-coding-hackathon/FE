@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useSocket } from '../../hooks/useSocket'
+import { IoIosSend, IoMdClose } from 'react-icons/io'
+import { useParams } from 'react-router-dom'
 // import { io } from 'socket.io-client'
 // import { useSocket } from './useSocket'
 
@@ -9,64 +11,49 @@ interface SocketType {
   messageType: string
 }
 
-const ChatList = () => {
+interface ChatListProps {
+  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ChatList: FC<ChatListProps> = ({ setOpenChat }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { socketResponse, sendData } = useSocket('2')
+  const room = useParams().transactionId || ''
+
+  // const email = sessionStorage.getItem('email')
+  // console.log(email)
+
+  const { socketResponse, sendData } = useSocket(room)
 
   const [messages, setMessages] = useState<SocketType[]>([])
-  console.log('messages ----', messages)
 
-  // console.log(messages)
   const [message, setMessage] = useState<SocketType>({
-    room: '',
+    room,
     msg: '',
     messageType: 'CLIENT',
   })
 
   // hook
   useEffect(() => {
-    setMessages([...messages, socketResponse])
+    if (socketResponse.msg) {
+      setMessages([...messages, socketResponse])
+    }
   }, [socketResponse])
-
-  console.log(message)
 
   // hook
   const sendMessage = () => {
     if (inputRef?.current?.value) {
       sendData({
-        msg: inputRef?.current?.value,
+        msg: inputRef.current.value,
       })
+      setMessage({
+        room: '',
+        msg: '',
+        messageType: 'CLIENT',
+      })
+      setMessages([...messages, message])
     }
   }
-  // let room = '2'
-  // const socket = io(`http://13.209.89.233:8088/`, {
-  //   // query: `room=${room}`
-  //   query: { room: room },
-  //   reconnection: false,
-  // })
-
-  // useEffect(() => {
-  //   socket.on('read_message', (msg: SocketType) => {
-  //     console.log(msg)
-  //     console.log('읽어왔어요')
-  //     // setMessages(msg)
-  //     // setMessages((prevMessages) => [...prevMessages, msg])
-  //     setMessages((prevMessages) => [...prevMessages, msg])
-  //   })
-
-  //   return () => {
-  //     socket.disconnect()
-  //   }
-  // }, [])
-
-  // const sendMessage = () => {
-  //   if (message.msg.trim() !== '') {
-  //     console.log('message ::', message)
-  //     socket?.emit('send_message', message)
-  //     console.log('보냇음')
-  //   }
-  // }
 
   const onChangeInputHandler = () => {
     if (inputRef.current) {
@@ -74,16 +61,40 @@ const ChatList = () => {
     }
   }
 
-  // console.log(socket)
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    sendMessage()
+  }
+
+  const checkClass = (messageType: string) => {
+    if (messageType === 'CLIENT') {
+      return 'client'
+    } else {
+      return 'server'
+    }
+  }
   return (
-    <div>
-      <ul>
-        {messages.map((msg, index) => (
-          <li key={index}>{msg.msg}</li>
-        ))}
-      </ul>
-      <input ref={inputRef} type="text" value={message.msg} onChange={onChangeInputHandler} />
-      <button onClick={sendMessage}>전송</button>
+    <div className="chatList-container">
+      <div className="header">
+        <div className="opponent">00님과 채팅방</div>
+        <IoMdClose onClick={() => setOpenChat(false)} />
+      </div>
+      <div className="chat-body">
+        <ul className="list">
+          {messages.map((msgData, index) => (
+            <li key={index} className={checkClass(msgData.messageType)}>
+              <span>{msgData.msg}</span>
+            </li>
+          ))}
+        </ul>
+
+        <form className="send-form" onSubmit={submitHandler}>
+          <div className="send-layout">
+            <input ref={inputRef} value={message.msg} onChange={onChangeInputHandler} />
+            <IoIosSend onClick={sendMessage} />
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
