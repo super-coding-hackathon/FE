@@ -5,8 +5,7 @@ export async function GetHomeList() {
   return data.data
 }
 
-export async function GetHomeDetail(id) {
-  // console.log(id)
+export async function GetHomeDetail(id: number) {
   const { data } = await api.get(`api/home/${id}`)
   return data.data
 }

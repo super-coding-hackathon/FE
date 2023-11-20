@@ -5,19 +5,17 @@ export async function GetMyInfo() {
   return data.data
 }
 
-export async function GetMyBought(page, size) {
-  // console.log(page, size)
+export async function GetMyBought(page: number, size: number) {
   const { data } = await api.get(`/api/my-page/buy`, { params: { page, size } })
   return data.data
 }
 
-export async function GetMyRegister(page, size) {
-  // console.log(page, size)
+export async function GetMyRegister(page: number, size: number) {
   const { data } = await api.get(`/api/my-page/home`, { params: { page, size } })
   return data.data
 }
 
-export async function GetMySold(page, size) {
+export async function GetMySold(page: number, size: number) {
   const { data } = await api.get(`/api/my-page/sell`, { params: { page, size } })
   return data.data
 }

@@ -26,20 +26,8 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
 
   const [openViewer, setOpenViewer] = useState<boolean>(false)
 
-  // const [numPages, setNumPages] = useState(null) // 총 페이지수
-  // const [pageNumber, setPageNumber] = useState(1) // 현재 페이지
-  // const [pageScale, setPageScale] = useState(1) // 페이지 스케일
   const pageNum = 1
   const pageScale = 1
-
-  // function onDocumentLoadSuccess({ numPages }) {
-  //   console.log(`numPages ${numPages}`)
-  //   setNumPages(numPages)
-  // }
-
-  // const { toPDF, targetRef } = usePDF({
-  //   filename: 'pdf-prev.pdf',
-  // })
 
   const [account, setAccount] = useState<string>('')
 
@@ -54,17 +42,6 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
       setSelectedDocument(null)
     },
   })
-
-  // const changePDF = async () => {
-  //   if (selectedDocument) {
-  //     console.log('변환 눌림')
-  //     // toPDF()
-  //     const pdfContent = await toPDF()
-  //     console.log(pdfContent)
-  //   } else {
-  //     console.log('파일을 선택해주세요')
-  //   }
-  // }
 
   const clickNextStep = () => {
     console.log('눌림')
@@ -99,7 +76,6 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
         id,
         formData,
       }
-      // setInfo(formData)
       transactionMutate(obj)
     }
   }
@@ -112,7 +88,6 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
 
   const statusUi = (step: string, roll: string) => {
     const value = `${roll}-${step}`
-    // console.log(value)
     switch (value) {
       case `buy-거래신청`:
         return (
@@ -165,7 +140,6 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
           </>
         )
       case `sold-거래승인`:
-        // return
         return (
           <>
             <li>

@@ -13,22 +13,9 @@ import { FormDataType } from '../../components/register/type'
 const EditDetailPage = () => {
   const [step, setStep] = useState<number>(1)
   const [openPostCode, setOpenPostCode] = useState<boolean | undefined>(false)
-  const id = useParams().homeId
+  const id = Number(useParams().homeId)
 
-  // const [imgListUrl, setImgListUrl] = useState<string[]>([])
-
-  // const [thumnailUrl, setThumnailUrl] = useState<string[]>([])
-
-  const { data: homeDetailInfo } = useQuery<HomeDetailType>(['homeDetailInfo'], () => GetHomeDetail(id), {
-    // onSuccess: (res) => {
-    //   //이미지 로직 처리
-    //   // const imgList = res.imageFiles.filter((el) => !el.isThumbnail)
-    //   // const thumnail = res.imageFiles.filter((el) => el.isThumbnail)
-    //   // setImgListUrl(imgList.map((img) => img.imageUrl))
-    //   // setFormData({ ...formData, thumbnailImage: thumnailUrl, imageFiles: imgListUrl })
-    //   // setThumnailUrl(thumnail.map((img) => img.imageUrl))
-    // },
-  })
+  const { data: homeDetailInfo } = useQuery<HomeDetailType>(['homeDetailInfo'], () => GetHomeDetail(id), {})
 
   const [formData, setFormData] = useState<FormDataType>({
     address: '',
@@ -50,19 +37,6 @@ const EditDetailPage = () => {
     transactionType: '',
   })
 
-  // const checkCategory = (categoryName: string):number => {
-  //   switch (categoryName) {
-  //     case '아파트':
-  //       return 1
-  //     case '빌라':
-  //       return 2
-  //     case '원룸':
-  //       return 3
-  //     default:
-  //       return 0
-  //   }
-  // }
-
   useEffect(() => {
     if (homeDetailInfo) {
       const {
@@ -80,13 +54,8 @@ const EditDetailPage = () => {
         transactionType,
       } = homeDetailInfo
 
-      // console.log(checkCategory(categoryName))
-      // const categoryId = checkCategory(categoryName)
-
       const imgList = homeDetailInfo.imageFiles.filter((el) => !el.isThumbnail)
       const thumnail = homeDetailInfo.imageFiles.filter((el) => el.isThumbnail)
-      // setThumnailUrl(thumnail.map((img) => img.imageUrl))
-      // setImgListUrl(imgList.map((img) => img.imageUrl))
 
       setFormData({
         ...formData,
@@ -102,8 +71,6 @@ const EditDetailPage = () => {
         squareFeet,
         transactionType,
         detailAddress,
-        // thumbnailImage: thumnailUrl,
-        // imageFiles: imgListUrl,
         thumbnailImage: thumnail.map((img) => img.imageUrl),
         imageFiles: imgList.map((img) => img.imageUrl),
       })
@@ -143,7 +110,6 @@ const EditDetailPage = () => {
     },
     onChangeNumber: (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
-      // const { name, value } = e
       setFormData({
         ...formData,
         [name]: Number(value),

@@ -26,8 +26,6 @@ const InfoTop: FC<InfoTopProps> = ({ homeDetailInfo }) => {
   }
 
   const clickDelete = () => {
-    // console.log('삭제')
-    // console.log(homeDetailInfo.homeId)
     deleteMutate(homeDetailInfo.homeId)
     navigate(-1)
   }

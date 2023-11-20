@@ -150,7 +150,9 @@ const EditStepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormDa
           }
         }
 
-        putHomeDetail({ id, formDataToSend })
+        if (id) {
+          putHomeDetail({ id, formDataToSend })
+        }
         setStep(1)
       } else {
         setErrors(errors)
