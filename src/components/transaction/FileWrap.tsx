@@ -1,15 +1,18 @@
-import { FC, useState } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import { TransactionDetail } from '../my/type'
 import * as S from '../../pages/transaction/transactionDetail.style'
 import File from '../my/File'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { PostNextStep } from '../../api/transaction/post'
 import { useNavigate, useParams } from 'react-router-dom'
-
+// import { usePDF } from 'react-to-pdf'
+import { Document, Page, pdfjs } from 'react-pdf'
 interface TransactionFileProps {
   data: TransactionDetail
   roll?: string
 }
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
   const navigate = useNavigate()
@@ -17,6 +20,26 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
   const id = Number(useParams().transactionId)
 
   const [selectedDocument, setSelectedDocument] = useState<File | null>(null)
+  // console.log(selectedDocument)
+
+  const [pdfDocument, setPdfDocument] = useState<File | null>(null)
+
+  const [openViewer, setOpenViewer] = useState<boolean>(false)
+
+  // const [numPages, setNumPages] = useState(null) // 총 페이지수
+  // const [pageNumber, setPageNumber] = useState(1) // 현재 페이지
+  // const [pageScale, setPageScale] = useState(1) // 페이지 스케일
+  const pageNum = 1
+  const pageScale = 1
+
+  // function onDocumentLoadSuccess({ numPages }) {
+  //   console.log(`numPages ${numPages}`)
+  //   setNumPages(numPages)
+  // }
+
+  // const { toPDF, targetRef } = usePDF({
+  //   filename: 'pdf-prev.pdf',
+  // })
 
   const [account, setAccount] = useState<string>('')
 
@@ -32,9 +55,16 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
     },
   })
 
-  const goBack = () => {
-    navigate(-1)
-  }
+  // const changePDF = async () => {
+  //   if (selectedDocument) {
+  //     console.log('변환 눌림')
+  //     // toPDF()
+  //     const pdfContent = await toPDF()
+  //     console.log(pdfContent)
+  //   } else {
+  //     console.log('파일을 선택해주세요')
+  //   }
+  // }
 
   const clickNextStep = () => {
     console.log('눌림')
@@ -74,6 +104,12 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
     }
   }
 
+  const handleDocumentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setPdfDocument(event.target.files[0])
+    }
+  }
+
   const statusUi = (step: string, roll: string) => {
     const value = `${roll}-${step}`
     // console.log(value)
@@ -81,7 +117,7 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
       case `buy-거래신청`:
         return (
           <>
-            <p>판매자가 받아줄 때 까지 기다려주세요.</p>
+            <p>판매자가 문서를 보내줄 때 까지 기다려주세요.</p>
           </>
         )
       case `sold-거래신청`:
@@ -90,6 +126,23 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
             <li>
               <div className="title">파일업로드</div>
               <File setSelectedDocument={setSelectedDocument} />
+            </li>
+
+            <li>
+              <div className="title">PDF 뷰어</div>
+              <input type="file" accept=".pdf" onChange={handleDocumentChange} />
+            </li>
+
+            <button className="watch-pdf" onClick={() => setOpenViewer(!openViewer)}>
+              {openViewer ? 'PDF 닫기' : 'PDF 미리보기'}
+            </button>
+
+            <li className="viewer">
+              {pdfDocument && openViewer && (
+                <Document file={pdfDocument}>
+                  <Page width={1000} height={500} scale={pageScale} pageNumber={pageNum} />
+                </Document>
+              )}
             </li>
           </>
         )
@@ -284,7 +337,7 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
       {roll && data && statusUi(data.transactionStatus, roll)}
 
       <div className="btn-container">
-        <button onClick={goBack}>리스트로 돌아가기</button>
+        <button onClick={() => navigate(-1)}>리스트로 돌아가기</button>
         {data.transactionStatus !== '거래완료' && <button onClick={clickNextStep}>완료</button>}
       </div>
     </S.FileContainer>

@@ -134,22 +134,42 @@ export const StepListWrap = styled.ul`
 `
 
 export const FileContainer = styled.ul`
-  /* display: flex; */
   max-width: 1100px;
   width: 100%;
-  /* background-color: pink; */
   margin: 30px auto 0;
   height: 80px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 40px;
+  .watch-pdf {
+    width: 130px;
+    padding: 10px 0;
+    outline: none;
+    border: none;
+    background-color: #0074d9;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+  }
   li {
     display: flex;
     gap: 40px;
     .title {
     }
     span {
+    }
+  }
+  .viewer {
+    justify-content: center;
+    .react-pdf__Page__textContent,
+    .textLayer {
+      display: none;
+    }
+    .react-pdf__Page__annotations,
+    .annotationLayer {
+      display: none;
     }
   }
   .btn-container {
