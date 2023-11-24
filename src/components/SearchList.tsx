@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom'
 
 type Props = {
   data: mapDataType[]
-  handleSelect: (item: mapDataType, category: string) => void
-  category: string
+  handleSelect: (item: mapDataType, category: number) => void
+  category: number
 }
+
+const prefix = ['apart', 'office', 'studio']
 
 const SearchList = ({ data, handleSelect, category }: Props) => {
   const navigate = useNavigate()
@@ -21,7 +23,7 @@ const SearchList = ({ data, handleSelect, category }: Props) => {
             as="li"
             onClick={() => {
               handleSelect(item, category)
-              navigate(`/${category}`)
+              navigate(`/${prefix[category - 1]}`)
             }}
           >
             {item.place_name}

@@ -6,17 +6,17 @@ import * as S from './main.style'
 
 const Btns = [
   {
-    id: 'apart',
+    id: 1,
     variant: 'outline-success',
     text: '아파트',
   },
   {
-    id: 'office',
+    id: 2,
     variant: 'outline-success',
     text: '오피스텔',
   },
   {
-    id: 'studio',
+    id: 3,
     variant: 'outline-success',
     text: '원룸',
   },
@@ -31,7 +31,7 @@ const MainPage = () => {
         {Btns.map((btn) => (
           <ToggleButton
             key={btn.id}
-            id={btn.id}
+            id={`${btn.id}`}
             value={btn.id}
             type="radio"
             variant={btn.variant}

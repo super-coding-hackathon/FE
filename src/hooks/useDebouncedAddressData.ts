@@ -14,7 +14,8 @@ const useDebouncedAddressData = (delay: number) => {
   const setOfficeCoords = useSetRecoilState(officeCoords)
   const setStudioCoords = useSetRecoilState(studioCoords)
 
-  const handleItemSelect = (item: mapDataType, category: string) => {
+  const handleItemSelect = (item: mapDataType, category: number) => {
+    console.log('검색 선택', category, item)
     setSelectedItem(item)
     setValue(item.place_name)
     setOpen(false)
@@ -24,13 +25,13 @@ const useDebouncedAddressData = (delay: number) => {
     }
 
     switch (category) {
-      case 'apart':
+      case 1:
         setApartCoords(coords)
         break
-      case 'office':
+      case 2:
         setOfficeCoords(coords)
         break
-      case 'studio':
+      case 3:
         setStudioCoords(coords)
         break
       default:

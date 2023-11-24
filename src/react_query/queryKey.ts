@@ -1,5 +1,4 @@
 export const queryKeys = {
-  office: 'office',
-  studio: 'studio',
-  apart: 'apart',
+  category: 'category',
+  list: 'list',
 }
