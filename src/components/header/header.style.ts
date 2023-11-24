@@ -48,3 +48,23 @@ export const CustomLink = styled(Link)`
   text-decoration: none;
   color: white;
 `
+
+export const LogedInBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  p {
+    font-size: 14px;
+    display: flex;
+    justify-content: end;
+    span {
+      font-size: 16px;
+      font-weight: 700;
+      margin-left: 4px;
+    }
+  }
+  .btn-container {
+    display: flex;
+    gap: 10px;
+  }
+`

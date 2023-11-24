@@ -10,17 +10,10 @@ interface MyListProps {
 }
 
 const MyList: FC<MyListProps> = ({ setRendered }) => {
-  // const [page, setPage] = useState<number>(0)
-  // const [size, setSize] = useState<number>(8)
   let page = 0
-  let size = 8
+  let size = 5
 
-  const { data: myList } = useQuery<MyHomeList>(['myList', page, size], () => GetMyRegister('myList', page, size), {
-    // onSuccess: (res) => {
-    //   // console.log(res)
-    // },
-    // 개수 잘라야함
-  })
+  const { data: myList } = useQuery<MyHomeList>(['myList', page, size], () => GetMyRegister(page, size), {})
 
   const directDetail = () => {
     setRendered('등록 현황')
@@ -34,36 +27,18 @@ const MyList: FC<MyListProps> = ({ setRendered }) => {
           자세히 보기 <AiOutlineRight />
         </span>
       </div>
-      <ul className="home-list">
-        {myList?.contents.length === 0 && <p>등록해주세요.</p>}
-        {myList?.contents.map((el) => (
-          <li className="home-item" key={el.homeId}>
-            <img className="thumb" src={el.thumbnailUrl} alt="" />
-            <div className="name">{el.homeName}</div>
-          </li>
-        ))}
-        {myList && myList?.contents.length < 5 && <span onClick={directDetail}>더 보기</span>}
-        {/* <li className="home-item">
-          <img className="thumb" src="" alt="" />
-          <div className="name">ㅊㅇ</div>
-        </li>
-        <li className="home-item">
-          <img className="thumb" src="" alt="" />
-          <div className="name">ㅊㅇ</div>
-        </li>
-        <li className="home-item">
-          <img className="thumb" src="" alt="" />
-          <div className="name">ㅊㅇ</div>
-        </li>
-        <li className="home-item">
-          <img className="thumb" src="" alt="" />
-          <div className="name">ㅊㅇ</div>
-        </li>
-        <li className="home-item">
-          <img className="thumb" src="" alt="" />
-          <div className="name">ㅊㅇ</div>
-        </li> */}
-      </ul>
+      {myList && (
+        <ul className="home-list">
+          {myList && myList.contents.length === 0 && <p>등록해주세요.</p>}
+          {myList.contents.map((el) => (
+            <li className="home-item" key={el.homeId}>
+              <img className="thumb" src={el.thumbnailUrl} alt="" />
+              <div className="name">{el.homeName}</div>
+            </li>
+          ))}
+          {myList && myList.contents.length < 5 && <span onClick={directDetail}>더 보기</span>}
+        </ul>
+      )}
     </S.History>
   )
 }

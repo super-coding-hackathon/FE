@@ -38,6 +38,22 @@ export interface BuyerDetail {
   transactionStatusId: number
 }
 
+export interface TransactionDetail {
+  homeId: number
+  accountNumber?: string | null | undefined
+  address: string
+  deposit: number
+  homeName: string
+  seller: string
+  sellerContractFile: string | null | undefined
+  buyer?: string
+  buyerContractFile?: string | null | undefined
+  thumbnailUrl: string
+  transactionId: number
+  transactionStatus: string
+  transactionStatusId: number
+}
+
 export interface IncludePage<T> {
   contents: T[]
   hasNext: boolean
@@ -48,9 +64,10 @@ export interface IncludePage<T> {
 
 export interface ReceiptProps<T extends SellerDetail | BuyerDetail> extends RenderProps {
   data: IncludePage<T>
-  page: number
-  prevPage(): void
-  nextPage(): void
+  setPage(newPage: number): void
+  // page: number
+  // prevPage(): void
+  // nextPage(): void
 }
 
 export interface MyHomeType {
@@ -83,9 +100,10 @@ export interface RequestDataType {
 }
 
 export interface FileProps {
-  id: number
-  roll: '판매자' | '구매자'
-  transactionMutate: (requestData: RequestDataType) => void
+  // id: number
+  // roll: string
+  // transactionMutate: (requestData: RequestDataType) => void
+  setSelectedDocument: (document: File | null) => void
 }
 
 export interface StatusType {

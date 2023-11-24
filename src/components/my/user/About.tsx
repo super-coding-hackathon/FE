@@ -16,15 +16,15 @@ const About: FC<TabProps> = ({ setRendered, rendered }) => {
   })
 
   const { data: buyStatus } = useQuery<StatusType[]>(['buyStatus'], GetTotalBuyStatus, {
-    onSuccess: (res) => {
-      console.log('buy :', res)
-    },
+    // onSuccess: (res) => {
+    //   console.log('buy :', res)
+    // },
   })
 
   const { data: sellStatus } = useQuery<StatusType[]>(['sellStatus'], GetTotalSellStatus, {
-    onSuccess: (res) => {
-      console.log('sell :', res)
-    },
+    // onSuccess: (res) => {
+    //   console.log('sell :', res)
+    // },
   })
 
   return (

@@ -7,19 +7,30 @@ import { MyHomeType } from './type'
 
 const MyHome = () => {
   const navigate = useNavigate()
-  const [page, setPage] = useState(0)
-  // console.log('page :', page)
-  // const [size, setSize] = useState(6)
+  const [page, setPage] = useState<number>(0)
   let size = 6
 
-  const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister('myList', page, size), {
-    // onSuccess: (res) => {
-    //   console.log('home :', res)
-    // },
-  })
+  const { data: myList } = useQuery(['myList', page, size], () => GetMyRegister(page, size), {})
 
   const directDetail = (id: number) => {
     navigate(`/building/${id}`)
+  }
+
+  const clickPage = (pageNumber: number) => {
+    setPage(pageNumber)
+  }
+
+  const pageBtn = (total: number) => {
+    const pages = Array.from({ length: total }, (_, i) => i + 1)
+
+    const pageElement = pages.map((number) => {
+      return (
+        <div className="page" onClick={() => clickPage(number - 1)}>
+          {number}
+        </div>
+      )
+    })
+    return pageElement
   }
 
   const mapList = () => {
@@ -58,37 +69,10 @@ const MyHome = () => {
     }
   }
 
-  const nextPage = () => {
-    // console.log('다음으로')
-    setPage(page + 1)
-  }
-
-  const prevPage = () => {
-    // console.log('앞으로')
-    setPage(page - 1)
-  }
-
   return (
     <S.MyListWrap>
       <ul> {mapList()}</ul>
-      <div className="pagination">
-        {myList?.hasPrevious && (
-          <div className="page" onClick={prevPage}>
-            {page}
-          </div>
-        )}
-        <div className="page">{page + 1}</div>
-        {myList?.hasNext && (
-          // <>
-          //   <div className="page">{page + 2}</div>
-          //   ...
-          //   <div className="page"> {myList?.totalPages}</div>
-          // </>
-          <div className="page" onClick={nextPage}>
-            {page + 2}
-          </div>
-        )}
-      </div>
+      <div className="pagination">{pageBtn(myList?.totalPages)}</div>
     </S.MyListWrap>
   )
 }
