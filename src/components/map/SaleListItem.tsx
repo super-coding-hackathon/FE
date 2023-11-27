@@ -8,7 +8,7 @@ type Props = {
   transactionType: string
   deposit: number
   price: number
-  onClick: () => void
+  onClick: (homeId: number) => void
 }
 
 function shallowEqual(prevProps: any, nextProps: any) {
@@ -24,7 +24,7 @@ function shallowEqual(prevProps: any, nextProps: any) {
 
 const SaleListItem = memo(({ homeId, name, transactionType, deposit, price, onClick }: Props) => {
   return (
-    <Wrap key={homeId} onClick={onClick}>
+    <Wrap onClick={() => onClick(homeId)}>
       <Title>{name}</Title>
       <Type>거래형태 : {transactionType}</Type>
       <Deposit>계약금 : {deposit}</Deposit>

@@ -20,10 +20,10 @@ export interface mapDataType {
 
 const { kakao } = window
 
-const useMapByAddress = (element: RefObject<HTMLElement>) => {
+const useMapByAddress = (element: RefObject<HTMLDivElement>) => {
   const [address, setAddress] = useState('')
   const [mapData, setMapData] = useState<mapDataType>()
-  const map = useMap(element)
+  const { map } = useMap(element)
   const prevMarker = useRef<IKakaoMarker | null>(null)
   const prevInfo = useRef<IKakaoInfoWindow | null>(null)
 

@@ -4,7 +4,7 @@ import SearchList from './SearchList'
 import useDebouncedAddressData from '../hooks/useDebouncedAddressData'
 
 type Props = {
-  category: string
+  category: number
 }
 
 const SearchComponent = ({ category }: Props) => {
