@@ -30,8 +30,6 @@ const RegisterPage = () => {
     transactionType: '',
   })
 
-  console.log('formData :', formData)
-
   // 이벤트 핸들러 객체 생성
   const handle = {
     clickPost: () => {
@@ -58,12 +56,10 @@ const RegisterPage = () => {
       setFormData({
         ...formData,
         [name]: value,
-        // formData로 바꿀 때 number로 바꾸기(Category Id)
       })
     },
     onChangeNumber: (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target
-      // const { name, value } = e
       setFormData({
         ...formData,
         [name]: Number(value),
@@ -90,17 +86,7 @@ const RegisterPage = () => {
         setOpenPostCode={setOpenPostCode}
       />
     ),
-    2: (
-      <StepTwo
-        handle={handle}
-        formData={formData}
-        setFormData={setFormData}
-        step={step}
-        setStep={setStep}
-        // openPostCode={openPostCode}
-        // setOpenPostCode={setOpenPostCode}
-      />
-    ),
+    2: <StepTwo handle={handle} formData={formData} setFormData={setFormData} step={step} setStep={setStep} />,
   }
 
   return <S.RegisterWrap>{stepPage[step]}</S.RegisterWrap>

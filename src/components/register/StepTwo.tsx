@@ -4,6 +4,7 @@ import { ChangeEvent, FC, useRef, useState } from 'react'
 import { CreateHome } from '../../api/home/post'
 import { useNavigate } from 'react-router-dom'
 import { InvalidateErrors, StepProps } from './type'
+import imageCompression from 'browser-image-compression'
 
 const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }) => {
   const navigate = useNavigate()
@@ -20,23 +21,64 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
     }
   }
 
-  const handleImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const resizeImage = async (files: File[]) => {
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    }
+    try {
+      const compressedImageList: File[] = []
+
+      for (const file of files) {
+        const compressedBlob = await imageCompression(file, options)
+
+        // Blob 객체를 File 객체로 반환
+        const compressedFile = new File([compressedBlob], file.name)
+        compressedImageList.push(compressedFile)
+      }
+      // 압축된 이미지 리턴
+      return compressedImageList
+    } catch (error) {
+      alert('이미지 압축 중 오류가 발생했습니다. 다시 시도해 주세요.')
+    }
+  }
+
+  const handleImagesChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files)
+
+      // console.log(files)
 
       if (files.length > 5) {
         alert('사진은 최대 5개입니다.')
         return
-      } else {
+      } else if (files) {
         const newImages: File[] = [...files]
-        setFormData({
-          ...formData,
-          thumbnailImage: newImages[0],
-          imageFiles: newImages.length > 1 ? newImages.slice(1) : [],
-        })
+        const compressedImageList = await resizeImage(newImages)
+        // console.log('최종:::', compressedImageList)
 
-        setThumbnail(URL.createObjectURL(newImages[0]))
-        setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
+        // setFormData({
+        //   ...formData,
+        //   thumbnailImage: newImages[0],
+        //   imageFiles: newImages.slice(1),
+        // })
+        // setThumbnail(URL.createObjectURL(newImages[0]))
+        // setImgList(newImages.slice(1).map((image) => URL.createObjectURL(image)))
+
+        if (compressedImageList) {
+          setFormData({
+            ...formData,
+            thumbnailImage: compressedImageList[0],
+            // imageFiles: newImages.length > 1 ? newImages.slice(1) : [],
+            imageFiles: compressedImageList.slice(1),
+          })
+          // console.log(newImages[0])
+          setThumbnail(URL.createObjectURL(compressedImageList[0]))
+          setImgList(compressedImageList.slice(1).map((image) => URL.createObjectURL(image)))
+        }
+      } else {
+        return
       }
     }
   }
@@ -96,13 +138,7 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
       if (Object.keys(errors).length === 0) {
         console.log(formData)
         const formDataToSend = new FormData()
-        // if (formData.categoryId === '아파트') {
-        //   formDataToSend.append('categoryId', 1)
-        // } else if (formData.categoryId === '빌라') {
-        //   formDataToSend.append('categoryId', 2)
-        // } else {
-        //   formDataToSend.append('categoryId', 3)
-        // }
+
         formDataToSend.append(
           'categoryId',
           String(formData.categoryId === '아파트' ? 1 : formData.categoryId === '빌라' ? 2 : 3),
@@ -128,9 +164,6 @@ const StepTwo: FC<StepProps> = ({ handle, formData, step, setStep, setFormData }
             formDataToSend.append(`imageFiles`, imageFile)
           })
         }
-        // if (formData.thumbnailImage) {
-        //   formDataToSend.append('thumbnailImage', formData.thumbnailImage)
-        // }
 
         if (formData.thumbnailImage) {
           if (typeof formData.thumbnailImage === 'string') {

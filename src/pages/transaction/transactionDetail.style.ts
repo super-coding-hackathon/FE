@@ -175,6 +175,7 @@ export const FileContainer = styled.ul`
   .btn-container {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 100px;
     button {
       margin-top: 50px;
       background-color: #0074d9;

@@ -90,11 +90,7 @@ const FileWrap: FC<TransactionFileProps> = ({ data, roll }) => {
     const value = `${roll}-${step}`
     switch (value) {
       case `buy-거래신청`:
-        return (
-          <>
-            <p>판매자가 문서를 보내줄 때 까지 기다려주세요.</p>
-          </>
-        )
+        return <p>판매자가 문서를 보내줄 때 까지 기다려주세요.</p>
       case `sold-거래신청`:
         return (
           <>
