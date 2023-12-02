@@ -5,6 +5,7 @@ import MapOrigin from './MapOrigin'
 import useMap from '../../hooks/useMap'
 import useMapFilterState from '../../hooks/useMapFilterState'
 import SaleList from './SaleList'
+import FilterMenu from './FilterCard'
 
 export type CoordsType = {
   lat: number
@@ -46,6 +47,7 @@ const MapComponent = ({ handler, mapCoords, category }: Props) => {
       <Search>
         <SearchComponent category={category} />
       </Search>
+      <FilterMenu />
       <SaleList
         mapCoords={mapCoords}
         category={category}
