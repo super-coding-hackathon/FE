@@ -353,7 +353,7 @@
 4. **browser-image-compression**
 
    1. **이미지 최적화**를 위해
-   2. react-image-file-resizer와 비교를 해본 결과 browser-image-compression이 사용도가 더 높아 정보가 많을 것이라고 판단
+   2. react-image-file-resizer와 비교를 해본 결과 browser-image-compression이 사용도가 더 높아 정보가 많을 것이라고 판단 <br>
 
       ![image-10](https://github.com/super-coding-hackathon/FE/assets/105590167/782d5fa1-da9e-42ec-9b8e-db1209fd4c5e)
 
