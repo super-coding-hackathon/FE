@@ -21,7 +21,9 @@
 - 매물 등록
 
   - 등록 같은 경우에 많은 입력 폼이 있어 사용자가 지루함을 느끼거나, 어디까지 진행되었는지 알 수가 없으므로 `UX 향상`을 기대하고 step을 나눠서 구현
-    ![Alt text](image.png)
+    ![image](https://github.com/super-coding-hackathon/FE/assets/105590167/1153a66f-0216-4d4c-90bc-d362afa93a00)
+
+
 
   ```jsx
   const stepPage: { [key: number]: JSX.Element } = {
@@ -75,33 +77,41 @@
 
     - 파일 리스트들의 차이
       **이미지 최적화 전(파일 크기)**
-      ![Alt text](image-1.png)
+      ![image-1](https://github.com/super-coding-hackathon/FE/assets/105590167/cca410b9-6552-4730-8d93-d9ff45e98b7d)
+
       **이미지 최적화 후(파일 크기)**
-      ![Alt text](image-2.png)
+      ![image-2](https://github.com/super-coding-hackathon/FE/assets/105590167/a724c25a-3426-4cc5-a38a-01b3c04766b0)
+
     - 큰 용량의 파일의 차이(**약 85.4% 압축**)
       용량이 작은 파일들은 차이가 나지 않지만, 용량이 큰 이미지 같은 경우에 많은 차이 발생
       **최적화 전(큰 용량의 파일)**
-      ![Alt text](image-3.png)
+      ![image-3](https://github.com/super-coding-hackathon/FE/assets/105590167/03cc9718-aba5-4b30-bd03-d32e8bac743f)
+
       **최적화 후(큰 용량의 파일)**
       약 4.03MB → 약 602.52KB로 압축(**약 85.4%**)
     - 통신 속도의 차이(**약 26.65% 향상**)
       **최적화 전(네트워크 속도)**
-      ![Alt text](image-4.png)
+      ![image-4](https://github.com/super-coding-hackathon/FE/assets/105590167/44f34797-8a84-4395-a0ed-a9d46064934c)
+
       **최적화 후(네트워크 속도)**
-      ![Alt text](image-5.png)
+      ![image-5](https://github.com/super-coding-hackathon/FE/assets/105590167/43e76241-e3b0-4189-9f2e-d6f0cd5e41ac)
+
       통신 속도 또한 **약 26.65%** 향상
 
 - 마이페이지
 
   - 구매, 판매, 등록 현황들과 회원의 정보를 한눈에 볼 수 있게 좋은 `UX와 UI`를 고려해 구현
-    ![Alt text](image-6.png)
+    ![image-6](https://github.com/super-coding-hackathon/FE/assets/105590167/46a65b9a-7000-4675-b164-e1623a07e56f)
+
   - 거래 상태의 종류가 많다 보니 사용자에게 정확한 정보 전달을 위해 모달을 이용한 `툴 팁` 구현
   - 거래가 중점인 서비스이다 보니 거래 과정이 보다 자세하게 사용자에게 보여야 한다고 판단해 기존의 아코디언 방식의 UI에서 페이지로 수정(**리팩토링**)
     - 기존의 구매 및 판매 현황 (아코디언)
-      ![Alt text](image-7.png)
+      ![image-7](https://github.com/super-coding-hackathon/FE/assets/105590167/7428dbe2-0529-4a4c-b639-6c4de050c789)
+
     - 수정 후 구매 및 판매 현황 (페이지)
-      ![Alt text](image-8.png)
-      ![Alt text](image-9.png)
+      ![image-8](https://github.com/super-coding-hackathon/FE/assets/105590167/2991c334-e15f-4de6-8edf-d69a582ecd79)
+      ![image-9](https://github.com/super-coding-hackathon/FE/assets/105590167/3c79f4b8-1d18-4e5e-8823-e6df14ea18de)
+
   - 미리 지정된 양식을 지원해 주기 때문에 어떠한 양식인지 모를 사용자를 고려해 `PDF Viewer`를 추가해 사용자가 PDF 파일을 미리 볼 수 있게 지원(**리팩토링**)
   - 구매자와 판매자를 위해 `실시간 채팅` 구현(**리팩토링 중**)
   - 기존에는 거래 상태별로 JSX 부분에서 조건부로 렌더링, 하지만 코드의 `가독성 및 유지보수`가 용이하지 않아 status와 roll을 매개변수로 받는 함수로 따로 빼 JSX를 return 하는 코드로 수정(**리팩토링**)S
@@ -347,7 +357,8 @@
    1. **이미지 최적화**를 위해
    2. react-image-file-resizer와 비교를 해본 결과 browser-image-compression이 사용도가 더 높아 정보가 많을 것이라고 판단
 
-      ![Alt text](image-10.png)
+      ![image-10](https://github.com/super-coding-hackathon/FE/assets/105590167/782d5fa1-da9e-42ec-9b8e-db1209fd4c5e)
+
 
 5. **socket.io**
    1. 실시간 통신을 위해서와 Web Socket보다 **추가적인 기능**(네임스페이스, 룸,다양한 전송 방식 등)이 많은 Web Socket 기반인 [socket.io](http://socket.io) 선택
