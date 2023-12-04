@@ -89,10 +89,10 @@
       약 4.03MB → 약 602.52KB로 압축(**약 85.4%**)
     - 통신 속도의 차이(**약 26.65% 향상**) <br>
       **최적화 전(네트워크 속도)** <br>
-      ![image-4](https://github.com/super-coding-hackathon/FE/assets/105590167/44f34797-8a84-4395-a0ed-a9d46064934c)
-
-      **최적화 후(네트워크 속도)**
-      ![image-5](https://github.com/super-coding-hackathon/FE/assets/105590167/43e76241-e3b0-4189-9f2e-d6f0cd5e41ac)
+      ![image-4](https://github.com/super-coding-hackathon/FE/assets/105590167/44f34797-8a84-4395-a0ed-a9d46064934c) <br>
+ 
+      **최적화 후(네트워크 속도)** <br>
+      ![image-5](https://github.com/super-coding-hackathon/FE/assets/105590167/43e76241-e3b0-4189-9f2e-d6f0cd5e41ac) <br>
 
       통신 속도 또한 **약 26.65%** 향상
 
