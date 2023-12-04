@@ -75,22 +75,22 @@
     }
     ```
 
-    - 파일 리스트들의 차이
-      **이미지 최적화 전(파일 크기)**
-      ![image-1](https://github.com/super-coding-hackathon/FE/assets/105590167/cca410b9-6552-4730-8d93-d9ff45e98b7d)
+    - 파일 리스트들의 차이<br>
+      **이미지 최적화 전(파일 크기)** <br>
+      ![image-1](https://github.com/super-coding-hackathon/FE/assets/105590167/cca410b9-6552-4730-8d93-d9ff45e98b7d)<br>
 
-      **이미지 최적화 후(파일 크기)**
-      ![image-2](https://github.com/super-coding-hackathon/FE/assets/105590167/a724c25a-3426-4cc5-a38a-01b3c04766b0)
+      **이미지 최적화 후(파일 크기)** <br>
+      ![image-2](https://github.com/super-coding-hackathon/FE/assets/105590167/a724c25a-3426-4cc5-a38a-01b3c04766b0)<br>
 
-    - 큰 용량의 파일의 차이(**약 85.4% 압축**)
+    - 큰 용량의 파일의 차이(**약 85.4% 압축**) <br>
       용량이 작은 파일들은 차이가 나지 않지만, 용량이 큰 이미지 같은 경우에 많은 차이 발생
-      **최적화 전(큰 용량의 파일)**
+      **최적화 전(큰 용량의 파일)** <br>
       ![image-3](https://github.com/super-coding-hackathon/FE/assets/105590167/03cc9718-aba5-4b30-bd03-d32e8bac743f)
 
-      **최적화 후(큰 용량의 파일)**
+      **최적화 후(큰 용량의 파일)** <br>
       약 4.03MB → 약 602.52KB로 압축(**약 85.4%**)
-    - 통신 속도의 차이(**약 26.65% 향상**)
-      **최적화 전(네트워크 속도)**
+    - 통신 속도의 차이(**약 26.65% 향상**) <br>
+      **최적화 전(네트워크 속도)** <br>
       ![image-4](https://github.com/super-coding-hackathon/FE/assets/105590167/44f34797-8a84-4395-a0ed-a9d46064934c)
 
       **최적화 후(네트워크 속도)**
