@@ -98,16 +98,16 @@
 
 - 마이페이지
 
-  - 구매, 판매, 등록 현황들과 회원의 정보를 한눈에 볼 수 있게 좋은 `UX와 UI`를 고려해 구현
+  - 구매, 판매, 등록 현황들과 회원의 정보를 한눈에 볼 수 있게 좋은 `UX와 UI`를 고려해 구현 <br>
     ![image-6](https://github.com/super-coding-hackathon/FE/assets/105590167/46a65b9a-7000-4675-b164-e1623a07e56f)
 
   - 거래 상태의 종류가 많다 보니 사용자에게 정확한 정보 전달을 위해 모달을 이용한 `툴 팁` 구현
   - 거래가 중점인 서비스이다 보니 거래 과정이 보다 자세하게 사용자에게 보여야 한다고 판단해 기존의 아코디언 방식의 UI에서 페이지로 수정(**리팩토링**)
-    - 기존의 구매 및 판매 현황 (아코디언)
+    - 기존의 구매 및 판매 현황 (아코디언) <br>
       ![image-7](https://github.com/super-coding-hackathon/FE/assets/105590167/7428dbe2-0529-4a4c-b639-6c4de050c789)
 
-    - 수정 후 구매 및 판매 현황 (페이지)
-      ![image-8](https://github.com/super-coding-hackathon/FE/assets/105590167/2991c334-e15f-4de6-8edf-d69a582ecd79)
+    - 수정 후 구매 및 판매 현황 (페이지) <br>
+      ![image-8](https://github.com/super-coding-hackathon/FE/assets/105590167/2991c334-e15f-4de6-8edf-d69a582ecd79) <br>
       ![image-9](https://github.com/super-coding-hackathon/FE/assets/105590167/3c79f4b8-1d18-4e5e-8823-e6df14ea18de)
 
   - 미리 지정된 양식을 지원해 주기 때문에 어떠한 양식인지 모를 사용자를 고려해 `PDF Viewer`를 추가해 사용자가 PDF 파일을 미리 볼 수 있게 지원(**리팩토링**)
