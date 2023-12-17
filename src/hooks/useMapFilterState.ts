@@ -18,7 +18,7 @@ function isSquareFeetFilterType(value: any): value is SquareFeetFilterType {
   return [0, 1, 2, 3, 4].includes(value)
 }
 
-function isSPriceFilterType(value: any): value is SquareFeetFilterType {
+function isPriceFilterType(value: any): value is SquareFeetFilterType {
   return [0, 1, 2, 3, 4].includes(value)
 }
 
@@ -41,7 +41,7 @@ const useMapFilterState = () => {
         break
       }
       case 'price': {
-        if (isSPriceFilterType(filterState.value)) {
+        if (isPriceFilterType(filterState.value)) {
           setPriceFilter(filterState.value)
         }
         break

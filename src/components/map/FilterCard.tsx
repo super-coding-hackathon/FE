@@ -20,13 +20,16 @@ function FilterCard() {
       ) : (
         <Card>
           <FliterWrap>
-            <ButtonGroup>
+            <FilterTitleWrap>
+              <FilterTitle>면적</FilterTitle>
+            </FilterTitleWrap>
+            <FilterBtns>
               <Button>전체</Button>
               <Button>10평 미만</Button>
               <Button>10평</Button>
               <Button>20평</Button>
               <Button>30평</Button>
-            </ButtonGroup>
+            </FilterBtns>
           </FliterWrap>
           <BtnWrap>
             <CloseFilterCardBtn onClick={toggleCard}>확인</CloseFilterCardBtn>
@@ -57,7 +60,22 @@ const Card = styled.div`
   grid-template-rows: 9fr 1fr;
 `
 
-const FliterWrap = styled.div``
+const FliterWrap = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  max-height: 100px;
+`
+
+const FilterTitleWrap = styled.div`
+  place-self: center;
+`
+
+const FilterTitle = styled.h1``
+
+const FilterBtns = styled(ButtonGroup)`
+  height: 40px;
+  margin: 0 20px;
+`
 
 const BtnWrap = styled.div``
 
