@@ -5,7 +5,7 @@ import MapOrigin from './MapOrigin'
 import useMap from '../../hooks/useMap'
 import useMapFilterState from '../../hooks/useMapFilterState'
 import SaleList from './SaleList'
-import FilterMenu from './FilterCard'
+import FilterCard from './FilterCard'
 
 export type CoordsType = {
   lat: number
@@ -21,7 +21,7 @@ type Props = {
 const MapComponent = ({ handler, mapCoords, category }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const { map, markers, resetMarker, addMarker } = useMap(mapRef)
-  const { isParking, priceFilter, squareFeetFilter, sorted } = useMapFilterState()
+  const { isParking, priceFilter, squareFeetFilter, sorted, changeFilter } = useMapFilterState()
 
   const handleItemClick = (homeId: number) => {
     if (markers[homeId]) {
@@ -47,7 +47,13 @@ const MapComponent = ({ handler, mapCoords, category }: Props) => {
       <Search>
         <SearchComponent category={category} />
       </Search>
-      <FilterMenu />
+      <FilterCard
+        isParking={isParking}
+        priceFilter={priceFilter}
+        squareFeetFilter={squareFeetFilter}
+        sorted={sorted}
+        changeFilterFn={changeFilter}
+      />
       <SaleList
         mapCoords={mapCoords}
         category={category}

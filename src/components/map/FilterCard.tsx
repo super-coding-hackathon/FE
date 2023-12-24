@@ -1,9 +1,18 @@
 import styled from 'styled-components'
 import { LuListFilter } from 'react-icons/lu'
 import { useState } from 'react'
-import { ButtonGroup, Button } from 'react-bootstrap'
+import FilterSection from './FilterSection'
+import { ChangeFilterArg, SortedType } from '../../hooks/useMapFilterState'
 
-function FilterCard() {
+export type FilterCardProps = {
+  isParking: boolean | undefined
+  priceFilter: number
+  squareFeetFilter: number
+  sorted: SortedType
+  changeFilterFn: (filterState: ChangeFilterArg) => void
+}
+
+function FilterCard({ isParking, priceFilter, squareFeetFilter, sorted, changeFilterFn }: FilterCardProps) {
   const [open, setOpen] = useState(false)
 
   const toggleCard = () => {
@@ -19,18 +28,26 @@ function FilterCard() {
         </FilterBtn>
       ) : (
         <Card>
-          <FliterWrap>
-            <FilterTitleWrap>
-              <FilterTitle>면적</FilterTitle>
-            </FilterTitleWrap>
-            <FilterBtns>
-              <Button>전체</Button>
-              <Button>10평 미만</Button>
-              <Button>10평</Button>
-              <Button>20평</Button>
-              <Button>30평</Button>
-            </FilterBtns>
-          </FliterWrap>
+          <FilterSectionWrap>
+            <FilterSection
+              sectionTitle="주차 여부"
+              filterType="isParking"
+              isParking={isParking}
+              changeFilterFn={changeFilterFn}
+            />
+            <FilterSection
+              sectionTitle="면적"
+              filterType="square"
+              squareFeetFilter={squareFeetFilter}
+              changeFilterFn={changeFilterFn}
+            />
+            <FilterSection
+              sectionTitle="가격"
+              filterType="price"
+              priceFilter={priceFilter}
+              changeFilterFn={changeFilterFn}
+            />
+          </FilterSectionWrap>
           <BtnWrap>
             <CloseFilterCardBtn onClick={toggleCard}>확인</CloseFilterCardBtn>
           </BtnWrap>
@@ -60,23 +77,14 @@ const Card = styled.div`
   grid-template-rows: 9fr 1fr;
 `
 
-const FliterWrap = styled.div`
+const FilterSectionWrap = styled.div`
   display: grid;
-  grid-template-rows: 1fr 2fr;
-  max-height: 100px;
+  grid-auto-rows: min-content;
+  gap: 10px;
 `
 
-const FilterTitleWrap = styled.div`
+const BtnWrap = styled.div`
   place-self: center;
 `
-
-const FilterTitle = styled.h1``
-
-const FilterBtns = styled(ButtonGroup)`
-  height: 40px;
-  margin: 0 20px;
-`
-
-const BtnWrap = styled.div``
 
 const CloseFilterCardBtn = styled.button``

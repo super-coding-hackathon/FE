@@ -5,7 +5,7 @@ export type PriceFilterType = 0 | 1 | 2 | 3 | 4
 export type SquareFeetFilterType = 0 | 1 | 2 | 3 | 4
 export type SortedType = 'CREATED_DESC' | 'PRICE_DESC' | 'PRICE_ASC' | 'SQUARE_DESC' | 'SQUARE_ASC'
 
-type ChangeFilterArg = {
+export type ChangeFilterArg = {
   filterType: 'isParking' | 'price' | 'square' | 'sort'
   value: ParkingStateType | PriceFilterType | SquareFeetFilterType | SortedType
 }
@@ -32,29 +32,29 @@ const useMapFilterState = () => {
   const [squareFeetFilter, setSquerFeetFilter] = useState<SquareFeetFilterType>(0)
   const [sorted, setSorted] = useState<SortedType>('CREATED_DESC')
 
-  const changeFilter = useCallback((filterState: ChangeFilterArg) => {
-    switch (filterState.filterType) {
+  const changeFilter = useCallback(({ filterType, value }: ChangeFilterArg) => {
+    switch (filterType) {
       case 'isParking': {
-        if (isParkingStateType(filterState.value)) {
-          setIsParking(filterState.value)
+        if (isParkingStateType(value)) {
+          setIsParking(value)
         }
         break
       }
       case 'price': {
-        if (isPriceFilterType(filterState.value)) {
-          setPriceFilter(filterState.value)
+        if (isPriceFilterType(value)) {
+          setPriceFilter(value)
         }
         break
       }
       case 'square': {
-        if (isSquareFeetFilterType(filterState.value)) {
-          setSquerFeetFilter(filterState.value)
+        if (isSquareFeetFilterType(value)) {
+          setSquerFeetFilter(value)
         }
         break
       }
       case 'sort': {
-        if (isSortedType(filterState.value)) {
-          setSorted(filterState.value)
+        if (isSortedType(value)) {
+          setSorted(value)
         }
         break
       }
